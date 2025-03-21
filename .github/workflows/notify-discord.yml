@@ -10,7 +10,9 @@ jobs:
   send-to-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: Send to Discord
+      - name: Send embed to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           EVENT_TYPE="${{ github.event_name }}"
           ACTION="${{ github.event.action }}"
@@ -21,17 +23,21 @@ jobs:
           AVATAR_URL="${{ github.event.issue.user.avatar_url || github.event.pull_request.user.avatar_url }}"
 
           # Format labels
-          LABELS=$(echo "${{ toJson(github.event.issue.labels || github.event.pull_request.labels) }}" | jq -r '.[].name' | paste -sd ", " -)
+          LABELS=$(echo '${{ toJson(github.event.issue.labels || github.event.pull_request.labels) }}' | jq -r '.[].name' | paste -sd ", " -)
           if [ -z "$LABELS" ]; then
             LABELS="None"
           fi
 
-          EMBED=$(jq -n \
+          # Send embed using jq piped directly into curl
+          jq -n \
             --arg title "$TITLE (#$NUMBER)" \
             --arg url "$URL" \
             --arg labels "$LABELS" \
             --arg username "$USERNAME" \
             --arg avatar "$AVATAR_URL" \
+            --arg status "$ACTION" \
+            --arg event "$EVENT_TYPE" \
+            --arg timestamp "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
             '{
               username: "GitHub Bot",
               avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
@@ -51,21 +57,13 @@ jobs:
                   },
                   {
                     name: "Status",
-                    value: "'$ACTION'",
+                    value: $status,
                     inline: true
                   }
                 ],
                 footer: {
-                  text: "GitHub • '"$EVENT_TYPE"'"
+                  text: "GitHub • \($event)"
                 },
-                timestamp: now
+                timestamp: $timestamp
               }]
-            }'
-          )
-
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "$EMBED" \
-               ${{ secrets.DISCORD_WEBHOOK_URL }}
-        env:
-          TZ: UTC
+            }' | curl -s -H "Content-Type: application/json" -X POST -d @- "$DISCORD_WEBHOOK_URL"
