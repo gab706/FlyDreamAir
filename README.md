@@ -76,7 +76,7 @@ We welcome contributions! Please follow these steps:
 
 If you find a bug, please **report it using GitHub Issues**:
 
-🔗 [**Submit a New Issue**](./github/ISSUE.md)
+🔗 [**Submit a New Issue**](/.github/ISSUE.md)
 
 Before submitting, please check if the issue already exists to avoid duplicates.
 
