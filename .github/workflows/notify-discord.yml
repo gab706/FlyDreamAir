@@ -2,7 +2,7 @@ name: Notify Discord with Embed
 
 on:
   issues:
-    types: [opened, closed]
+    types: [opened, closed, reopened]
   pull_request:
     types: [opened, closed, reopened]
 
@@ -22,20 +22,31 @@ jobs:
           USERNAME="${{ github.event.issue.user.login || github.event.pull_request.user.login }}"
           AVATAR_URL="${{ github.event.issue.user.avatar_url || github.event.pull_request.user.avatar_url }}"
 
-          # Format labels
-          LABELS=$(echo '${{ toJson(github.event.issue.labels || github.event.pull_request.labels) }}' | jq -r '.[].name' | paste -sd ", " -)
-          if [ -z "$LABELS" ]; then
-            LABELS="None"
+          # Friendly status with emoji
+          if [ "$ACTION" == "opened" ]; then
+            STATUS="**:open_hands: Open**"
+          elif [ "$ACTION" == "closed" ]; then
+            STATUS="**🔒 Closed**"
+          elif [ "$ACTION" == "reopened" ]; then
+            STATUS="**🔁 Reopened**"
+          else
+            STATUS="**$ACTION**"
           fi
 
-          # Send embed using jq piped directly into curl
+          # Assignees
+          ASSIGNEES=$(echo '${{ toJson(github.event.issue.assignees || github.event.pull_request.assignees) }}' | jq -r '.[].login' | paste -sd ", " -)
+          if [ -z "$ASSIGNEES" ]; then
+            ASSIGNEES="None"
+          fi
+
+          # Generate embed JSON and send to Discord
           jq -n \
             --arg title "$TITLE (#$NUMBER)" \
             --arg url "$URL" \
-            --arg labels "$LABELS" \
             --arg username "$USERNAME" \
             --arg avatar "$AVATAR_URL" \
-            --arg status "$ACTION" \
+            --arg assignees "$ASSIGNEES" \
+            --arg status "$STATUS" \
             --arg event "$EVENT_TYPE" \
             --arg timestamp "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
             '{
@@ -49,10 +60,13 @@ jobs:
                   name: $username,
                   icon_url: $avatar
                 },
+                thumbnail: {
+                  url: $avatar
+                },
                 fields: [
                   {
-                    name: "Labels",
-                    value: $labels,
+                    name: "Assignees",
+                    value: $assignees,
                     inline: true
                   },
                   {
