@@ -8,7 +8,6 @@ body:
       label: "Describe the bug"
       description: "A clear and concise description of what the bug is."
       placeholder: "Explain what happened..."
-      value: ""
   - type: textarea
     attributes:
       label: "Steps to Reproduce"
@@ -29,7 +28,10 @@ body:
   - type: dropdown
     attributes:
       label: "Priority Level"
+      description: "How urgent is this issue?"
       options:
         - "🔥 High"
         - "⚠️ Medium"
         - "🐢 Low"
+    validations:
+      required: true
