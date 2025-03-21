@@ -1,0 +1,34 @@
+name: ✅ General To-Do Task
+description: Submit a general task that needs to be completed
+title: "[To-Do]: "
+labels: ["📝 to do"]
+body:
+  - type: textarea
+    attributes:
+      label: "Task Description"
+      description: "Describe the task that needs to be done."
+      placeholder: "Example: Update the documentation for the authentication module..."
+  - type: dropdown
+    attributes:
+      label: "Task Type"
+      description: "What category does this task fall under?"
+      multiple: false
+      options:
+        - "💻 Frontend"
+        - "🎨 UI/UX"
+        - "🧪 Testing"
+        - "📚 Documentation"
+        - "🛠️ General Maintenance"
+  - type: textarea
+    attributes:
+      label: "Additional Notes"
+      description: "Provide any additional information or dependencies related to this task."
+      placeholder: "Example: This task depends on Issue #123 being completed first."
+  - type: checkboxes
+    attributes:
+      label: "Acceptance Criteria"
+      description: "Define what needs to be done for this task to be considered complete."
+      options:
+        - label: "Task is completed and reviewed."
+        - label: "All related issues are resolved."
+        - label: "No further work is required."
