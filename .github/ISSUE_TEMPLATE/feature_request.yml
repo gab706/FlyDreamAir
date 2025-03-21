@@ -1,0 +1,32 @@
+name: ✨ Feature Request
+description: Suggest a new feature or improvement
+title: "[Feature]: "
+labels: ["✨ feature", "📝 to do"]
+body:
+  - type: textarea
+    attributes:
+      label: "Feature Description"
+      description: "Describe the feature or enhancement."
+      placeholder: "I think it would be great if..."
+  - type: textarea
+    attributes:
+      label: "Use Case"
+      description: "Explain why this feature is needed and how it improves the project."
+  - type: dropdown
+    attributes:
+      label: "Feature Type"
+      description: "What part of the project does this affect?"
+      multiple: false
+      options:
+        - "💻 Frontend"
+        - "🎨 UI/UX"
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: "Additional Notes"
+      description: "Anything else you want to add?"
+      options:
+        - label: "This feature affects user experience significantly."
+        - label: "This requires backend support."
+        - label: "This requires new dependencies."

@@ -1,0 +1,13 @@
+name: 📝 Documentation Update
+description: Suggest improvements to the documentation
+title: "[Docs]: "
+labels: ["📚 documentation"]
+body:
+  - type: textarea
+    attributes:
+      label: "What needs improvement?"
+      description: "Describe the section of the documentation that needs updating."
+  - type: textarea
+    attributes:
+      label: "Suggested Changes"
+      description: "Provide details on what should be updated or added."
