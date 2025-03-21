@@ -1,0 +1,71 @@
+name: Notify Discord with Embed
+
+on:
+  issues:
+    types: [opened, closed]
+  pull_request:
+    types: [opened, closed, reopened]
+
+jobs:
+  send-to-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send to Discord
+        run: |
+          EVENT_TYPE="${{ github.event_name }}"
+          ACTION="${{ github.event.action }}"
+          TITLE="${{ github.event.issue.title || github.event.pull_request.title }}"
+          URL="${{ github.event.issue.html_url || github.event.pull_request.html_url }}"
+          NUMBER="${{ github.event.issue.number || github.event.pull_request.number }}"
+          USERNAME="${{ github.event.issue.user.login || github.event.pull_request.user.login }}"
+          AVATAR_URL="${{ github.event.issue.user.avatar_url || github.event.pull_request.user.avatar_url }}"
+
+          # Format labels
+          LABELS=$(echo "${{ toJson(github.event.issue.labels || github.event.pull_request.labels) }}" | jq -r '.[].name' | paste -sd ", " -)
+          if [ -z "$LABELS" ]; then
+            LABELS="None"
+          fi
+
+          EMBED=$(jq -n \
+            --arg title "$TITLE (#$NUMBER)" \
+            --arg url "$URL" \
+            --arg labels "$LABELS" \
+            --arg username "$USERNAME" \
+            --arg avatar "$AVATAR_URL" \
+            '{
+              username: "GitHub Bot",
+              avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              embeds: [{
+                title: $title,
+                url: $url,
+                color: 3447003,
+                author: {
+                  name: $username,
+                  icon_url: $avatar
+                },
+                fields: [
+                  {
+                    name: "Labels",
+                    value: $labels,
+                    inline: true
+                  },
+                  {
+                    name: "Status",
+                    value: "'$ACTION'",
+                    inline: true
+                  }
+                ],
+                footer: {
+                  text: "GitHub • '"$EVENT_TYPE"'"
+                },
+                timestamp: now
+              }]
+            }'
+          )
+
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "$EMBED" \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
+        env:
+          TZ: UTC
