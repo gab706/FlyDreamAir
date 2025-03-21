@@ -39,7 +39,7 @@ This project focuses on implementing the **Loyalty Program IT System**, ensuring
 
 1. **Clone the repository:**
    ```sh
-   git clone [https://github.com/gab706/FlyDreamAir.git](https://github.com/gab706/FlyDreamAir.git)
+   git clone https://github.com/gab706/FlyDreamAir.git
    ```
 2. **Navigate into the project directory:**
    ```sh
