@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>FlyDreamAir Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+
+        .welcome {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        p, li {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #34495e;
+        }
+
+        .green {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .red {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        #date {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<div class="card" id="dashboard" style="display: none">
+    <h2>FlyDreamAir Test Page</h2>
+    <p class="welcome" id="welcome"></p>
+    <p class="green">✅ Site Online</p>
+    <p><strong>Device Info:</strong> <span id="deviceInfo"></span></p>
+    <br />
+    <p><strong>Local Time:</strong> <span id="time"></span></p>
+    <p><strong>Date:</strong> <span id="date"></span></p>
+    <br />
+    <p><strong>Storage Support:</strong></p>
+    <ul>
+        <li>LocalStorage: <span id="localStatus"></span></li>
+        <li>SessionStorage: <span id="sessionStatus"></span></li>
+        <li>Cookies: <span id="cookieStatus"></span></li>
+    </ul>
+</div>
+
+<script src="assets/JS/StorageWrapper.js"></script>
+<script>
+    // Prompt user for name and sanitize input
+    let who = prompt("Who are you?");
+    if (who)
+        who = who.charAt(0).toUpperCase() + who.slice(1).toLowerCase();
+
+    // List of allowed users
+    const allowedUsers = ["Gabriel", "Dion", "Andre", "Vignesh", "Muhammad"];
+
+    // DOM references
+    const dashboard = document.getElementById("dashboard");
+    const welcomeText = document.getElementById("welcome");
+    const deviceInfo = document.getElementById("deviceInfo");
+    const timeEl = document.getElementById("time");
+    const dateEl = document.getElementById("date");
+    const localStatus = document.getElementById("localStatus");
+    const sessionStatus = document.getElementById("sessionStatus");
+    const cookieStatus = document.getElementById("cookieStatus");
+
+    // Grant access if user is allowed
+    if (allowedUsers.includes(who)) {
+        dashboard.style.display = "block";
+        welcomeText.textContent = `Welcome, ${who}!`;
+
+        // Display user agent info
+        deviceInfo.textContent = navigator.userAgent;
+
+        // Update time and date every second
+        function updateTime() {
+            const now = new Date();
+
+            const timeOptions = {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            };
+            timeEl.textContent = now.toLocaleTimeString(undefined, timeOptions);
+
+            const dateOptions = {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            dateEl.textContent = now.toLocaleDateString(undefined, dateOptions);
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Check browser storage capabilities
+        localStatus.innerHTML = StorageWrapper._canUse("local")
+            ? '<span class="green">✅ Supported</span>'
+            : '<span class="red">❌ Not Supported</span>';
+
+        sessionStatus.innerHTML = StorageWrapper._canUse("session")
+            ? '<span class="green">✅ Supported</span>'
+            : '<span class="red">❌ Not Supported</span>';
+
+        cookieStatus.innerHTML = StorageWrapper._cookiesOn()
+            ? '<span class="green">✅ Enabled</span>'
+            : '<span class="red">❌ Disabled</span>';
+    } else {
+        // Redirect unauthorized users
+        window.location.href = "https://www.google.com";
+    }
+</script>
+</body>
+</html>
