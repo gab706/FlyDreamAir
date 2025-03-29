@@ -8,7 +8,7 @@ const path = require('path');
 module.exports = class {
     constructor(directory) {
         // Set the absolute path to the target directory using the global __root
-        this.directory = `${__root}/${directory}`;
+        this.directory = path.join(__root, directory);
         // Initialize an empty array to store module file information
         this.modules = [];
     }
