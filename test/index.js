@@ -20,7 +20,8 @@ const Choices = require('./handlers/Choices');                   // Allows selec
  */
 function runJestFile(filePath) {
     return new Promise((resolve, reject) => {
-        const command = `npx jest ${filePath} --runInBand --silent=false`; // runInBand ensures tests run sequentially
+        const normalizedPath = filePath.replace(/\\/g, '/');
+        const command = `npx jest "${normalizedPath}" --runInBand --silent=false`; // runInBand ensures tests run sequentially
 
         exec(command, { cwd: __dirname }, (error, stdout, stderr) => {
             if (error)
