@@ -111,3 +111,8 @@ class StorageWrapper {
             .forEach(c => this._removeCookie(c.split('=')[0]));
     }
 }
+
+// DO NOT REMOVE -- REQUIRED FOR JEST TESTS
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = StorageWrapper;
+}
