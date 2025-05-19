@@ -1,9 +1,11 @@
 $(document).ready(async function () {
-    await Component.defineFromURL('fly-navbar', 'https://gab706.github.io/FlyDreamAir/components/navbar/navbar.html');
-    await Component.defineFromURL('hero-bg', 'https://gab706.github.io/FlyDreamAir/components/hero-bg/hero-bg.html');
-    await Component.defineFromURL('services-section', 'https://gab706.github.io/FlyDreamAir/components/services-section/services-section.html');
-    await Component.defineFromURL('fly-testimonials', 'https://gab706.github.io/FlyDreamAir/components/testimonials/testimonials.html');
-    await Component.defineFromURL('fly-footer', 'https://gab706.github.io/FlyDreamAir/components/footer/footer.html');
+    try {
+        await Component.defineFromURL('fly-navbar', '../../components/navbar/navbar.html');
+    } catch (_) {}
+
+    try {
+        await Component.defineFromURL('fly-footer', '../../components/footer/footer.html');
+    } catch (_) {}
 
     console.log(
         "%c✈️ Welcome to FlyDreamAir!",

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Playfair+Display:wght@500;700&display=swap');
-@import url('https://gab706.github.io/FlyDreamAir/assets/css/global.css');
+@import url('../global.css');
 
 body {
     font-family: 'Rubik', sans-serif;
@@ -25,7 +24,7 @@ body::before {
     width: 100vw;
     background:
             linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
-            url('../../images/airplane-bg.jpg') no-repeat center center fixed;
+            url('../../images/backgrounds/airplane-bg.jpg') no-repeat center center fixed;
     background-size: cover;
     z-index: 0;
 }
@@ -90,28 +89,6 @@ a:hover {
     text-decoration: underline;
 }
 
-@media (max-width: 480px) {
-    .error-container {
-        padding: 30px 20px;
-    }
-
-    .logo {
-        width: 100px;
-    }
-
-    #error-code {
-        font-size: 2.25rem;
-    }
-
-    #error-message {
-        font-size: 1.25rem;
-    }
-
-    #error-detail {
-        font-size: 0.95rem;
-    }
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -120,5 +97,41 @@ a:hover {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 40px 16px;
+    }
+
+    .error-container {
+        padding: 28px 20px;
+        border-radius: 16px;
+        max-width: 100%;
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .logo {
+        width: 90px;
+        margin-bottom: 16px;
+    }
+
+    #error-code {
+        font-size: 2.25rem;
+        margin-bottom: 20px;
+    }
+
+    #error-message {
+        font-size: 1.2rem;
+    }
+
+    #error-detail {
+        font-size: 0.95rem;
+        color: #5a5a5a;
+    }
+
+    a {
+        font-size: 0.9rem;
     }
 }

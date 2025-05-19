@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="https://gab706.github.io/FlyDreamAir/components/footer/footer.css" />
+<link rel="stylesheet" href="../../../components/footer/footer.css" />
+<script src="../../../components/footer/footer.js"></script>
 
 <footer class="footer-section">
     <div class="container">
@@ -9,7 +10,7 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <div class="cta-text">
                             <h4>Head Office</h4>
-                            <span>Level 3, Skyview Tower, Sydney, NSW 2000</span>
+                            <span><a href="https://maps.app.goo.gl/bAR4dDyVRqjrxyyX8" target="_blank" rel="noopener">Level 3, 14 Martin Pl, Sydney NSW 2000</a></span>
                         </div>
                     </div>
                 </div>
@@ -18,7 +19,7 @@
                         <i class="fas fa-phone"></i>
                         <div class="cta-text">
                             <h4>Customer Support</h4>
-                            <span>1300 123 456 (24/7)</span>
+                            <span><a href="tel:1300123456">1300 123 456 (24/7)</a></span>
                         </div>
                     </div>
                 </div>
@@ -27,7 +28,7 @@
                         <i class="far fa-envelope-open"></i>
                         <div class="cta-text">
                             <h4>Email Us</h4>
-                            <span>support@flydreamair.com</span>
+                            <span><a href="mailto:support@flydreamair.com">support@flydreamair.com</a></span>
                         </div>
                     </div>
                 </div>
@@ -38,17 +39,17 @@
                 <div class="col-xl-4 col-lg-4 mb-50">
                     <div class="footer-widget">
                         <div class="footer-logo">
-                            <a href="/"><img src="https://gab706.github.io/FlyDreamAir/assets/images/logo.png" class="img-fluid" alt="FlyDreamAir Logo"></a>
+                            <img src="https://gab706.github.io/FlyDreamAir/assets/images/logo.png" class="img-fluid" alt="FlyDreamAir Logo">
                         </div>
                         <div class="footer-text">
                             <p>FlyDreamAir is your trusted partner in the sky. With our rewards program and world-class support, your journey starts with comfort and confidence.</p>
                         </div>
                         <div class="footer-social-icon">
                             <span>Follow us</span>
-                            <a href="#"><i class="fab fa-facebook facebook-bg"></i></a>
-                            <a href="#"><i class="fab fa-instagram instagram-bg"></i></a>
-                            <a href="#"><i class="fab fa-twitter twitter-bg"></i></a>
-                            <a href="#"><i class="fab fa-linkedin linkedin-bg"></i></a>
+                            <a href="https://www.facebook.com/FlyDreamAir" target="_blank" rel="noopener"><i class="fab fa-facebook facebook-bg"></i></a>
+                            <a href="https://www.instagram.com/FlyDreamAir"><i class="fab fa-instagram instagram-bg"></i></a>
+                            <a href="https://x.com/FlyDreamAir"><i class="fas fa-times x-bg"></i></a>
+                            <a href="https://www.linkedin.com/company/flydreamair/"><i class="fab fa-linkedin linkedin-bg"></i></a>
                         </div>
                     </div>
                 </div>
@@ -58,12 +59,11 @@
                             <h3>Useful Links</h3>
                         </div>
                         <ul>
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/public/rewards.html">Rewards Program</a></li>
+                            <li><a href="../public/index.html">Home</a></li>
+                            <li><a href="../public/rewards.html">Rewards Program</a></li>
                             <li><a href="#">Book a Flight</a></li>
-                            <li><a href="#">Flight Status</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Travel Policies</a></li>
+                            <li><a href="https://www.flightstats.com/v2/flight-tracker/search" target="_blank" rel="noopener">Flight Status</a></li>
+                            <li><a href="../misc/travel_policy.html">Travel Policies</a></li>
                         </ul>
                     </div>
                 </div>
@@ -76,9 +76,9 @@
                             <p>Subscribe to our newsletter for flight deals, travel tips, and exclusive offers.</p>
                         </div>
                         <div class="subscribe-form">
-                            <form action="#">
-                                <input type="email" placeholder="Email Address" required>
-                                <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                            <form id="newsletter-form">
+                                <input id="newsletter-email" type="email" placeholder="Email Address">
+                                <button type="submit" formnovalidate="formnovalidate"><i class="fas fa-paper-plane"></i></button>
                             </form>
                         </div>
                     </div>
@@ -97,10 +97,10 @@
                 <div class="col-xl-6 col-lg-6 text-center text-lg-right">
                     <div class="footer-menu">
                         <ul>
-                            <li><a href="#">Privacy</a></li>
-                            <li><a href="#">Terms</a></li>
-                            <li><a href="#">Cookie Settings</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="../misc/privacy_policy.html">Privacy</a></li>
+                            <li><a href="../misc/terms_and_conditions.html">Terms</a></li>
+                            <li><a href="../misc/cookies_policy.html">Cookie Settings</a></li>
+                            <li><a href="mailto:sayhello@flydreamair.com">Contact</a></li>
                         </ul>
                     </div>
                 </div>

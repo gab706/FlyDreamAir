@@ -1,0 +1,401 @@
+@import url('../global.css');
+
+body {
+    font-family: 'Rubik', sans-serif;
+    background-color: #fafafa;
+    color: #000000;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+.hero-secondary {
+    position: relative;
+    height: 40vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    background-color: #111;
+}
+
+.hero-secondary-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: url('../../images/backgrounds/hero-rewards.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: 0;
+}
+
+.hero-secondary-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+.hero-secondary-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-secondary-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-secondary-content p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.section-loyalty {
+    background: linear-gradient(to bottom, #000000 0%, #151515 100%);
+    color: #fff;
+    padding: 100px 20px;
+}
+
+.loyalty-content {
+    padding-right: 20px;
+}
+
+.loyalty-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #8E1616;
+}
+
+.loyalty-description {
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.6;
+    max-width: 520px;
+}
+
+.loyalty-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.loyalty-image:hover {
+    transform: scale(1.03);
+}
+
+.rewards-tiers {
+    background: linear-gradient(to bottom, #0d0d0d, #151515);
+    padding: 80px 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tier-card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 30px 24px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tier-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.tier-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.tier-tagline {
+    font-size: 0.95rem;
+    color: #bbb;
+    margin-bottom: 24px;
+    font-style: italic;
+}
+
+.tier-benefits {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.tier-benefits li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    padding-left: 1.2em;
+    position: relative;
+}
+
+.tier-benefits li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #8E1616;
+    font-weight: bold;
+}
+
+.upgrade-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #8E1616;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.upgrade-btn:hover {
+    background-color: #a91d1d;
+}
+
+.silver {
+    border-top: 6px solid #C0C0C0;
+}
+
+.gold {
+    border-top: 6px solid #FFD700;
+}
+
+.platinum {
+    border-top: 6px solid #e5e4e2;
+}
+
+.section-partners {
+    background: #111;
+    padding: 80px 20px;
+    color: #fff;
+}
+
+.section-partners .header-section {
+    margin-bottom: 40px;
+}
+
+.section-partners h2 {
+    font-size: 2rem;
+    color: #8E1616;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-partners .tagline {
+    font-size: 1rem;
+    color: #bbb;
+}
+
+.partners-swiper {
+    padding: 10px 0;
+}
+
+.partners-swiper .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.partners-swiper .swiper-slide:hover {
+    opacity: 1;
+}
+
+.partners-swiper img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.partners-swiper img:hover {
+    filter: grayscale(0%);
+}
+
+.faq-section {
+    background: #151515;
+    color: #f0f0f0;
+    padding: 80px 20px;
+}
+
+.faq-header {
+    margin-bottom: 40px;
+}
+
+.faq-header h2 {
+    font-size: 2.5rem;
+    color: #8E1616;
+    margin-bottom: 10px;
+}
+
+.faq-header .tagline {
+    color: #bbb;
+    font-size: 1rem;
+}
+
+.faq-category {
+    margin-bottom: 40px;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.category-toggle {
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 18px 24px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.category-toggle .toggle-icon {
+    float: right;
+    font-size: 1.5rem;
+    color: #8E1616;
+}
+
+.category-content {
+    display: none;
+    background: #101010;
+    padding: 0 20px 20px;
+}
+
+.faq-item {
+    border-bottom: 1px solid #2a2a2a;
+    margin-top: 16px;
+}
+
+.faq-question {
+    background: none;
+    border: none;
+    color: #f0f0f0;
+    padding: 14px 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+}
+
+.q-icon {
+    float: right;
+    font-size: 1.2rem;
+    color: #8E1616;
+}
+
+.faq-answer {
+    display: none;
+    padding: 0 0 12px;
+    color: #bbb;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .hero-secondary {
+        height: auto;
+        padding: 60px 20px;
+    }
+
+    .hero-secondary-content {
+        margin-top: 50px;
+    }
+
+    .hero-secondary-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .hero-secondary-content p {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .section-loyalty {
+        padding: 60px 16px;
+        text-align: center;
+    }
+
+    .loyalty-content {
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
+    .loyalty-heading {
+        font-size: 1.5rem;
+    }
+
+    .loyalty-description {
+        font-size: 1rem;
+    }
+
+    .tier-name {
+        font-size: 1.5rem;
+    }
+
+    .tier-tagline {
+        font-size: 0.9rem;
+    }
+
+    .tier-benefits li {
+        font-size: 0.9rem;
+    }
+
+    .upgrade-btn {
+        font-size: 0.9rem;
+    }
+
+    .partners-swiper img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .faq-header h2 {
+        font-size: 2rem;
+    }
+
+    .category-toggle {
+        font-size: 1.1rem;
+        padding: 16px;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+    }
+
+    .category-title {
+        font-size: 1.3rem;
+    }
+}
