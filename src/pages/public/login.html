@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Login</title>
+
+        <meta name="description" content="Log in to your FlyDreamAir account to manage bookings, view rewards, and access exclusive offers." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="../../assets/images/favicon.ico" type="image/x-icon" />
+
+        <link rel="stylesheet" href="../../assets/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../../assets/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" />
+        <link rel="stylesheet" href="../../assets/css/global.css" />
+        <link rel="stylesheet" href="../../assets/css/public/login.css" />
+    </head>
+    <body>
+        <video id="bg-video" autoplay muted loop playsinline poster="../../assets/images/backgrounds/login-banner.png">
+            <source src="../../assets/videos/login.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        <div class="login-wrapper fade-in">
+            <div class="login-card" id="login-card">
+                <div id="flip-text" class="flipboard">
+                    <div class="pane" data-letter="W">A</div>
+                    <div class="pane" data-letter="E">A</div>
+                    <div class="pane" data-letter="L">A</div>
+                    <div class="pane" data-letter="C">A</div>
+                    <div class="pane" data-letter="O">A</div>
+                    <div class="pane" data-letter="M">A</div>
+                    <div class="pane" data-letter="E">A</div>
+                    <div class="pane" data-letter=" "> </div>
+                    <div class="pane" data-letter="B">A</div>
+                    <div class="pane" data-letter="A">A</div>
+                    <div class="pane" data-letter="C">A</div>
+                    <div class="pane" data-letter="K">A</div>
+                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder=" " required />
+                        <label for="email">Email address</label>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder=" " required />
+                        <label for="password">Password</label>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" formnovalidate="formnovalidate">Log In</button>
+                </form>
+                <div class="login-links">
+                    <a href="#" id="forgot-password">Forgot password?</a>
+                    <a href="../public/register.html">Create an account</a>
+                </div>
+            </div>
+        </div>
+        <script src="../../assets/lib/js/jquery.min.js"></script>
+        <script src="../../assets/lib/js/notify.min.js"></script>
+        <script src="../../assets/js/StorageWrapper.js"></script>
+        <script src="../../assets/js/global.js"></script>
+        <script src="../../assets/js/public/login.js"></script>
+    </body>
+</html>
