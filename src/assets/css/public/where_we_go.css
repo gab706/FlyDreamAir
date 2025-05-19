@@ -1,0 +1,187 @@
+@import url('../global.css');
+
+body {
+    font-family: 'Rubik', sans-serif;
+    background-color: #fafafa;
+    color: #000000;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+.hero-secondary {
+    position: relative;
+    height: 40vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    background-color: #111;
+}
+
+.hero-secondary-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: url('../../images/backgrounds/hero-where-we-go.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: 0;
+}
+
+.hero-secondary-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+.hero-secondary-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-secondary-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-secondary-content p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.section-loyalty {
+    background: linear-gradient(to bottom, #000000 0%, #151515 100%);
+    color: #fff;
+    padding: 100px 20px;
+}
+
+.loyalty-content {
+    padding-right: 20px;
+}
+
+.section-map {
+    padding: 80px 20px;
+    background: #151515;
+    color: #fff;
+    text-align: center;
+}
+
+.section-map h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #8E1616;
+    margin-bottom: 16px;
+}
+
+.section-map p {
+    font-size: 1.1rem;
+    color: #bbb;
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.section-map #map {
+    height: 600px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+}
+
+.leaflet-container {
+    background: #111;
+    font-family: 'Rubik', sans-serif;
+    border-radius: 12px;
+}
+
+.leaflet-popup-content-wrapper {
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.leaflet-popup-tip {
+    background: #1a1a1a;
+}
+
+.map-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 30px auto 40px;
+    max-width: 600px;
+    font-size: 0.95rem;
+    color: #ccc;
+}
+
+.map-legend span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+.legend-color.direct { background-color: #8E1616; }
+.legend-color.partner { background-color: #FFD700; }
+.legend-color.seasonal { background-color: #0077B5; }
+.legend-color.codeshare { background-color: #f17431; }
+
+
+@media (max-width: 768px) {
+    .hero-secondary {
+        height: auto;
+        padding: 60px 20px;
+    }
+
+    .hero-secondary-content {
+        margin-top: 50px;
+    }
+
+    .hero-secondary-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .hero-secondary-content p {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .section-map {
+        padding: 60px 16px;
+    }
+
+    .section-map h2 {
+        font-size: 2rem;
+    }
+
+    .section-map p {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .section-map #map {
+        height: 400px;
+    }
+}
