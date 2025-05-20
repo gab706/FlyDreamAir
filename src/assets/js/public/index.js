@@ -16,12 +16,13 @@ $(document).ready(function () {
         $dots.removeClass('active');
         $slides.removeClass('active inactive');
 
-        if (index < 0) index = $slides.length - 1;
-        if (index >= $slides.length) index = 0;
+        if (index < 0)
+            index = $slides.length - 1;
+        if (index >= $slides.length)
+            index = 0;
 
-        if (index !== activeIndex) {
+        if (index !== activeIndex)
             $slides.eq(activeIndex).addClass('inactive');
-        }
 
         $slides.eq(index).addClass('active');
         $dots.eq(index).addClass('active');
@@ -29,9 +30,8 @@ $(document).ready(function () {
         activeIndex = index;
 
         clearTimeout(autoSlideTimer);
-        autoSlideTimer = setTimeout(() => {
-            showSlide(activeIndex + 1);
-        }, slideInterval);
+        autoSlideTimer = setTimeout(() =>
+            showSlide(activeIndex + 1), slideInterval);
     }
 
     $arrowLeft.on('click', () => showSlide(activeIndex - 1));
@@ -44,11 +44,10 @@ $(document).ready(function () {
     showSlide(activeIndex);
 
     $(document).on('keyup', function (e) {
-        if (e.key === 'ArrowLeft') {
+        if (e.key === 'ArrowLeft')
             $arrowLeft.click();
-        } else if (e.key === 'ArrowRight') {
+        else if (e.key === 'ArrowRight')
             $arrowRight.click();
-        }
     });
 
     $testimonialWrapper
@@ -59,10 +58,9 @@ $(document).ready(function () {
             touchEndX = e.originalEvent.changedTouches[0].clientX;
             const delta = touchStartX - touchEndX;
 
-            if (delta > swipeThreshold) {
+            if (delta > swipeThreshold)
                 $arrowRight.click();
-            } else if (delta < -swipeThreshold) {
+            else if (delta < -swipeThreshold)
                 $arrowLeft.click();
-            }
         });
 });

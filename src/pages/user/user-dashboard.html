@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | User Dashboard</title>
+
+        <meta name="description" content="Access your FlyDreamAir dashboard to manage bookings, track loyalty points, view tier progression, and enjoy personalized travel insights. Your journey, your rewards." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="../../assets/images/favicon.ico" type="image/x-icon" />
+
+        <link rel="stylesheet" href="../../assets/lib/css/fontawesome.min.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+        <link rel="stylesheet" href="../../assets/css/user/user-dashboard.css" />
+    </head>
+    <body>
+        <div class="page-wrapper">
+            <header class="header " data-header>
+                <div class="container">
+                    <h1><a href="../user/user-dashboard.html" class="logo">FlyDreamAir</a></h1>
+                    <button class="menu-toggle-btn icon-box" data-menu-toggle-btn aria-label="Toggle Menu">
+                        <span class="material-symbols-rounded icon">Menu</span>
+                    </button>
+                    <nav class="navbar">
+                        <div class="container">
+                            <ul class="navbar-list">
+                                <li>
+                                    <a href="#" class="navbar-link icon-box active">
+                                        <i class="fas fa-th-large"></i>
+                                        <span>Home</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="navbar-link icon-box">
+                                        <i class="fas fa-plane-departure"></i>
+                                        <span>Bookings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="navbar-link icon-box">
+                                        <i class="far fa-trophy"></i>
+                                        <span>Rewards</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="navbar-link icon-box">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Preferences</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="navbar-link icon-box">
+                                        <i class="fas fa-history"></i>
+                                        <span>History</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="user-action-list">
+                                <li class="notification-wrapper">
+                                    <a href="#" class="notification icon-box" id="notification-toggle">
+                                        <i class="fas fa-bell"></i>
+                                        <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
+                                    </a>
+
+                                    <ul class="notification-dropdown" id="notification-dropdown"></ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="header-profile">
+                                        <figure class="profile-avatar"></figure>
+                                        <div>
+                                            <p class="profile-title user-name"></p>
+                                            <p class="profile-subtitle user-role"></p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="profile-dropdown-wrapper" style="position: relative;">
+                                    <div class="profile-dropdown-menu" style="display: none;">
+                                        <div class="dropdown-user-info">
+                                            <figure id="dropdown-avatar-img"></figure>
+                                            <div class="dropdown-user-meta">
+                                                <p class="user-name"></p>
+                                                <p class="user-email"></p>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-actions">
+                                            <button class="btn btn-primary red logout-btn">Logout</button>
+                                            <button class="btn btn-primary orange impersonate-btn" style="display: none;">Impersonate</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+
+            <main>
+                <article class="container article">
+                    <h2 class="h2 article-title">Hi, <span class="user-name"></span></h2>
+                    <p class="article-subtitle"></p>
+                    <section class="home">
+                        <div class="card profile-card">
+                            <div class="profile-card-wrapper">
+                                <figure class="card-avatar"></figure>
+                                <div>
+                                    <p class="card-title user-name"></p>
+                                    <p class="card-subtitle" id="user-point-level"></p>
+                                </div>
+                            </div>
+                            <ul class="contact-list">
+                                <li>
+                                    <a class="contact-link icon-box">
+                                        <i class="fas fa-envelope"></i>
+                                        <p class="text user-email"></p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="contact-link icon-box" id="modify-points">
+                                        <i class="fas fa-trophy-alt"></i>
+                                        <p class="text user-points"></p>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="divider card-divider"></div>
+
+                            <div class="project-label">
+                                <p class="progress-title">Tier Progression</p>
+                                <data value="" class="progress-data" id="tier-progression-number"></data>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" id="tier-progression-bar"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-wrapper">
+                            <div class="card task-card">
+                                <div class="card-icon icon-box blue">
+                                    <i class="fas fa-plane-arrival"></i>
+                                </div>
+                                <div>
+                                    <data value="" class="card-data" id="flights-completed"></data>
+                                    <p class="card-text">Flights Completed</p>
+                                </div>
+                            </div>
+                            <div class="card task-card">
+                                <div class="card-icon icon-box blue">
+                                    <i class="fas fa-map"></i>
+                                </div>
+                                <div>
+                                    <data value="" class="card-data" id="miles-travelled"></data>
+                                    <p class="card-text">Miles Travelled</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card scheduled-flights-card" id="scheduled-flights-card">
+                            <p class="card-title">Scheduled Flights</p>
+                            <data value="0" class="card-price" id="scheduled-flight-count">0</data>
+                            <p class="card-text" id="scheduled-flight-status">No Flights Booked</p>
+
+                            <div class="divider card-divider"></div>
+
+                            <ul class="scheduled-flights-list" id="flight-insight-list" style="display: none;">
+                                <li class="scheduled-flights-item icon-box">
+                                    <i class="fas fa-calendar-alt icon green"></i>
+                                    <div>
+                                        <data class="scheduled-flights-item-data" id="next-flight-date"></data>
+                                        <p class="scheduled-flights-item-text">Next Flight</p>
+                                    </div>
+                                </li>
+                                <li class="scheduled-flights-item icon-box">
+                                    <i class="fas fa-map-marker-alt icon red"></i>
+                                    <div>
+                                        <data class="scheduled-flights-item-data" id="next-flight-destination"></data>
+                                        <p class="scheduled-flights-item-text">Destination</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="section-title-wrapper">
+                            <h2 class="section-title">Recently Claimed Rewards</h2>
+                            <button class="btn btn-link icon-box" id="toggle-rewards-view">
+                                <span>View More</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <ul class="reward-list" id="rewards-list"></ul>
+                        <div class="empty-message empty-rewards-message">
+                            You haven’t claimed any rewards yet.
+                        </div>
+                    </section>
+
+                    <section class="trips">
+                        <div class="section-title-wrapper">
+                            <h2 class="section-title">Upcoming Trips</h2>
+                            <button class="btn btn-link icon-box" id="load-all-upcoming-trips">
+                                <span>View All</span>
+                            </button>
+                        </div>
+                        <ul class="tasks-list" id="upcoming-trips-list"></ul>
+                        <div class="empty-message empty-trips-message">
+                            You don't have any upcoming trips.
+                        </div>
+                        <button class="btn btn-primary" id="load-more-upcoming-trips">
+                            <span class="spiner"></span>
+                            <span>Load More</span>
+                        </button>
+                    </section>
+
+                </article>
+            </main>
+
+            <footer class="footer">
+                <div class="container">
+                    <ul class="footer-list">
+                        <li class="footer-item">
+                            <a href="../misc/privacy_policy.html" class="footer-link">Privacy</a>
+                        </li>
+                        <li class="footer-item">
+                            <a href="../misc/terms_and_conditions.html" class="footer-link">Terms</a>
+                        </li>
+                        <li class="footer-item">
+                            <a href="../misc/cookies_policy.html" class="footer-link">Cookie Policy</a>
+                        </li>
+                        <li class="footer-item">
+                            <a href="mailto:sayhello@flydreamair.com" class="footer-link">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright">
+                        &copy; 2025 FlyDreamAir. All Rights Reserved.
+                    </p>
+                </div>
+            </footer>
+
+            <script src="../../assets/lib/js/jquery.min.js"></script>
+            <script src="../../assets/lib/js/notify.min.js"></script>
+            <script src="../../assets/js/global/StorageWrapper.js"></script>
+            <script src="../../assets/js/global/ComponentHandler.js"></script>
+            <script src="../../assets/js/global.js"></script>
+            <script src="../../assets/js/user/user-dashboard.js"></script>
+
+            <div class="modal-overlay" id="points-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Change Point Count</div>
+                    <div class="modal-body">
+                        <p>Modify your point count for testing purposes.</p>
+                        <input type="number" class="modal-input" id="points-input" min="0" />
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                        <button class="btn btn-primary green" id="submit-points">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="create-flight-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Create Flight Info</div>
+                    <div class="modal-body">
+                        <p>Enter flight details to create a new flight record.</p>
+
+                        <input type="text" class="modal-input" id="flight-origin" placeholder="Origin (e.g. Sydney)" />
+
+                        <input type="text" class="modal-input" id="flight-destination" placeholder="Destination (e.g. Melbourne)" />
+
+                        <input type="datetime-local" class="modal-input" id="flight-date" />
+
+                        <select id="flight-status" class="modal-select">
+                            <option selected disabled>Select Status</option>
+                            <option value="Booked">Booked</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Postponed">Postponed</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                        <button class="btn btn-primary green" id="submit-flight">Create Flight</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="trip-options-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Manage Trip</div>
+                    <div class="modal-body">
+                        <p>Choose an action for this trip:</p>
+                        <div class="modal-action-group">
+                            <button class="btn btn-primary green" id="edit-trip-btn">Edit Trip</button>
+                            <button class="btn btn-primary orange" id="create-reward-btn">Create Reward Record</button>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-overlay" id="create-reward-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Create Reward Record</div>
+                    <div class="modal-body">
+                        <p>Fill in the reward details below:</p>
+
+                        <input type="text" id="reward-name" placeholder="Reward Name (e.g. Free Lounge Access)" class="modal-input" />
+
+                        <select id="reward-category" class="modal-select">
+                            <option selected disabled>Select Category</option>
+                            <option value="Comfort">Comfort</option>
+                            <option value="Luggage">Luggage</option>
+                            <option value="Accommodation">Accommodation</option>
+                            <option value="Upgrade">Upgrade</option>
+                            <option value="Boarding">Boarding</option>
+                            <option value="Partner Offer">Partner Offer</option>
+                        </select>
+
+                        <textarea id="reward-description" placeholder="Reward Description..." class="modal-input" style="min-height: 80px;"></textarea>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                        <button class="btn btn-primary green" id="submit-reward">Create</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-overlay" id="edit-trip-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Edit Trip</div>
+                    <div class="modal-body">
+                        <p>Edit the selected trip details below:</p>
+
+                        <input type="text" id="edit-flight-origin" placeholder="Origin" class="modal-input" />
+                        <input type="text" id="edit-flight-destination" placeholder="Destination" class="modal-input" />
+                        <input type="datetime-local" id="edit-flight-date" class="modal-input" />
+
+                        <select id="edit-flight-status" class="modal-select">
+                            <option disabled>Select Status</option>
+                            <option value="Booked">Booked</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Postponed">Postponed</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                        <button class="btn btn-primary red" id="delete-trip-btn">Delete</button>
+                        <button class="btn btn-primary green" id="save-trip-btn">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-overlay" id="edit-reward-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Edit Reward Record</div>
+                    <div class="modal-body">
+                        <p>Modify reward details or delete this reward.</p>
+
+                        <input type="text" id="edit-reward-name" placeholder="Reward Name" class="modal-input" />
+
+                        <select id="edit-reward-category" class="modal-select">
+                            <option disabled selected>Select Category</option>
+                            <option value="Comfort">Comfort</option>
+                            <option value="Luggage">Luggage</option>
+                            <option value="Accommodation">Accommodation</option>
+                            <option value="Upgrade">Upgrade</option>
+                            <option value="Boarding">Boarding</option>
+                            <option value="Partner Offer">Partner Offer</option>
+                        </select>
+
+                        <textarea id="edit-reward-description" placeholder="Reward Description" class="modal-input" style="min-height: 80px;"></textarea>
+
+                        <select id="edit-reward-flight" class="modal-select">
+                            <option disabled selected>Select Associated Flight</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                        <button class="btn btn-primary red" id="delete-reward-btn">Delete</button>
+                        <button class="btn btn-primary" id="save-reward-btn">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="impersonate-modal" style="display: none;">
+                <div class="modal">
+                    <div class="modal-header">Impersonate a User</div>
+                    <div class="modal-body">
+                        <p>Select a user to impersonate:</p>
+                        <select id="impersonate-user-select" class="modal-select">
+                            <option disabled selected>Select User</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-close">Cancel</button>
+                        <button class="btn btn-primary green" id="start-impersonation">Impersonate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

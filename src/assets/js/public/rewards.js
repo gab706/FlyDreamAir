@@ -5,7 +5,7 @@ $(document).ready(function () {
         spaceBetween: 30,
         autoplay: {
             delay: 2500,
-            disableOnInteraction: false,
+            disableOnInteraction: false
         },
         breakpoints: {
             0: { slidesPerView: 2 },
@@ -16,24 +16,28 @@ $(document).ready(function () {
     });
 
     $('.faq-question').on('click', function () {
-        const $answer = $(this).next('.faq-answer');
-        const $icon = $(this).find('.q-icon');
+        const $question = $(this);
+        const $answer = $question.next('.faq-answer');
+        const $icon = $question.find('.q-icon');
 
         $('.faq-answer').not($answer).slideUp();
-        $('.q-icon').not($icon).text('+');
+        $('.faq-question .q-icon').not($icon).text('+');
 
+        const isVisible = $answer.is(':visible');
         $answer.slideToggle();
-        $icon.text($answer.is(':visible') ? '-' : '+');
+        $icon.text(isVisible ? '+' : '-');
     });
 
     $('.category-toggle').on('click', function () {
-        const $content = $(this).next('.category-content');
-        const $icon = $(this).find('.toggle-icon');
+        const $toggle = $(this);
+        const $content = $toggle.next('.category-content');
+        const $icon = $toggle.find('.toggle-icon');
 
         $('.category-content').not($content).slideUp();
-        $('.toggle-icon').not($icon).text('+');
+        $('.category-toggle .toggle-icon').not($icon).text('+');
 
+        const isVisible = $content.is(':visible');
         $content.slideToggle();
-        $icon.text($content.is(':visible') ? '-' : '+');
+        $icon.text(isVisible ? '+' : '-');
     });
 });

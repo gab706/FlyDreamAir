@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const StorageWrapper = require('../../src/assets/js/StorageWrapper');
+const StorageWrapper = require('../../src/assets/js/global/StorageWrapper');
 
 describe('StorageWrapper', () => {
     beforeEach(() => {

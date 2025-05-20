@@ -38,31 +38,29 @@ $(document).ready(function () {
     }).addTo(map);
 
     $.getJSON('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-        .done(function (data) {
-            L.geoJSON(data, {
-                style: function (feature) {
+        .done(function (geojson) {
+            L.geoJSON(geojson, {
+                style: feature => {
                     const name = feature.properties.name;
                     const category = countryCategories[name];
-                    const color = categoryColors[category] || "#000";
-
                     return {
-                        fillColor: color,
+                        fillColor: categoryColors[category] || "#000",
                         weight: 1,
                         color: "#fff",
                         fillOpacity: category ? 0.85 : 0
                     };
                 },
-                onEachFeature: function (feature, layer) {
+                onEachFeature: (feature, layer) => {
                     const name = feature.properties.name;
                     const category = countryCategories[name];
                     if (category) {
-                        const label = category.charAt(0).toUpperCase() + category.slice(1);
+                        const label = category[0].toUpperCase() + category.slice(1);
                         layer.bindPopup(`<strong>${name}</strong><br>Service: ${label}`);
                     }
                 }
             }).addTo(map);
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
+        .fail((_, textStatus, errorThrown) => {
             console.error("GeoJSON load error:", textStatus, errorThrown);
         });
 });
