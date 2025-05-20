@@ -228,6 +228,8 @@ $(document).ready(function () {
 
         $('#start-impersonation').on('click', () => {
             const selectedID = $('#impersonate-user-select').val();
+            const blindly = $('#confirm-impersonate-checkbox').is(':checked');
+
             if (!selectedID) {
                 return $.notify("Please select a User to Impersonate", {
                     className: "warn",
@@ -240,6 +242,20 @@ $(document).ready(function () {
                 loggedIn: true,
                 adminImpersonating: session.userID
             };
+
+            if (!blindly) {
+                const users = StorageWrapper.get('users', 'local') || [];
+                const adminUser = users.find(u => u.userID === session.userID);
+                const notifications = StorageWrapper.get('notifications', 'local') || [];
+
+                notifications.push({
+                    userID: selectedID,
+                    notification: `${adminUser?.name || 'An Admin'} has impersonated your account`,
+                    read: '0'
+                });
+
+                StorageWrapper.set('notifications', notifications, 'local');
+            }
 
             StorageWrapper.set('userSession', newSession, 'local');
             location.reload();
