@@ -1,0 +1,137 @@
+@import url('../global.css');
+
+:root {
+    --map-background: #f5f5f5;
+    --color-partner: #f8d563;
+    --color-seasonal: #66b9e7;
+    --color-codeshare: #fa6106;
+}
+
+body.dark-theme {
+    --map-background: #151515;
+    --color-partner: #fad408;
+    --color-seasonal: #016396;
+    --color-codeshare: #9b3803;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-secondary);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+.section-map {
+    padding: 80px 20px;
+    background: var(--map-background);
+    color: var(--color-secondary);
+    text-align: center;
+}
+
+.section-map h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+}
+
+.section-map p {
+    font-size: 1.1rem;
+    color: var(--color-secondary);
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.section-map #map {
+    height: 600px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 24px var(--color-shadow);
+}
+
+.leaflet-container {
+    background: var(--color-bg);
+    border-radius: 12px;
+}
+
+.leaflet-popup-content-wrapper {
+    background: var(--map-background);
+    color: var(--color-secondary);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-shadow: 0 0 10px var(--color-shadow);
+}
+
+.leaflet-popup-tip {
+    background: var(--map-background);
+}
+
+.map-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 30px auto 40px;
+    max-width: 600px;
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+}
+
+.map-legend span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+.legend-color.direct { background-color: var(--color-accent); }
+.legend-color.partner { background-color: var(--color-partner); }
+.legend-color.seasonal { background-color: var(--color-seasonal); }
+.legend-color.codeshare { background-color: var(--color-codeshare); }
+
+
+@media (max-width: 768px) {
+    .hero-secondary {
+        height: auto;
+        padding: 60px 20px;
+    }
+
+    .hero-secondary-content {
+        margin-top: 50px;
+    }
+
+    .hero-secondary-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .hero-secondary-content p {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .section-map {
+        padding: 60px 16px;
+    }
+
+    .section-map h2 {
+        font-size: 2rem;
+    }
+
+    .section-map p {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .section-map #map {
+        height: 400px;
+    }
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Manage User Accounts</title>
+
+        <meta name="description" content="Manage all registered user accounts on FlyDreamAir. Edit profiles, control access levels, and maintain a secure and organized user base." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/manage-accounts'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'Manage Accounts',
+                    icon: 'fas fa-users-cog',
+                    description: 'Oversee and maintain all registered user accounts. Update details, manage permissions, and ensure secure access across the platform.'
+                }) %>
+
+                <div class="content-wrap">
+                    <div class="content-inner">
+                        <section class="table-section">
+                            <div class="table-header">
+                                <h2>Current Users</h2>
+                                <button class="create-user-btn" id="open-create-user-modal">
+                                    <i class="fas fa-user-plus"></i> Create User
+                                </button>
+                            </div>
+                            <table class="generic-table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Avatar</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Rank</th>
+                                    <th>Points</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="user-table-body">
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div class="loading-placeholder"><i class="fas fa-circle-notch fa-spin"></i> Loading users...</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <div class="pagination text-center" id="user-pagination" style="margin-top: 2em;"></div>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="create-user-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Create New User</h2>
+                    <button class="modal-close" id="close-create-user-modal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-user-form">
+                        <label>
+                            Name
+                            <input type="text" name="name" required />
+                        </label>
+                        <label>
+                            Email
+                            <input type="email" name="email" required />
+                        </label>
+                        <label>
+                            Role
+                            <select name="role" required>
+                                <option value="0">User</option>
+                                <option value="1">Staff</option>
+                                <option value="2">Manager</option>
+                                <option value="3">Admin</option>
+                            </select>
+                        </label>
+                        <label>
+                            Profile Picture URL
+                            <input type="url" name="profile_pic" />
+                        </label>
+                        <label>
+                            Points
+                            <input type="number" name="points" min="0" value="0" />
+                        </label>
+                        <button type="submit" class="submit-btn">Create User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-user-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Edit User</h2>
+                    <button class="modal-close" id="close-edit-user-modal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-user-form">
+                        <input type="hidden" name="userID" />
+
+                        <label>Name
+                            <input type="text" name="name" required />
+                        </label>
+
+                        <label>Email
+                            <input type="email" name="email" required />
+                        </label>
+
+                        <label>Role
+                            <select name="role" required>
+                                <option value="0">User</option>
+                                <option value="1">Staff</option>
+                                <option value="2">Manager</option>
+                                <option value="3">Admin</option>
+                            </select>
+                        </label>
+
+                        <label>Profile Picture URL
+                            <input type="url" name="profile_pic" />
+                        </label>
+
+                        <label>Points
+                            <input type="number" name="points" min="0" />
+                        </label>
+
+                        <button type="submit" class="submit-btn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/admin/manage-accounts.js"></script>
+    </body>
+</html>

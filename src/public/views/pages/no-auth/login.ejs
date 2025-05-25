@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Login</title>
+
+        <meta name="description" content="Log in to your FlyDreamAir account to manage bookings, view rewards, and access exclusive offers." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/auth-entry.css" />
+    </head>
+    <body>
+        <video id="bg-video" autoplay muted loop playsinline poster="/images/backgrounds/login-banner.png">
+            <source src="/videos/login.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="auth-entry-wrapper fade-in">
+            <div class="auth-entry-card" id="auth-entry-card">
+                <div id="flip-text" class="flipboard">
+                    <% const flipText = "WELCOME BACK".split(""); %>
+                    <% flipText.forEach(letter => { %>
+                        <div class="pane" data-letter="<%= letter %>">A</div>
+                    <% }); %>
+                </div>
+                <form id="auth-form">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder=" " required />
+                        <label for="email">Email address</label>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder=" " required />
+                        <label for="password">Password</label>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" formnovalidate="formnovalidate">Log In</button>
+                </form>
+                <div class="auth-entry-links">
+                    <a href="#" id="forgot-password">Forgot password?</a>
+                    <a href="/register">Create an account</a>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/letter-pane-animator.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/no-auth/login.js"></script>
+    </body>
+</html>

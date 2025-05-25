@@ -1,0 +1,59 @@
+:root {
+    --secondary-hero-overlay: rgba(255, 255, 255, 0.5);
+}
+
+body.dark-theme {
+    --secondary-hero-overlay: rgba(0, 0, 0, 0.6);
+}
+
+.hero-secondary {
+    position: relative;
+    height: 40vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-secondary);
+    overflow: hidden;
+    background-color: var(--color-bg);
+}
+
+.hero-secondary-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    z-index: 0;
+}
+
+.hero-secondary-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary-hero-overlay);
+    z-index: 1;
+}
+
+.hero-secondary-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-secondary-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-secondary-content p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}

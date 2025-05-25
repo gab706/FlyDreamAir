@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Onboard Facilities</title>
+
+        <meta name="description" content="Experience world-class onboard facilities with FlyDreamAir — enjoy gourmet dining, in-flight entertainment, lounge access, and comfort amenities designed to elevate your journey at every altitude." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/facilities.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+
+        <%- include('../../partials/secondary-hero/secondary-hero', {
+            background: '/images/backgrounds/hero-facilities.jpg',
+            title: 'Onboard Facilities',
+            description: 'Comfort. Entertainment. Excellence.'
+        }); %>
+
+        <section class="section-facilities fade-in">
+            <div class="container">
+                <div class="header-section text-center">
+                    <h2 class="title">Onboard Facilities</h2>
+                    <p class="description">Discover the features that make every FlyDreamAir journey seamless and enjoyable.</p>
+                </div>
+
+                <div class="facilities-grid">
+                    <% facilities.forEach(item => { %>
+                        <div class="facility-card">
+                            <img src="<%= item.image %>" alt="<%= item.name %>">
+                            <h3><%= item.name %></h3>
+                            <p><%= item.description %></p>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+    </body>
+</html>

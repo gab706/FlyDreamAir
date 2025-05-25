@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Travel Policies</title>
+
+        <meta name="description" content="Understand the travel policies and passenger requirements of FlyDreamAir." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/misc/policy.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <main class="policy-container">
+            <section class="section-heading">
+                <h1>Travel Policies</h1>
+                <p>Effective Date: May 19, 2025</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>1. Booking Requirements</h2>
+                <p>Passengers must ensure all information provided at the time of booking is accurate. Any discrepancies may result in denied boarding or additional fees.</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>2. Identification and Documentation</h2>
+                <p>All travelers are required to carry valid government-issued photo identification. International travelers must possess valid passports and any applicable visas.</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>3. Baggage Policy</h2>
+                <ul>
+                    <li>Carry-on baggage must not exceed size and weight limits specified on our website.</li>
+                    <li>Checked baggage allowances vary by fare class and route. Excess baggage may incur fees.</li>
+                    <li>Prohibited items include weapons, flammable substances, and certain electronics.</li>
+                </ul>
+            </section>
+
+            <section class="policy-section">
+                <h2>4. Check-In and Boarding</h2>
+                <p>Passengers must check in at least 2 hours before departure for domestic flights and 3 hours for international flights. Boarding gates close 20 minutes before departure.</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>5. Flight Changes and Cancellations</h2>
+                <p>Flight changes are subject to availability and may incur fees. Cancellations are handled per the fare rules selected during booking.</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>6. Travel Disruptions</h2>
+                <p>In case of delays, cancellations, or other disruptions, FlyDreamAir will offer rebooking options or refunds in line with our service terms and local regulations.</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>7. Passenger Conduct</h2>
+                <p>FlyDreamAir expects all passengers to conduct themselves respectfully. Unruly behavior may result in removal from the aircraft or a ban from future flights.</p>
+            </section>
+
+            <section class="policy-section">
+                <h2>8. Contact and Assistance</h2>
+                <p>For questions or special assistance, please contact our support team at <a href="mailto:support@flydreamair.com">support@flydreamair.com</a>.</p>
+            </section>
+        </main>
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+    </body>
+</html>

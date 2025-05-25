@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | New Booking</title>
+
+        <meta name="description" content="Book a new flight with FlyDreamAir. Choose your route, select departure time, and confirm your next travel journey in just a few steps." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/new-booking'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'New Booking',
+                    icon: 'fas fa-plus-circle',
+                    description: 'Browse available flights and book your next journey with FlyDreamAir quickly and easily.'
+                }) %>
+
+                <div class="content">
+                    <section class="new-booking-section">
+                        <form id="search-flight-form" class="search-flight-form">
+                            <label>
+                                From
+                                <input type="text" name="from" placeholder="e.g. Sydney" required />
+                            </label>
+
+                            <label>
+                                To
+                                <input type="text" name="to" placeholder="e.g. Melbourne" required />
+                            </label>
+
+                            <label>
+                                When
+                                <input type="date" name="when" required />
+                            </label>
+
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-search"></i> Search Flights
+                            </button>
+                        </form>
+                        <div id="flight-search-results" class="booking-card-flex" style="margin-top: 2em;"></div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/auth/new-booking.js"></script>
+    </body>
+</html>

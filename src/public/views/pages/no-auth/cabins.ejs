@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Cabin Experience</title>
+
+        <meta name="description" content="Explore FlyDreamAir's luxurious cabin experiences — from spacious economy to premium first class, discover comfort, privacy, and in-flight excellence tailored to your journey." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/cabins.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+
+        <%- include('../../partials/secondary-hero/secondary-hero', {
+            background: '/images/backgrounds/hero-cabin.jpg',
+            title: 'Cabin Experience',
+            description: 'Discover comfort and style in every cabin, from Economy to First Class.'
+        }); %>
+
+        <section class="section-planes fade-in">
+            <div class="container">
+                <div class="header-section text-center">
+                    <h2 class="title">Our Fleet</h2>
+                    <p class="description">Explore the aircraft that power FlyDreamAir's global journey.</p>
+                </div>
+
+                <div class="planes-grid">
+                    <% fleet.forEach(plane => { %>
+                        <div class="plane-card">
+                            <img src="<%= plane.image %>" alt="<%= plane.name %>">
+                            <h3><%= plane.name %></h3>
+                            <p><%= plane.description %></p>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+    </body>
+</html>

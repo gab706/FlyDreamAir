@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Silver",
+    "tagline": "Commute Comfortably",
+    "upgrade": "/my-bookings",
+    "benefits": [
+      "Earn 1 point every mile",
+      "Priority on Busy Flights",
+      "Special Partner Discounts (hotels, car rentals, etc)",
+      "Exclusive monthly promotions"
+    ]
+  },
+  {
+    "name": "Gold",
+    "tagline": "Fly in Style",
+    "upgrade": "/my-bookings",
+    "benefits": [
+      "Earn 1.25 points every mile",
+      "Complimentary extra baggage",
+      "Priority check-in and boarding",
+      "Access to FlyDreamAir's partner lounges"
+    ]
+  },
+  {
+    "name": "Platinum",
+    "tagline": "Own the Airs",
+    "upgrade": "/my-bookings",
+    "benefits": [
+      "Earn 1.5 points every mile",
+      "Complimentary upgrades to Business and First Class",
+      "Unlimited Lounge Access",
+      "Dedicated Platinum Support Concierge"
+    ]
+  }
+]

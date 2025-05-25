@@ -1,0 +1,463 @@
+@import url('../global.css');
+
+:root {
+    --silver-border: #C0C0C0;
+    --gold-border: #FFD700;
+    --platinum-border: #e5e4e2;
+
+    --loyalty-bg-gradient-top: #f7f7f7;
+    --loyalty-bg-gradient-bottom: #ffffff;
+    --tier-gradient-top: #f9f9f9;
+    --tier-gradient-bottom: #ffffff;
+    --tier-card-background: #ffffff;
+    --tier-card-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    --tier-card-shadow-hover: 0 0 25px rgba(0, 0, 0, 0.15);
+    --partners-bg: #f9f9f9;
+    --partners-opacity: 0.85;
+    --partners-overlay: grayscale(60%);
+    --faq-bg: #f9f9f9;
+    --faq-category-bg: #f0f0f0;
+    --faq-answers-bg: #fafafa;
+    --faq-border: 1px solid #dddddd;
+}
+
+body.dark-theme {
+    --loyalty-bg-gradient-top: #000000;
+    --loyalty-bg-gradient-bottom: #151515;
+    --tier-gradient-top: #0d0d0d;
+    --tier-gradient-bottom: #151515;
+    --tier-card-background: #1a1a1a;
+    --tier-card-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+    --tier-card-shadow-hover: 0 0 40px rgba(255, 255, 255, 0.1);
+    --partners-bg: #111;
+    --partners-opacity: 0.7;
+    --partners-overlay: grayscale(100%);
+    --faq-bg: #151515;
+    --faq-category-bg: #1a1a1a;
+    --faq-answers-bg: #101010;
+    --faq-border: 1px solid #2a2a2a;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-secondary);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+.section-loyalty {
+    background: linear-gradient(to bottom, var(--loyalty-bg-gradient-top) 0%, var(--loyalty-bg-gradient-bottom) 100%);
+    color: var(--color-primary);
+    padding: 100px 20px;
+}
+
+.loyalty-content {
+    padding-right: 20px;
+}
+
+.loyalty-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-accent);
+}
+
+.loyalty-description {
+    font-size: 1.1rem;
+    color: var(--color-secondary);
+    line-height: 1.6;
+    max-width: 520px;
+}
+
+.loyalty-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--color-shadow);
+    transition: transform 0.3s ease;
+}
+
+.loyalty-image:hover {
+    transform: scale(1.03);
+}
+
+.rewards-tiers {
+    background: linear-gradient(to bottom, var(--tier-gradient-top), var(--tier-gradient-bottom));
+    padding: 80px 20px;
+    color: var(--color-primary);
+    text-align: center;
+}
+
+.tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tier-card {
+    background-color: var(--tier-card-background);
+    border-radius: 12px;
+    padding: 30px 24px;
+    color: var(--color-secondary);
+    box-shadow: var(--tier-card-shadow);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tier-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--tier-card-shadow-hover);
+}
+
+.tier-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.tier-tagline {
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+    font-style: italic;
+}
+
+.tier-benefits {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.tier-benefits li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    padding-left: 1.2em;
+    position: relative;
+}
+
+.tier-benefits li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+}
+
+.upgrade-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.upgrade-btn:hover {
+    background-color: var(--color-accent-hover);
+}
+
+.silver {
+    border-top: 6px solid var(--silver-border);
+}
+
+.gold {
+    border-top: 6px solid var(--gold-border);
+}
+
+.platinum {
+    border-top: 6px solid var(--platinum-border);
+}
+
+.section-partners {
+    background: var(--partners-bg);
+    padding: 80px 20px;
+    color: var(--color-primary);
+}
+
+.section-partners .header-section {
+    margin-bottom: 40px;
+}
+
+.section-partners h2 {
+    font-size: 2rem;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-partners .tagline {
+    font-size: 1rem;
+    color: var(--color-secondary);
+}
+
+.partners-swiper {
+    padding: 10px 0;
+}
+
+.partners-swiper .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    opacity: var(--partners-opacity);
+    transition: opacity 0.3s ease;
+}
+
+.partners-swiper .swiper-slide:hover {
+    opacity: 1;
+}
+
+.partners-swiper img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: var(--partners-overlay);
+    transition: opacity 0.3s ease;
+}
+
+.partners-swiper img:hover {
+    filter: grayscale(0%);
+}
+
+.faq-section {
+    background: var(--faq-bg);
+    color: var(--color-primary);
+    padding: 80px 20px;
+}
+
+.faq-header {
+    margin-bottom: 40px;
+}
+
+.faq-header h2 {
+    font-size: 2.5rem;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+}
+
+.faq-header .tagline {
+    color: var(--color-secondary);
+    font-size: 1rem;
+}
+
+.faq-category {
+    margin-bottom: 40px;
+    border: var(--faq-border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.category-toggle {
+    background: var(--faq-category-bg);
+    color: var(--color-secondary);
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 18px 24px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.category-toggle .toggle-icon {
+    float: right;
+    font-size: 1.5rem;
+    color: var(--color-accent);
+}
+
+.category-content {
+    display: none;
+    background: var(--faq-answers-bg);
+    padding: 0 20px 20px;
+}
+
+.faq-item {
+    border-bottom: var(--faq-border);
+    margin-top: 16px;
+}
+
+.faq-question {
+    background: none;
+    border: none;
+    color: var(--color-secondary);
+    padding: 14px 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+}
+
+.q-icon {
+    float: right;
+    font-size: 1.2rem;
+    color: var(--color-accent);
+}
+
+.faq-answer {
+    display: none;
+    padding: 0 0 12px;
+    color: var(--color-secondary);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+    .section-loyalty {
+        padding: 60px 16px;
+        text-align: center;
+    }
+
+    .loyalty-content {
+        padding-right: 0;
+    }
+
+    .loyalty-heading {
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+    }
+
+    .loyalty-description {
+        font-size: 1rem;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .loyalty-image {
+        margin-top: 24px;
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .loyalty-image:hover {
+        transform: none;
+    }
+
+    .rewards-tiers {
+        padding: 60px 16px;
+    }
+
+    .tiers-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .tier-card {
+        padding: 24px 16px;
+    }
+
+    .tier-name {
+        font-size: 1.4rem;
+    }
+
+    .tier-tagline {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    .tier-benefits {
+        margin-bottom: 24px;
+    }
+
+    .tier-benefits li {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .upgrade-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+
+    .tier-card:hover {
+        transform: none;
+        box-shadow: var(--tier-card-shadow);
+    }
+
+    .section-partners {
+        padding: 60px 16px;
+        text-align: center;
+    }
+
+    .section-partners h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+
+    .section-partners .tagline {
+        font-size: 0.95rem;
+    }
+
+    .partners-swiper {
+        padding: 10px 0;
+    }
+
+    .partners-swiper .swiper-slide {
+        height: auto;
+        margin-bottom: 12px;
+    }
+
+    .partners-swiper img {
+        width: 70px;
+        height: 70px;
+        filter: grayscale(100%);
+    }
+
+    .partners-swiper .swiper-slide:hover,
+    .partners-swiper img:hover {
+        opacity: 1;
+        filter: grayscale(0%);
+    }
+
+    .faq-section {
+        padding: 60px 16px;
+    }
+
+    .faq-header h2 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+
+    .faq-header .tagline {
+        font-size: 0.95rem;
+    }
+
+    .category-toggle {
+        font-size: 1.1rem;
+        padding: 14px 18px;
+    }
+
+    .category-toggle .toggle-icon {
+        font-size: 1.3rem;
+    }
+
+    .category-content {
+        padding: 0 16px 16px;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+        padding: 12px 0;
+    }
+
+    .q-icon {
+        font-size: 1.1rem;
+    }
+
+    .faq-answer {
+        font-size: 0.95rem;
+        padding-bottom: 10px;
+    }
+}

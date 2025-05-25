@@ -1,0 +1,234 @@
+:root {
+    --theme-toggle: linear-gradient(to bottom right, #0d1b2a, #1b263b);
+    --mobile-menu-background: rgba(255, 255, 255, 0.95);
+}
+
+body.dark-theme {
+    --theme-toggle: #ffb700;
+    --mobile-menu-background: rgba(0, 0, 0, 0.95);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navbar nav a {
+    display: inline-block;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    position: relative;
+}
+
+.navbar nav a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-secondary);
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.navbar nav a:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    white-space: nowrap;
+    text-shadow: 0 0 8px var(--color-shadow);
+}
+
+.plane {
+    display: inline-block;
+    margin-left: 10px;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.plane-animate {
+    animation: fly 1s ease-out forwards;
+}
+
+.trail-text {
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+.trail-animate {
+    animation: smoothReveal 1s ease-out 1s forwards;
+}
+
+.signup-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: var(--color-accent);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.signup-btn:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-shadow-hover);
+}
+
+.signup-btn::after {
+    display: none !important;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle {
+    background: var(--theme-toggle);
+    color: var(--color-primary);
+}
+
+.theme-toggle:hover {
+    transform: rotate(15deg);
+}
+
+.auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+@keyframes fly {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes smoothReveal {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 20px;
+        align-items: flex-start;
+        position: absolute;
+        background-color: transparent;
+        transition: background-color 0.3s ease;
+    }
+
+    .navbar.showing-menu {
+        background-color: var(--mobile-menu-background);
+    }
+
+    .navbar-links {
+        flex-direction: column;
+    }
+
+    .navbar nav {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 12px;
+        display: none;
+        margin-top: 12px;
+    }
+
+    .navbar nav.show {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        color: var(--color-secondary);
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 25;
+    }
+
+    nav.navbar-links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    nav.navbar-links.show {
+        display: flex;
+    }
+
+    .signup-btn {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        border-radius: 4px;
+    }
+
+    .auth-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        width: 100%;
+        flex-wrap: wrap;
+        margin-top: 12px;
+    }
+
+    .auth-actions .signup-btn,
+    .auth-actions .theme-toggle {
+        flex: initial;
+        width: auto;
+        height: auto;
+        font-size: inherit;
+    }
+
+    .auth-actions .theme-toggle {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+    }
+}

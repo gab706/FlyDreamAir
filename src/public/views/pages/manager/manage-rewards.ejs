@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Manage Rewards</title>
+
+        <meta name="description" content="Manage and oversee all reward entries on FlyDreamAir. Assign, edit, and remove rewards linked to user activity and flight bookings." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/manage-rewards'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'Manage Rewards',
+                    icon: 'fas fa-trophy',
+                    description: 'View, assign, and manage all reward entries linked to user activity and flight participation across the FlyDreamAir platform.'
+                }) %>
+
+                <div id="reward-preview" style="display: none; position: fixed; z-index: 9999;"></div>
+
+                <div class="content">
+                    <div class="content-inner">
+                        <section class="table-section">
+                            <div class="table-header">
+                                <h2>Available Rewards</h2>
+                                <button class="create-user-btn" id="open-create-reward-modal">
+                                    <i class="fas fa-gift"></i> Create Reward
+                                </button>
+                            </div>
+
+                            <table class="generic-table">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Image</th>
+                                    <th>Tier</th>
+                                    <th>Purchasable</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="reward-table-body">
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div class="loading-placeholder">
+                                                <i class="fas fa-circle-notch fa-spin"></i> Loading rewards...
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div id="reward-pagination" class="pagination text-center" style="margin-top: 1.5em;"></div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="create-reward-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Create Reward</h2>
+                    <button class="modal-close" id="close-create-reward-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-reward-form">
+                        <label>
+                            Name
+                            <input type="text" name="name" placeholder="e.g. Free Lounge Access" required />
+                        </label>
+
+                        <label>
+                            Description
+                            <input type="text" name="description" placeholder="e.g. Gain Free Access to the Lounge" required />
+                        </label>
+
+                        <label>
+                            Type
+                            <select name="type" required>
+                                <option value="">Select Type</option>
+                                <option value="Discount">Discount</option>
+                                <option value="Upgrade">Upgrade</option>
+                                <option value="Free Item">Free Item</option>
+                                <option value="Lounge Access">Lounge Access</option>
+                                <option value="Bonus Miles">Bonus Miles</option>
+                                <option value="Priority Boarding">Priority Boarding</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Image URL
+                            <input type="url" name="image" placeholder="https://..." required />
+                        </label>
+
+                        <label>
+                            Tier
+                            <select name="tier" required>
+                                <option value="">Select Tier</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Gold">Gold</option>
+                                <option value="Platinum">Platinum</option>
+                            </select>
+                        </label>
+
+                        <label class="toggle-switch vertical">
+                            <span class="label-text">Purchasable?</span>
+                            <input type="checkbox" name="purchasable" />
+                            <span class="slider"></span>
+                        </label>
+
+                        <div class="purchasable-price hidden" id="create-price-wrapper">
+                            <label>
+                                Price (Points)
+                                <input type="number" name="price" placeholder="e.g. 1000" min="1" />
+                            </label>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Add Reward</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-reward-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Edit Reward</h2>
+                    <button class="modal-close" id="close-edit-reward-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-reward-form">
+                        <input type="hidden" name="originalName" />
+
+                        <label>
+                            Name
+                            <input type="text" name="name" placeholder="e.g. Free Lounge Access" required />
+                        </label>
+
+                        <label>
+                            Description
+                            <input type="text" name="description" placeholder="e.g. Gain Free Access to the Lounge" required />
+                        </label>
+
+                        <label>
+                            Type
+                            <select name="type" required>
+                                <option value="">Select Type</option>
+                                <option value="Discount">Discount</option>
+                                <option value="Upgrade">Upgrade</option>
+                                <option value="Free Item">Free Item</option>
+                                <option value="Lounge Access">Lounge Access</option>
+                                <option value="Bonus Miles">Bonus Miles</option>
+                                <option value="Priority Boarding">Priority Boarding</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Image URL
+                            <input type="url" name="image" required />
+                        </label>
+
+                        <label>
+                            Tier
+                            <select name="tier" required>
+                                <option value="">Select Tier</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Gold">Gold</option>
+                                <option value="Platinum">Platinum</option>
+                            </select>
+                        </label>
+
+                        <label class="toggle-switch vertical">
+                            <span class="label-text">Purchasable?</span>
+                            <input type="checkbox" name="purchasable" />
+                            <span class="slider"></span>
+                        </label>
+
+                        <div class="purchasable-price hidden" id="edit-price-wrapper">
+                            <label>
+                                Price (Points)
+                                <input type="number" name="price" placeholder="e.g. 1000" min="1" />
+                            </label>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/manager/manage-rewards.js"></script>
+    </body>
+</html>

@@ -1,0 +1,154 @@
+<%
+    function getTier(points) {
+        if (points >= 30000) return 'platinum';
+        if (points >= 15000) return 'gold';
+        return 'silver';
+    }
+
+    const tier = getTier(currentUser.points);
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Profile</title>
+
+        <meta name="description" content="View and manage your FlyDreamAir profile — check your tier status, update personal details, monitor loyalty points, and keep your journey personalized and rewarding." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/profile'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'Profile',
+                    icon: 'fas fa-user-circle',
+                    description: 'Manage your personal details, view your tier, update your password, and track your loyalty points.'
+                }) %>
+
+                <div class="content">
+                    <div class="profile-container">
+                        <div class="profile-sidebar">
+                            <div class="profile-picture-wrapper">
+                                <img src="<%= currentUser.profile_pic %>" alt="<%= currentUser.name %>">
+                                <div class="change-pfp-btn">Change PFP</div>
+                            </div>
+                            <h2><%= currentUser.name %></h2>
+                            <span class="tier-pill <%= tier.toLowerCase() %>">
+                                <%= tier.charAt(0).toUpperCase() + tier.slice(1) %>
+                            </span>
+                        </div>
+
+                        <div class="profile-main">
+                            <div class="profile-section profile-inline-group">
+                                <label>Email</label>
+                                <span id="user-email"><%= currentUser.email %></span>
+                                <i class="fas fa-pen inline-edit-icon" id="change-email"></i>
+                            </div>
+
+                            <div class="profile-section profile-inline-group">
+                                <label>Password</label>
+                                <span id="password-field"></span>
+                                <i class="fas fa-eye inline-edit-icon" id="toggle-password" title="Show Password"></i>
+                                <i class="fas fa-pen inline-edit-icon" id="change-password"></i>
+                            </div>
+
+                            <div class="profile-section profile-inline-group">
+                                <label>Points</label>
+                                <span><%= currentUser.points %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="pfp-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Update Profile Picture</h2>
+                    <button class="modal-close" id="close-pfp-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="update-pfp-form">
+                        <label>
+                            Profile Picture URL
+                            <input type="url" id="pfp-url" name="pfpUrl" placeholder="https://..." required />
+                        </label>
+
+                        <button type="submit" class="submit-btn">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="email-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Change Email</h2>
+                    <button class="modal-close" id="close-email-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="update-email-form">
+                        <label>
+                            New Email
+                            <input type="email" id="email-input" name="newEmail" placeholder="you@example.com" required />
+                        </label>
+
+                        <button type="submit" class="submit-btn">Update Email</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="password-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Change Password</h2>
+                    <button class="modal-close" id="close-password-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="update-password-form">
+                        <label>
+                            New Password
+                            <input type="password" id="new-password" name="newPassword" required />
+                        </label>
+                        <label>
+                            Confirm Password
+                            <input type="password" id="confirm-password" name="confirmPassword" required />
+                        </label>
+
+                        <button type="submit" class="submit-btn">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/auth/profile.js"></script>
+    </body>
+</html>

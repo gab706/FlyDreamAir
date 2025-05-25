@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Rewards</title>
+
+        <meta name="description" content="Explore FlyDreamAir Rewards — earn points, unlock exclusive perks, and enjoy premium benefits every time you fly. Your loyalty takes you further." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/rewards.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+
+        <%- include('../../partials/secondary-hero/secondary-hero', {
+            background: '/images/backgrounds/hero-rewards.jpg',
+            title: 'FlyDreamAir Rewards',
+            description: 'Earn points, enjoy perks, and travel better every time you fly.'
+        }); %>
+
+        <section class="section-loyalty fade-before fade-after">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="loyalty-content">
+                            <h2 class="loyalty-heading">Unlock Exclusive Benefits with the FlyDreamAir Loyalty Program</h2>
+                            <p class="loyalty-description">
+                                Join the FlyDreamAir loyalty program to earn rewards every time you fly. Accumulate points through bookings, in-flight purchases, and partner services to enjoy a range of benefits.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img src="/images/backgrounds/loyalty-banner.jpg" alt="FlyDreamAir Loyalty Program" class="loyalty-image img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="rewards-tiers">
+            <div class="container">
+                <div class="tiers-grid">
+                    <% tiers.forEach(tier => { %>
+                        <div class="tier-card <%= tier.name.toLowerCase() %>">
+                            <h3 class="tier-name"><%= tier.name %></h3>
+                            <p class="tier-tagline"><%= tier.tagline %></p>
+                            <ul class="tier-benefits">
+                                <% tier.benefits.forEach(benefit => { %>
+                                    <li><%= benefit %></li>
+                                <% }); %>
+                            </ul>
+                            <a href="<%= tier.upgrade %>" class="upgrade-btn">Upgrade Now</a>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-partners">
+            <div class="container">
+                <div class="header-section text-center">
+                    <h2>Our Partners</h2>
+                    <p class="tagline">Some of the people we work with</p>
+                </div>
+                <div class="swiper partners-swiper">
+                    <div class="swiper-wrapper">
+                        <% partners.forEach(partner => { %>
+                            <div class="swiper-slide">
+                                <a href="<%= partner.url %>" target="_blank" rel="noopener">
+                                    <img src="<%= partner.image %>" alt="<%= partner.name %>" />
+                                </a>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section fade-before" id="faq">
+            <div class="container">
+                <div class="faq-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="tagline">Some answers to our most frequent questions</div>
+                </div>
+                <% faq.forEach(category => { %>
+                    <div class="faq-category">
+                        <div class="category-toggle">
+                            <span><%= category.title %></span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="category-content">
+                            <% category.questions.forEach(faq => { %>
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <span><%= faq.q %></span>
+                                        <span class="q-icon">+</span>
+                                    </div>
+                                    <div class="faq-answer">
+                                        <%= faq.a %>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/lib/js/swiper-bundle.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/no-auth/rewards.js"></script>
+    </body>
+</html>

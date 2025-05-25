@@ -1,0 +1,113 @@
+:root {
+    --color-secondary: #1f1f1f;
+    --color-accent: #b22222;
+    --color-shadow: rgba(0, 0, 0, 0.06);
+    --section-divider: #e3e3e8;
+    --action-buttons: #606670;
+    --menu-background: #f9f9fb;
+    --menu-categories: #3c3c3c;
+    --menu-link: #888888;
+    --menu-link-hover: #1f1f1f;
+}
+
+body.dark-theme {
+    --color-secondary: #f5f5f5;
+    --color-accent: #e53935;
+    --color-shadow: rgba(0, 0, 0, 0.6);
+    --section-divider: #2c2c36;
+    --action-buttons: #a0a0b0;
+    --menu-background: #1a1a1f;
+    --menu-categories: #e0e0e0;
+    --menu-link: #bbbbbb;
+    --menu-link-hover: #ffffff;
+}
+
+.content-wrap {
+    grid-area: content;
+    padding: 0;
+    overflow: auto;
+}
+
+.page-header {
+    background-color: var(--menu-background);
+    padding: 2em 3em 1.5em;
+    border-bottom: 1px solid var(--section-divider);
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.page-header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    flex-wrap: wrap;
+}
+
+.icon-square {
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    flex-shrink: 0;
+}
+
+.header-text {
+    flex-grow: 1;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+
+.header-text p {
+    margin: 0.25em 0 0;
+    font-size: 0.95rem;
+    color: var(--action-buttons);
+}
+
+.pin-toggle {
+    position: absolute;
+    top: 2em;
+    right: 3em;
+    background-color: var(--section-divider);
+    border: none;
+    border-radius: 6px;
+    padding: 0.5em 0.75em;
+    font-size: 1rem;
+    color: var(--action-buttons);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pin-toggle:hover {
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+}
+
+.pin-toggle.active {
+    background-color: var(--color-accent);
+    color: var(--color-secondary);
+}
+
+.content {
+    padding: 2em 3em;
+}
+
+.pin-toggle i {
+    transition: transform 0.25s ease;
+}
+
+.pin-toggle.active i {
+    transform: rotate(45deg);
+}

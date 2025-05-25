@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | My Rewards</title>
+
+        <meta name="description" content="Track and redeem your FlyDreamAir loyalty rewards. View available perks, claim exclusive offers, and see your progress toward higher membership tiers." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/my-rewards'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'My Rewards',
+                    icon: 'fas fa-gift',
+                    description: 'Explore your FlyDreamAir rewards, track tier progress, and redeem exclusive offers and benefits as part of your loyalty journey.'
+                }) %>
+
+                <div class="content">
+                    <section class="table-section">
+                        <h2>Available Rewards</h2>
+                        <div id="available-rewards" class="dashboard-reward-grid"></div>
+                        <div id="available-pagination" class="pagination"></div>
+                    </section>
+
+                    <br />
+                    <br />
+
+                    <section class="table-section">
+                        <h2>Claimed Rewards</h2>
+                        <div id="claimed-rewards" class="dashboard-reward-grid"></div>
+                        <div id="claimed-pagination" class="pagination"></div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <div id="apply-reward-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Apply Reward</h2>
+                    <button class="modal-close" id="close-reward-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="apply-reward-form">
+                        <input type="hidden" name="rewardID" />
+                        <label>
+                            Choose Flight:
+                            <select name="bookingID" required>
+                            </select>
+                        </label>
+                        <button class="submit-btn" type="submit">Apply Reward</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/auth/my-rewards.js"></script>
+    </body>
+</html>

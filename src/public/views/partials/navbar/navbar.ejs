@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/partials/navbar/navbar.css">
+
+<header class="navbar">
+    <div id="logo-container" class="logo-container">
+        <a href="/">
+            <span id="trail-text" class="trail-text trail-animate">FlyDreamAir</span>
+            <span id="plane" class="plane plane-animate">🛫</span>
+        </a>
+    </div>
+
+    <button class="menu-toggle" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <nav class="navbar-links">
+        <a href="/">Home</a>
+        <a href="/rewards">Rewards</a>
+        <a href="/login">Login</a>
+        <div class="auth-actions">
+            <% if (userSession?.loggedIn) { %>
+                <a href="/dashboard" class="signup-btn">Dashboard</a>
+            <% } else { %>
+                <a href="/register" class="signup-btn">Sign Up</a>
+            <% } %>
+            <button id="theme-toggle" aria-label="Toggle Theme" class="theme-toggle">
+                <i id="theme-icon" class="fas <%= darkTheme === '1' ? 'fa-sun' : 'fa-moon' %>"></i>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<script src="/partials/navbar/navbar.js" defer></script>

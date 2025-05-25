@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Data Management</title>
+
+        <meta name="description" content="View and manage all stored data used across FlyDreamAir — including cookies and IndexedDB. Maintain privacy, clear storage, and take full control of your data." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/manage-data'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'Manage Data',
+                    icon: 'fas fa-database',
+                    description: 'View, modify, and remove all stored data — including cookies and IndexedDB — used across the platform. Maintain control and ensure your FlyDreamAir experience stays private and personalized.'
+                }) %>
+
+                <div class="content">
+                    <div class="content-inner">
+                        <section class="table-section">
+                            <div class="table-header">
+                                <h2>Stored Client Data</h2>
+                            </div>
+
+                            <table class="generic-table">
+                                <thead>
+                                <tr>
+                                    <th>Source</th>
+                                    <th>Key</th>
+                                    <th>Preview</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="client-storage-table-body">
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div class="loading-placeholder">
+                                            <i class="fas fa-circle-notch fa-spin"></i> Loading storage...
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <div id="client-storage-pagination" class="pagination text-center" style="margin-top: 1.5em;"></div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="cookie-view-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>View Data</h2>
+                    <button class="modal-close" id="close-cookie-view-modal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <label>
+                        Value
+                        <textarea id="cookie-view-textarea" readonly rows="10" style="width: 100%; font-family: monospace;"></textarea>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-storage-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Edit Stored Data</h2>
+                    <button class="modal-close" id="close-edit-storage-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>
+                        JSON Value
+                        <textarea id="edit-storage-textarea" rows="10" style="width: 100%; font-family: monospace;"></textarea>
+                    </label>
+                    <button id="save-storage-edit" class="submit-btn" style="margin-top: 1em;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/admin/manager-data.js"></script>
+    </body>
+</html>

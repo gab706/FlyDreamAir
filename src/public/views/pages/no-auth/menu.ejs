@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | In-Flight Menu</title>
+
+        <meta name="description" content="Browse FlyDreamAir’s curated in-flight menu — gourmet meals, snacks, and beverages served across Economy, Business, and First Class." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/menu.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+
+        <%- include('../../partials/secondary-hero/secondary-hero', {
+            background: '/images/backgrounds/hero-menu.jpg',
+            title: 'In-Flight Menu',
+            description: 'Meals and drinks served across all cabin classes.'
+        }); %>
+
+        <section id="our_menu" class="pt-5 pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page_title text-center mb-4">
+                            <h1>Our Menu</h1>
+                            <div class="single_line"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <ul class="nav nav-tabs menu_tab mb-4" id="myTab" role="tablist">
+                        <% Object.keys(menu).forEach((mealType, index) => { %>
+                            <li class="nav-item">
+                                <a class="nav-link <%= index === 0 ? 'active' : '' %>" id="<%= mealType.toLowerCase() %>-tab" data-toggle="tab" href="#<%= mealType.toLowerCase() %>" role="tab">
+                                    <%= mealType %>
+                                </a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="tab-content col-lg-12" id="myTabContent">
+                        <% Object.entries(menu).forEach(([mealType, items], tabIndex) => { %>
+                            <div class="tab-pane fade <%= tabIndex === 0 ? 'show active' : '' %>" id="<%= mealType.toLowerCase() %>" role="tabpanel" aria-labelledby="<%= mealType.toLowerCase() %>-tab">
+                                <div class="row">
+                                    <% for (let i = 0; i < items.length; i += 2) { %>
+                                        <div class="col-md-6">
+                                            <% [items[i], items[i + 1]].forEach(item => { if (item) { %>
+                                                <div class="single_menu">
+                                                    <img src="<%= item.image %>" alt="<%= item.name %>">
+                                                    <div class="menu_content">
+                                                        <h4><%= item.name %></h4>
+                                                        <p><%= item.description %></p>
+                                                    </div>
+                                                </div>
+                                            <% }}); %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/no-auth/menu.js"></script>
+    </body>
+</html>

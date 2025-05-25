@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="/partials/dashboard-page-search/dashboard-page-search.css">
+
+<%
+    const roleMap = {
+        3: { class: 'admin', label: 'Admin' },
+        2: { class: 'manager', label: 'Manager' },
+        1: { class: 'staff', label: 'Staff' }
+    };
+
+    const role = roleMap[currentUser.role];
+    const grouped = {};
+
+    navbarItems?.forEach(item => {
+        if (!grouped[item.section]) grouped[item.section] = [];
+        grouped[item.section].push(item);
+    });
+ %>
+
+<aside class="search-wrap">
+    <div class="search">
+        <% if (currentUser?.pinned_pages?.length > 0) { %>
+            <% currentUser?.pinned_pages?.forEach(page => { %>
+                <a href="<%= page.href %>" class="pinned-page-link">
+                    <i class="<%= page.icon %>"></i> <%= page.name %>
+                </a>
+            <% }) %>
+        <% } %>
+    </div>
+
+    <div class="user-actions">
+        <div class="notification-wrapper">
+            <button id="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" style="display: none;"></span>
+            </button>
+
+            <div id="notification-dropdown" class="notification-dropdown">
+                <div class="notification-title">Notifications</div>
+                <div class="notification-item">
+                    <div class="notification-loading">
+                        <i class="fas fa-circle-notch fa-spin"></i> Loading notifications...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="toggle-dark-mode" title="Toggle Dark Mode">
+            <% if (darkTheme) { %>
+                <i class="fas fa-sun"></i>
+            <% } else { %>
+                <i class="fas fa-moon"></i>
+            <% } %>
+        </button>
+    </div>
+</aside>
+
+<header class="menu-wrap">
+    <figure class="user">
+        <div class="user-account-wrapper" id="user-account-toggle">
+            <div class="user-avatar">
+                <img src="<%= currentUser.profile_pic %>" alt="<%= currentUser.name %>">
+            </div>
+            <div class="user-meta">
+                <div class="user-name-row">
+                    <span class="user-name"><%= currentUser.name %></span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <% if (role) { %>
+                    <span class="rank-pill <%= role.class %>"><%= role.label %></span>
+                <% } %>
+            </div>
+
+            <div class="user-dropdown hidden" id="user-dropdown">
+                <ul>
+                    <li onclick="location.href = '/profile'"><i class="fas fa-user-circle"></i> <span>View Profile</span></li>
+                    <li id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span><%= userSession?.adminImpersonating ? 'Leave User' : 'Logout' %></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </figure>
+
+    <nav>
+        <% Object.entries(grouped).forEach(([section, items]) => {
+            const visibleItems = items.filter(item => parseInt(currentUser.role) >= item.permission);
+        if (visibleItems.length > 0) { %>
+            <section>
+                <ul>
+                    <h3><%= section %></h3>
+                    <% visibleItems.forEach(item => { %>
+                        <li>
+                            <a href="<%= item.href %>" class="<%= currentPage === item.href ? 'active' : '' %>">
+                                <i class="<%= item.icon %>"></i>
+                                <%= item.label %>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </section>
+        <% } }); %>
+    </nav>
+</header>
+
+<script src="/partials/dashboard-page-search/dashboard-page-search.js" defer></script>

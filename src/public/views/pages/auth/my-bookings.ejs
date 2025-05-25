@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | My Bookings</title>
+
+        <meta name="description" content="Review your FlyDreamAir flight bookings, check departure and arrival details, monitor flight status, and manage your upcoming travel plans." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/my-bookings'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'My Bookings',
+                    icon: 'fas fa-calendar-check',
+                    description: 'View all your flight bookings, check upcoming departures, and keep track of your travel history with FlyDreamAir.'
+                }) %>
+
+                <div class="content">
+                    <section class="booking-section">
+                        <div class="table-header">
+                            <h2><i class="fas fa-suitcase-rolling"></i> My Bookings</h2>
+                            <button class="create-user-btn" id="book-new-flight-btn" onclick="location.href = '/new-booking';">
+                                <i class="fas fa-plus-circle"></i> Book New Flight
+                            </button>
+                        </div>
+
+                        <div id="booking-card-container" class="booking-card-flex">
+                            <div class="booking-loading text-center">
+                                <i class="fas fa-circle-notch fa-spin"></i> Loading bookings...
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/auth/my-bookings.js"></script>
+    </body>
+</html>

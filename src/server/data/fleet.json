@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Boeing 787 Dreamliner",
+    "image": "/images/planes/787dreamliner.png",
+    "description": "Long-haul luxury with next-gen fuel efficiency and cabin pressurization."
+  },
+  {
+    "name": "Airbus A350",
+    "image": "/images/planes/a350.jpg",
+    "description": "Low cabin altitude, extra-wide body, and quiet performance on every route."
+  },
+  {
+    "name": "Boeing 737 MAX",
+    "image": "/images/planes/737max.jpg",
+    "description": "Efficient short-haul travel with upgraded engines and quieter cabins."
+  },
+  {
+    "name": "Airbus A330neo",
+    "image": "/images/planes/a330neo.jpg",
+    "description": "Spacious cabin, advanced wing design, and improved fuel performance."
+  },
+  {
+    "name": "Embraer E195-E2",
+    "image": "/images/planes/embraer-e195.jpg",
+    "description": "Comfortable and efficient for regional routes with 2-2 seating layout."
+  },
+  {
+    "name": "Airbus A321XLR",
+    "image": "/images/planes/a321xlr.jpg",
+    "description": "Single-aisle range champion offering long-haul performance in compact form."
+  },
+  {
+    "name": "Boeing 777-300ER",
+    "image": "/images/planes/777.jpg",
+    "description": "Powerful twin-jet with ultra-long-range capabilities and wide cabin space."
+  },
+  {
+    "name": "Airbus A220",
+    "image": "/images/planes/a220.jpg",
+    "description": "Quiet, efficient, and ideal for both regional and medium-haul missions."
+  }
+]

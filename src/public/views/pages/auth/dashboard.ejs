@@ -1,0 +1,118 @@
+<%
+    function getTier(points) {
+        if (points >= 30000) return 'platinum';
+        if (points >= 15000) return 'gold';
+        return 'silver';
+    }
+
+    function getTierProgress(points) {
+        if (points >= 30000) return { progressPercent: 100, pointsToNextTier: 0 };
+        if (points >= 15000) {
+            const relative = points - 15000;
+            return {
+                progressPercent: Math.floor((relative / 15000) * 100),
+                pointsToNextTier: 30000 - points
+            };
+        }
+        return {
+            progressPercent: Math.floor((points / 15000) * 100),
+            pointsToNextTier: 15000 - points
+        };
+    }
+
+    function calculateMiles(points) {
+        if (points >= 30000) return Math.floor(points / 1.5);
+        if (points >= 15000) return Math.floor(points / 1.25);
+        return points;
+    }
+
+    const tier = getTier(currentUser.points);
+    const { progressPercent, pointsToNextTier } = getTierProgress(currentUser.points);
+    const milesTravelled = calculateMiles(currentUser.points);
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Dashboard</title>
+
+        <meta name="description" content="Access your FlyDreamAir dashboard to manage bookings, track loyalty points, view tier progression, and enjoy personalized travel insights. Your journey, your rewards." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/dashboard'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'Home',
+                    icon: 'fas fa-couch',
+                    description: 'Welcome to your dashboard. View key stats, access features, and manage your account.'
+                }) %>
+
+                <div class="content">
+                    <div class="dashboard-overview-grid">
+                        <div class="dashboard-card tier-card">
+                            <h3>Current Tier</h3>
+                            <div class="tier-pill <%= tier.toLowerCase() %>">
+                                <%= tier.charAt(0).toUpperCase() + tier.slice(1) %>
+                            </div>
+                            <div class="tier-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill <%= tier.toLowerCase() %>" style="width: <%= progressPercent %>%"></div>
+                                </div>
+                                <small><%= pointsToNextTier %> points to next tier</small>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card miles-card">
+                            <h3>Miles Travelled</h3>
+                            <p><%= milesTravelled %> mi</p>
+                        </div>
+
+                        <div class="dashboard-card flight-card" id="upcoming-flight-card">
+                            <h3><i class="fas fa-plane-departure"></i> Upcoming Flight</h3>
+                            <div class="flight-details text-center" id="upcoming-flight-loading">
+                                Loading upcoming flight...
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <section class="dashboard-reward-section">
+                        <div class="dashboard-reward-header">
+                            <h2><i class="fas fa-gift"></i> Available Rewards</h2>
+                        </div>
+
+                        <div class="dashboard-reward-grid" id="reward-grid">
+                            <div class="dashboard-reward-loading text-center">
+                                <i class="fas fa-circle-notch fa-spin"></i> Loading available rewards...
+                            </div>
+                        </div>
+                        <div class="reward-pagination text-center" id="reward-pagination" style="margin-top: 1.5em;"></div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/auth/dashboard.js"></script>
+    </body>
+</html>

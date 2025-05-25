@@ -1,0 +1,58 @@
+[
+  {
+    "label": "Home",
+    "icon": "fas fa-couch",
+    "href": "/dashboard",
+    "permission": 0,
+    "section": "General"
+  },
+  {
+    "label": "My Bookings",
+    "icon": "fas fa-calendar-check",
+    "href": "/my-bookings",
+    "permission": 0,
+    "section": "General"
+  },
+  {
+    "label": "My Rewards",
+    "icon": "fas fa-gifts",
+    "href": "/my-rewards",
+    "permission": 0,
+    "section": "General"
+  },
+  {
+    "label": "Search User",
+    "icon": "fas fa-search",
+    "href": "/search-user",
+    "permission": 1,
+    "section": "Staff Tools"
+  },
+  {
+    "label": "Manage Rewards",
+    "icon": "fas fa-trophy",
+    "href": "/manage-rewards",
+    "permission": 2,
+    "section": "Manager Tools"
+  },
+  {
+    "label": "Manage Flights",
+    "icon": "fas fa-plane",
+    "href": "/manage-flights",
+    "permission": 2,
+    "section": "Manager Tools"
+  },
+  {
+    "label": "Manage Accounts",
+    "icon": "fas fa-users-cog",
+    "href": "/manage-accounts",
+    "permission": 3,
+    "section": "Admin Panel"
+  },
+  {
+    "label": "Manage Data",
+    "icon": "fas fa-database",
+    "href": "/manage-data",
+    "permission": 3,
+    "section": "Admin Panel"
+  }
+]

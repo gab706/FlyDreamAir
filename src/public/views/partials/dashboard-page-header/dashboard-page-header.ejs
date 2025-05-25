@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="/partials/dashboard-page-header/dashboard-page-header.css">
+
+<header class="content-head page-header">
+    <div class="page-header-inner">
+        <div class="icon-square">
+            <i class="<%= icon %>"></i>
+        </div>
+        <div class="header-text">
+            <h1><%= title %></h1>
+            <p><%= description %></p>
+        </div>
+    </div>
+
+    <button class="pin-toggle" id="pinToggleBtn" title="Pin this view">
+        <i class="fas fa-thumbtack"></i>
+    </button>
+</header>
+
+<% if (isRestrictedOnMobile) { %>
+    <script>
+        (() => {
+            if (window.innerWidth < 800) {
+                document.documentElement.innerHTML = '';
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100vw';
+                overlay.style.height = '100vh';
+                overlay.style.backgroundColor = '#121212';
+                overlay.style.color = '#ffffff';
+                overlay.style.zIndex = '999999';
+                overlay.style.display = 'flex';
+                overlay.style.flexDirection = 'column';
+                overlay.style.justifyContent = 'center';
+                overlay.style.alignItems = 'center';
+                overlay.style.padding = '2rem 1rem';
+                overlay.style.textAlign = 'center';
+                overlay.style.fontFamily = 'system-ui, sans-serif';
+                overlay.style.boxSizing = 'border-box';
+                overlay.innerHTML = `
+                <div style="max-width: 90vw;">
+                    <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem;">
+                        ⚠️ This page is not available on small screens at the moment.
+                    </p>
+                    <p style="font-size: 0.95rem; line-height: 1.4;">
+                        Please access it on a desktop or device with a screen width of at least 800 pixels.
+                    </p>
+                </div>
+            `;
+                document.body.style.overflow = 'hidden';
+                document.body.style.margin = '0';
+                document.body.appendChild(overlay);
+            }
+        })();
+    </script>
+<% } %>
+
+<script src="/partials/dashboard-page-header/dashboard-page-header.js" defer></script>

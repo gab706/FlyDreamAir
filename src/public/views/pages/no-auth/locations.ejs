@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Locations</title>
+
+        <meta name="description" content="Discover FlyDreamAir destinations — explore where we fly across the globe, from iconic cities to hidden gems. Your next adventure starts here." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/lib/css/leaflet.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/locations.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+
+        <%- include('../../partials/secondary-hero/secondary-hero', {
+            background: '/images/backgrounds/hero-locations.png',
+            title: 'Locations',
+            description: 'From bustling cities to tropical escapes, explore our global destinations and plan your perfect journey.'
+        }); %>
+
+        <section class="section-map">
+            <h2>View Map</h2>
+            <p>Explore the world with FlyDreamAir — from iconic cities to hidden gems across the globe.</p>
+            <div class="map-legend">
+                <span><span class="legend-color direct"></span> Direct Service</span>
+                <span><span class="legend-color partner"></span> Partner Airline</span>
+                <span><span class="legend-color seasonal"></span> Seasonal Route</span>
+                <span><span class="legend-color codeshare"></span> Code Share Only</span>
+            </div>
+            <div id="map"></div>
+        </section>
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/lib/js/leaflet.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/no-auth/locations.js"></script>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "In-Flight Entertainment",
+    "image": "/images/facilities/entertainment.jpg",
+    "description": "Watch movies, TV shows, and more with personal touchscreen systems in every seat."
+  },
+  {
+    "name": "Gourmet Dining",
+    "image": "/images/facilities/dining.png",
+    "description": "Enjoy freshly prepared meals inspired by global cuisines and tailored to your preferences."
+  },
+  {
+    "name": "Wi-Fi & Connectivity",
+    "image": "/images/facilities/wifi.png",
+    "description": "Stay connected in the sky with high-speed Wi-Fi and device charging at your seat."
+  },
+  {
+    "name": "Lie-Flat Seats",
+    "image": "/images/facilities/lieflat.jpg",
+    "description": "Sleep soundly with fully reclining seats available in premium cabins."
+  },
+  {
+    "name": "Onboard Lounge",
+    "image": "/images/facilities/lounge.jpg",
+    "description": "Relax, socialize, or grab a drink in our premium onboard lounge areas."
+  },
+  {
+    "name": "Amenity Kits",
+    "image": "/images/facilities/amenity-kit.jpg",
+    "description": "Receive curated kits with travel essentials to keep you refreshed throughout your flight."
+  },
+  {
+    "name": "Mood Lighting",
+    "image": "/images/facilities/lighting.jpg",
+    "description": "Enjoy ambient lighting that adjusts for comfort, relaxation, and sleep cycles."
+  },
+  {
+    "name": "Dedicated Cabin Crew",
+    "image": "/images/facilities/crew.jpg",
+    "description": "Our friendly, multilingual crew ensures your journey is smooth, safe, and memorable."
+  }
+]

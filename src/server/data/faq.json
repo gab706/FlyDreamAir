@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Changes",
+    "questions": [
+      {
+        "q": "How can I change my booking?",
+        "a": "You can change your booking by logging into your FlyDreamAir account and navigating to \"My Trips\". There, you can select your booking and choose to modify dates, seat selection, or add extras."
+      },
+      {
+        "q": "What should I do if I miss my flight?",
+        "a": "If you miss your flight, contact our support team immediately. In some cases, rebooking on the next available flight may be possible under our Missed Flight Flexibility policy."
+      },
+      {
+        "q": "Where do I report lost baggage?",
+        "a": "Lost baggage should be reported at the airport’s Lost and Found desk as soon as possible. You can also submit a report through our mobile app or website."
+      }
+    ]
+  },
+  {
+    "title": "Loyalty Rewards",
+    "questions": [
+      {
+        "q": "How do I join the FlyDreamAir Loyalty Program?",
+        "a": "Joining is free. Simply create an account on our website and opt into the Loyalty Program during registration or from your profile settings."
+      },
+      {
+        "q": "How do I check my tier status?",
+        "a": "You can check your tier status by logging into your account. Your dashboard displays your current level, progress to the next tier, and recent activity."
+      },
+      {
+        "q": "Do tiers reset annually?",
+        "a": "Yes, tier progress resets every 12 months based on your join or renewal date. Earn enough points within the period to retain or upgrade your status."
+      }
+    ]
+  },
+  {
+    "title": "Points & Upgrades",
+    "questions": [
+      {
+        "q": "How can I earn points?",
+        "a": "You earn points by booking flights with FlyDreamAir, purchasing in-flight services, and using our partner programs including hotels, rideshares, and more."
+      },
+      {
+        "q": "How do I redeem my points for upgrades?",
+        "a": "During the checkout process, you’ll see an option to apply points for cabin upgrades or extra services. You can also manage this from the \"My Rewards\" section."
+      },
+      {
+        "q": "What happens to my points if a flight is canceled?",
+        "a": "If your flight is canceled by us, points used for the booking are automatically refunded to your account within 24 hours."
+      },
+      {
+        "q": "Do my points expire?",
+        "a": "Points are valid for 24 months from the date they were earned. Make sure to use them before they expire."
+      }
+    ]
+  },
+  {
+    "title": "Refunds",
+    "questions": [
+      {
+        "q": "How do I request a refund?",
+        "a": "You can request a refund by going to your booking details page and clicking 'Request Refund' if your fare conditions allow it."
+      },
+      {
+        "q": "How long do refunds take to process?",
+        "a": "Refunds typically take 5–10 business days to reflect in your account depending on your payment provider."
+      },
+      {
+        "q": "Are all tickets refundable?",
+        "a": "Not all tickets are refundable. Refund eligibility depends on your fare type and specific booking conditions."
+      }
+    ]
+  }
+]

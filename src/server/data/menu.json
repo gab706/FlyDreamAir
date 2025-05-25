@@ -1,0 +1,128 @@
+{
+  "Economy": [
+    {
+      "name": "Grilled Chicken Wrap",
+      "image": "/images/menu/economy-wrap.jpg",
+      "description": "A soft tortilla filled with grilled chicken, lettuce, and garlic mayo."
+    },
+    {
+      "name": "Vegetarian Rice Bowl",
+      "image": "/images/menu/economy-ricebowl.jpg",
+      "description": "Steamed jasmine rice served with sautéed seasonal vegetables and soy glaze."
+    },
+    {
+      "name": "Cheddar Cheese Crackers",
+      "image": "/images/menu/economy-crackers.jpg",
+      "description": "Crispy baked crackers with a sharp cheddar flavor, perfect for snacking."
+    },
+    {
+      "name": "Salted Peanuts",
+      "image": "/images/menu/economy-peanuts.jpg",
+      "description": "A small pack of roasted, lightly salted peanuts."
+    },
+    {
+      "name": "Chocolate Chip Cookie",
+      "image": "/images/menu/economy-cookie.jpg",
+      "description": "A soft-baked cookie with chunks of Belgian chocolate."
+    },
+    {
+      "name": "Apple Juice",
+      "image": "/images/menu/economy-applejuice.jpg",
+      "description": "100% apple juice served chilled."
+    },
+    {
+      "name": "Sparkling Water",
+      "image": "/images/menu/economy-sparkling.jpg",
+      "description": "Refreshing carbonated mineral water."
+    },
+    {
+      "name": "Instant Coffee",
+      "image": "/images/menu/economy-coffee.jpg",
+      "description": "Hot black coffee made with premium instant grounds."
+    }
+  ],
+  "Business": [
+    {
+      "name": "Pan-Seared Salmon",
+      "image": "/images/menu/business-salmon.jpg",
+      "description": "Salmon fillet with lemon butter sauce, served over herbed rice."
+    },
+    {
+      "name": "Braised Lamb Shank",
+      "image": "/images/menu/business-lamb.jpg",
+      "description": "Slow-cooked lamb with rosemary jus and garlic mashed potatoes."
+    },
+    {
+      "name": "Quinoa Superfood Salad",
+      "image": "/images/menu/business-salad.jpg",
+      "description": "A mix of quinoa, kale, pomegranate, and feta with citrus vinaigrette."
+    },
+    {
+      "name": "Mini Cheese Platter",
+      "image": "/images/menu/business-cheese.jpg",
+      "description": "Selection of soft and aged cheeses with crackers and grapes."
+    },
+    {
+      "name": "Tiramisu Dessert Cup",
+      "image": "/images/menu/business-tiramisu.jpg",
+      "description": "Creamy layers of mascarpone and espresso-soaked sponge cake."
+    },
+    {
+      "name": "Sparkling White Wine",
+      "image": "/images/menu/business-wine.jpg",
+      "description": "A dry and crisp Chardonnay with light fruity notes."
+    },
+    {
+      "name": "Herbal Tea Selection",
+      "image": "/images/menu/business-tea.jpg",
+      "description": "Chamomile, peppermint, or green tea served hot."
+    },
+    {
+      "name": "Orange Juice",
+      "image": "/images/menu/business-orangejuice.jpg",
+      "description": "Fresh-squeezed orange juice, served cold."
+    }
+  ],
+  "First": [
+    {
+      "name": "Beef Wellington",
+      "image": "/images/menu/first-beefwellington.jpg",
+      "description": "Prime tenderloin wrapped in puff pastry with mushroom duxelles and red wine jus."
+    },
+    {
+      "name": "Lobster Thermidor",
+      "image": "/images/menu/first-lobster.jpg",
+      "description": "Lobster tail in a creamy white wine sauce, topped with melted parmesan."
+    },
+    {
+      "name": "Caviar & Blinis",
+      "image": "/images/menu/first-caviar.jpg",
+      "description": "Premium black caviar served with mini blinis and crème fraîche."
+    },
+    {
+      "name": "Truffle Risotto",
+      "image": "/images/menu/first-risotto.jpg",
+      "description": "Creamy arborio rice infused with black truffle oil and shaved parmesan."
+    },
+    {
+      "name": "French Macarons",
+      "image": "/images/menu/first-macarons.jpg",
+      "description": "Assorted delicate almond meringue cookies with flavored ganache."
+    },
+    {
+      "name": "Dom Pérignon Champagne",
+      "image": "/images/menu/first-champagne.jpg",
+      "description": "World-renowned vintage champagne, served chilled."
+    },
+    {
+      "name": "Iced Latte",
+      "image": "/images/menu/first-icedlatte.jpg",
+      "description": "Freshly brewed espresso over ice with cold milk and foam."
+    },
+    {
+      "name": "Still Mineral Water",
+      "image": "/images/menu/first-water.jpg",
+      "description": "Premium still water from alpine springs, served chilled."
+    }
+  ]
+}

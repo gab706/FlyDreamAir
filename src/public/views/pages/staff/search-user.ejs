@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Search Users</title>
+
+        <meta name="description" content="Search and explore all registered users on FlyDreamAir. Quickly find passengers, view profiles, and access account details efficiently." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/global-auth.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <div class="dashboard">
+            <%- include('../../partials/dashboard-page-search/dashboard-page-search', {
+                currentUser,
+                navbarItems,
+                currentPage: '/search-user'
+            }) %>
+
+            <main class="content-wrap">
+                <%- include('../../partials/dashboard-page-header/dashboard-page-header', {
+                    title: 'Search Users',
+                    icon: 'fas fa-search',
+                    description: 'Quickly locate and view user accounts across the platform. Filter by name, role, or status to access detailed user information efficiently.'
+                }) %>
+
+                <div class="content">
+                    <div class="search-user-container">
+                        <label class="search-select-group">
+                            <span>Search By</span>
+                            <select id="search-type">
+                                <option value="email">Email</option>
+                                <option value="userID">ID</option>
+                                <option value="name">Name</option>
+                            </select>
+                        </label>
+                        <input type="text" id="search-input" placeholder="Enter search value..." />
+                        <button id="search-btn" class="create-user-btn"><i class="fas fa-search"></i></button>
+                    </div>
+
+                    <div id="search-results" class="search-results hidden">
+                        <p id="match-count" class="match-count"></p>
+                        <table class="generic-table" id="search-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Tier</th>
+                                <th>Points</th>
+                                <th>Flights Booked</th>
+                                <th>Rewards Redeemed</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="notify-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Send Notification</h2>
+                    <button class="modal-close" id="close-notify-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="notify-form">
+                        <label>
+                            Message
+                            <textarea name="message" rows="5" required placeholder="Enter your message here..."></textarea>
+                        </label>
+
+                        <label class="toggle-switch vertical">
+                            <span class="label-text">Send Anonymously</span>
+                            <input type="checkbox" id="anon-toggle" name="anonymous" />
+                            <span class="slider"></span>
+                        </label>
+
+                        <button type="submit" class="submit-btn">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="password-modal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Change Password</h2>
+                    <button class="modal-close" id="close-password-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="password-form">
+                        <label>
+                            New Password
+                            <input type="password" name="newPassword" placeholder="Enter new password" required />
+                        </label>
+
+                        <label>
+                            Confirm Password
+                            <input type="password" name="confirmPassword" placeholder="Confirm new password" required />
+                        </label>
+
+                        <button type="submit" class="submit-btn">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/staff/search-user.js"></script>
+    </body>
+</html>

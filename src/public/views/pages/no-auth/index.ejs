@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <title>FlyDreamAir | Welcome</title>
+
+        <meta name="description" content="Welcome to FlyDreamAir — discover a seamless, rewarding flight experience with our loyalty program and premium travel services." />
+        <meta name="robots" content="index, follow" />
+
+        <link rel="icon" href="/images/favicon.jpg" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/lib/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/css/no-auth/index.css" />
+    </head>
+    <body<%= darkTheme ? ' class=dark-theme' : '' %>>
+        <%- include('../../partials/loader/loader'); %>
+        <%- include('../../partials/navbar/navbar'); %>
+
+        <section class="hero">
+            <video autoplay muted loop playsinline class="hero-bg-video" poster="/images/backgrounds/hero-bg-fallback.png">
+                <source src="/videos/hero.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="hero-content">
+                <h1>Experience the World with FlyDreamAir</h1>
+                <p>Discover new horizons with our extensive international and domestic routes.</p>
+                <div class="cta-buttons">
+                    <a href="/my-bookings" class="btn-book">Book Now</a>
+                    <a href="/rewards#faq" class="btn-learn">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-services" >
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md-10 col-lg-8">
+                        <div class="header-section">
+                            <h2 class="title">Our Premium Services</h2>
+                            <p class="description">FlyDreamAir is committed to elevating your travel experience. Discover the exclusive services that make your journey smooth, comfortable, and unforgettable from takeoff to landing.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <% services.forEach(s => { %>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="single-service" tabindex="0">
+                                <div class="content">
+                                    <span class="icon">
+                                        <i class="<%= s.icon %>"></i>
+                                    </span>
+                                    <h3 class="title"><%= s.title %></h3>
+                                    <p class="description"><%= s.description %></p>
+                                    <a href="<%= s.link %>" class="learn-more"><%= s.linkText %></a>
+                                </div>
+                                <span class="circle-before"></span>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-testimonials" class="section-testimonials">
+            <div class="wrap">
+                <span id="right-arrow" class="arrow right fa fa-chevron-right"></span>
+                <span id="left-arrow" class="arrow left fa fa-chevron-left"></span>
+
+                <ul id="section-testimonials-dots" class="dots">
+                    <% testimonials.forEach((_, index) => { %>
+                        <li class="dot <%= index === 0 ? 'active' : '' %>"></li>
+                    <% }); %>
+                </ul>
+
+                <div id="section-testimonials-content" class="content">
+                    <% testimonials.forEach((t, index) => { %>
+                        <div class="<%= index === 0 ? 'active' : '' %>">
+                            <div class="img">
+                                <img src="<%= t.image %>" alt="Testimonial <%= index + 1 %>">
+                            </div>
+                            <h2><%= t.name %></h2>
+                            <p>“<%= t.message %>”</p>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <%- include('../../partials/footer/footer'); %>
+        <script src="/lib/js/jquery.min.js"></script>
+        <script src="/lib/js/notify.min.js"></script>
+        <script src="/js/client-storage-wrapper.js"></script>
+        <script src="/js/client-storage-solutions.js"></script>
+        <script src="/js/global.js"></script>
+        <script src="/js/no-auth/index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+[
+  {
+    "icon": "fas fa-globe",
+    "title": "Worldwide Destinations",
+    "description": "Travel seamlessly to over 120 destinations across 6 continents with our globally connected network.",
+    "link": "/locations",
+    "linkText": "Learn More"
+  },
+  {
+    "icon": "fas fa-couch",
+    "title": "On-Board Facilities",
+    "description": "Relax in style before your flight with complimentary access to our premium lounges in major airports worldwide.",
+    "link": "/facilities",
+    "linkText": "Learn More"
+  },
+  {
+    "icon": "fas fa-utensils",
+    "title": "Gourmet In-Flight Meals",
+    "description": "Enjoy chef-curated meals and a range of premium beverages tailored to your route and preferences.",
+    "link": "/menu",
+    "linkText": "Learn More"
+  },
+  {
+    "icon": "fas fa-gift",
+    "title": "FlyRewards Loyalty",
+    "description": "Earn points on every flight, redeem them for upgrades, rewards, and partner discounts. Travel more, earn more.",
+    "link": "/rewards",
+    "linkText": "Learn More"
+  },
+  {
+    "icon": "fas fa-headset",
+    "title": "24/7 Customer Support",
+    "description": "Our global support team is available around the clock to assist you before, during, and after your journey.",
+    "link": "mailto:support@flydreamair.com",
+    "linkText": "Contact Us"
+  },
+  {
+    "icon": "fas fa-plane",
+    "title": "Luxury Cabin Experience",
+    "description": "Fly in comfort and privacy with spacious seating, mood lighting, and personalized service in Business and First Class.",
+    "link": "/cabins",
+    "linkText": "Explore Cabins"
+  }
+]
