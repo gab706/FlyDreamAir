@@ -1,0 +1,8 @@
+{
+  "pageTitle": "FlyDreamAir Test Report",
+  "outputPath": "reports/jest-report.html",
+  "includeFailureMsg": true,
+  "includeConsoleLog": true,
+  "theme": "light",
+  "executionTimeWarningThreshold": 5
+}

@@ -24,3 +24,7 @@ class LetterPaneAnimator {
         }, 40);
     }
 }
+
+if (typeof window !== "undefined") {
+    window.LetterPaneAnimator = LetterPaneAnimator;
+}

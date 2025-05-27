@@ -24,87 +24,16 @@ jobs:
       - name: Build TypeScript
         run: npm run build
 
-      - name: Run and Capture Jest Tests
-        run: |
-          mkdir -p logs
-          > logs/test-summary.txt
+      - name: Run all tests (server + client)
+        run: npm run test:all
 
-          node --experimental-vm-modules node_modules/jest/bin/jest.js \
-            --silent=false \
-            --verbose \
-            --config jest/jest.config.cjs > logs/tmp.log 2>&1
-
-          node --experimental-vm-modules node_modules/jest/bin/jest.js \
-            --silent=false \
-            --verbose \
-            --config jest/jest.frontend.config.cjs >> logs/tmp.log 2>&1
-
-          awk '
-            /^PASS |^FAIL / {
-              if (file != "") {
-                countLine = "(" passed " passed"
-                if (failed > 0) {
-                  countLine = countLine ", " failed " failed"
-                }
-                countLine = countLine ")"
-                print header " " countLine
-                for (i = 0; i < numTests; i++) print "  " testLines[i]
-                print ""
-              }
-
-              result = $1 == "PASS" ? "✔" : "✘"
-              sub(/^PASS /, "", $0)
-              sub(/^FAIL /, "", $0)
-              gsub(/^build\/tests\//, "", $0)
-              file = $0
-              header = result " " file
-              passed = 0
-              failed = 0
-              numTests = 0
-              next
-            }
-
-            /^[[:space:]]+[✓✘]/ {
-              sub(/\s*\([0-9]+ ms\)/, "", $0)
-              if ($0 ~ /^[[:space:]]+✓/) passed++
-              if ($0 ~ /^[[:space:]]+✘/) failed++
-              testLines[numTests++] = $0
-            }
-
-            END {
-              if (file != "") {
-                countLine = "(" passed " passed"
-                if (failed > 0) {
-                  countLine = countLine ", " failed " failed"
-                }
-                countLine = countLine ")"
-                print header " " countLine
-                for (i = 0; i < numTests; i++) print "  " testLines[i]
-              }
-            }
-          ' logs/tmp.log > logs/test-summary.txt
-
-      - name: Send test summary to Discord
-        if: always()
+      - name: Send PDF reports to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          summary_file="logs/test-summary.txt"
-
-          if [ ! -s "$summary_file" ]; then
-            echo ".ᐣ No test summary available." > "$summary_file"
-          fi
-
-          if grep -q '✘' "$summary_file"; then
-            summary="❌ Some Tests Failed"
-          elif grep -q '✔' "$summary_file"; then
-            summary="✅ All Tests Passed"
-          else
-            summary="❓ Test Summary not Passed"
-          fi
-
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
-            -F "payload_json={\"content\": \"$summary\"}" \
-            -F "file=@$summary_file;type=text/plain;filename=test-summary.txt" \
+            -F "payload_json={\"content\": \"📄 Test Reports: Server and Client\"}" \
+            -F "file1=@reports/jest-report-frontend.pdf;type=application/pdf;filename=server-report.pdf" \
+            -F "file2=@reports/jest-report-backend.pdf;type=application/pdf;filename=client-report.pdf" \
             "$DISCORD_WEBHOOK_URL"

@@ -453,3 +453,7 @@ ClientStorageSolutions.toggleDarkMode = async function () {
     const newValue = !current;
     await ClientStorageWrapper.set('darkTheme', newValue, 'cookie', { days: 365 });
 };
+
+if (typeof window !== 'undefined') {
+    window.ClientStorageSolutions = ClientStorageSolutions;
+}

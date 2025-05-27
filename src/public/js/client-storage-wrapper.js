@@ -172,3 +172,7 @@ class ClientStorageWrapper {
         });
     }
 }
+
+if (typeof window !== 'undefined') {
+    window.ClientStorageWrapper = ClientStorageWrapper;
+}
