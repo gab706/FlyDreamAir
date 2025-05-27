@@ -24,19 +24,40 @@ jobs:
       - name: Build TypeScript
         run: npm run build
 
-      - name: Run Jest Tests
+      - name: Run Server Tests
         run: |
           mkdir -p logs
-          npm run test:all | tee logs/jest-output.log
+          node --experimental-vm-modules node_modules/jest/bin/jest.js \
+            --silent=false \
+            --config jest/jest.config.cjs \
+            | tee logs/jest-output.log
 
-      - name: Send Jest log file to Discord
+      - name: Run Client Tests
+        run: |
+          node --experimental-vm-modules node_modules/jest/bin/jest.js \
+            --silent=false \
+            --config jest/jest.frontend.config.cjs \
+            | tee -a logs/jest-output.log
+
+      - name: Send Jest Summary to Discord
         if: always()
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          msg="🧪 Jest Test Results from $GITHUB_REPOSITORY"
+          summary=$(grep -E "Tests:.*" logs/jest-output.log | tail -1)
+          failures=$(echo "$summary" | grep -o '[0-9]\+ failed' || true)
+          emoji="✅"
+          status="Tests Passed"
+
+          if [[ -n "$failures" ]]; then
+            emoji="❌"
+            status="Tests Failed"
+          fi
+
+          msg="$emoji $status\n\`\`\`\n$summary\n\`\`\`"
+
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
-            -F "payload_json={\"content\": \"${msg}\"}" \
+            -F "payload_json={\"content\": \"$msg\"}" \
             -F "file=@logs/jest-output.log;type=text/plain" \
             "$DISCORD_WEBHOOK_URL"
