@@ -47,7 +47,14 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          summary=$(cat logs/test-summary.txt)
+          summary_file="logs/test-summary.txt"
+
+          if [ ! -s "$summary_file" ]; then
+            echo "No summary output generated. Faking result."
+            echo "✘ No test summary available." > "$summary_file"
+          fi
+
+          summary=$(cat "$summary_file")
           emoji="✅"
           status="Tests Passed"
 
@@ -61,5 +68,5 @@ jobs:
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
             -F "payload_json={\"content\": \"$msg\"}" \
-            -F "file=@logs/test-summary.txt;type=text/plain" \
+            -F "file=@$summary_file;type=text/plain;filename=test-summary.txt" \
             "$DISCORD_WEBHOOK_URL"
