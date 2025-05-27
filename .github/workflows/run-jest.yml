@@ -27,6 +27,8 @@ jobs:
       - name: Run Server and Client Tests
         run: |
           mkdir -p logs
+          
+          touch logs/test-summary.txt
 
           node --experimental-vm-modules node_modules/jest/bin/jest.js \
             --silent=false \
@@ -37,12 +39,12 @@ jobs:
             --config jest/jest.frontend.config.cjs >> logs/tmp.log
 
           grep -E '^(PASS|FAIL)' logs/tmp.log \
-            | sed 's|PASS|✔|' \
-            | sed 's|FAIL|✘|' \
-            | sed 's|.*\\tests/||' \
+            | sed 's|^PASS |✔ |' \
+            | sed 's|^FAIL |✘ |' \
+            | sed 's|build/tests/||' \
             > logs/test-summary.txt
 
-      - name: Send summary to Discord
+      - name: Send test summary to Discord
         if: always()
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -50,23 +52,18 @@ jobs:
           summary_file="logs/test-summary.txt"
 
           if [ ! -s "$summary_file" ]; then
-            echo "No summary output generated. Faking result."
-            echo "✘ No test summary available." > "$summary_file"
+            echo ".ᐣ Error Loading Data" > "$summary_file"
           fi
 
-          summary=$(cat "$summary_file")
-          emoji="✅"
-          status="Tests Passed"
-
-          if echo "$summary" | grep -q '✘'; then
-            emoji="❌"
-            status="Tests Failed"
+          summary="❓ No Summary Cases were Passed to Discord"
+          if grep -q '✘' "$summary_file"; then
+            summary="❌ Some Test Cases Failed"
+          elif grep -q '✔' "$summary_file"; then
+            summary="✅ All Test Cases Passed"
           fi
-
-          msg="$emoji $status\n\`\`\`\n$summary\n\`\`\`"
 
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
-            -F "payload_json={\"content\": \"$msg\"}" \
+            -F "payload_json={\"content\": \"$summary\"}" \
             -F "file=@$summary_file;type=text/plain;filename=test-summary.txt" \
             "$DISCORD_WEBHOOK_URL"
