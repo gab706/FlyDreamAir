@@ -7,8 +7,8 @@
   "scripts": {
     "build": "rm -rf build && tsc && node graceful-transfer.js",
     "start": "node build/src/server/server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest/jest.config.cjs",
-    "test:client": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest/jest.frontend.config.cjs",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent=false --config jest/jest.config.cjs",
+    "test:client": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent=false --config jest/jest.frontend.config.cjs",
     "test:all": "npm run test && npm run test:client"
   },
   "engines": {

@@ -29,36 +29,14 @@ jobs:
           mkdir -p logs
           npm run test:all | tee logs/jest-output.log
 
-      - name: Send test results to Discord
+      - name: Send Jest log file to Discord
         if: always()
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          status="✅ Tests Passed"
-          color=3066993
-
-          if [ $? -ne 0 ] || grep -q 'FAIL' logs/jest-output.log; then
-            status="❌ Tests Failed"
-            color=15158332
-          fi
-
-          json=$(jq -n \
-            --arg title "$status for $GITHUB_REPOSITORY" \
-            --arg url "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
-            --arg desc "Branch: \`$GITHUB_REF_NAME\`\nCommit: \`$GITHUB_SHA\`\nAuthor: ${{ github.actor }}" \
-            --arg color "$color" \
-            '{
-              "embeds": [{
-                "title": $title,
-                "url": $url,
-                "description": $desc,
-                "color": ($color | tonumber),
-                "timestamp": (now | todate)
-              }]
-            }')
-
+          msg="🧪 Jest Test Results from $GITHUB_REPOSITORY"
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
-            -F "payload_json=$json" \
+            -F "payload_json={\"content\": \"${msg}\"}" \
             -F "file=@logs/jest-output.log;type=text/plain" \
             "$DISCORD_WEBHOOK_URL"
