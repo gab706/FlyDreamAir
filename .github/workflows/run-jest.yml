@@ -24,32 +24,34 @@ jobs:
       - name: Build TypeScript
         run: npm run build
 
-      - name: Run Server Tests
+      - name: Run Server and Client Tests
         run: |
           mkdir -p logs
+
           node --experimental-vm-modules node_modules/jest/bin/jest.js \
             --silent=false \
-            --config jest/jest.config.cjs \
-            | tee logs/jest-output.log
+            --config jest/jest.config.cjs > logs/tmp.log
 
-      - name: Run Client Tests
-        run: |
           node --experimental-vm-modules node_modules/jest/bin/jest.js \
             --silent=false \
-            --config jest/jest.frontend.config.cjs \
-            | tee -a logs/jest-output.log
+            --config jest/jest.frontend.config.cjs >> logs/tmp.log
 
-      - name: Send Jest Summary to Discord
+          grep -E '^(PASS|FAIL)' logs/tmp.log \
+            | sed 's|PASS|✔|' \
+            | sed 's|FAIL|✘|' \
+            | sed 's|.*\\tests/||' \
+            > logs/test-summary.txt
+
+      - name: Send summary to Discord
         if: always()
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          summary=$(grep -E "Tests:.*" logs/jest-output.log | tail -1)
-          failures=$(echo "$summary" | grep -o '[0-9]\+ failed' || true)
+          summary=$(cat logs/test-summary.txt)
           emoji="✅"
           status="Tests Passed"
 
-          if [[ -n "$failures" ]]; then
+          if echo "$summary" | grep -q '✘'; then
             emoji="❌"
             status="Tests Failed"
           fi
@@ -59,5 +61,5 @@ jobs:
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
             -F "payload_json={\"content\": \"$msg\"}" \
-            -F "file=@logs/jest-output.log;type=text/plain" \
+            -F "file=@logs/test-summary.txt;type=text/plain" \
             "$DISCORD_WEBHOOK_URL"
