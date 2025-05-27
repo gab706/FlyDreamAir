@@ -1,4 +1,3 @@
-'use strict';
 import { JSDOM } from 'jsdom';
 import type { DOMWindow } from 'jsdom';
 import fs from 'fs';

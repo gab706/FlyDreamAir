@@ -36,4 +36,10 @@ app.use('/partials', (req: Request, res: Response, next: NextFunction): void => 
     express.static(path.join(__dirname, '../../src/public/views/partials'))(req, res, next);
 });
 
+app.use((req, res, next) => {
+    if (req.path.startsWith('/dummy-data'))
+        return next();
+    res.redirect('/index');
+});
+
 export default app;

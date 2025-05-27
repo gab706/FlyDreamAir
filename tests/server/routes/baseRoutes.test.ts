@@ -1,4 +1,3 @@
-'use strict';
 import request from 'supertest';
 import app from '../../../src/server/app.js';
 

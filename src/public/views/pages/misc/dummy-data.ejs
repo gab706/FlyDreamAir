@@ -10,82 +10,84 @@
     </head>
     <body>
         <script>
-            $(document).ready(async () => {
+            $(document).ready(function() {
                 if (!confirm("Are you sure you want to load Dummy Data? This WILL remove all other data you have set."))
                     return location.replace("/");
 
-                const keys = ['users', 'flights', 'bookings', 'rewards', 'rewardRecords', 'notifications'];
-                for (const key of keys)
-                    await ClientStorageWrapper.remove(key, 'indexed');
-                await ClientStorageWrapper.remove('userSession', 'cookie');
-                await ClientStorageWrapper.remove('currentUser', 'cookie');
+                (async () => {
+                    const keys = ['users', 'flights', 'bookings', 'rewards', 'rewardRecords', 'notifications'];
+                    for (const key of keys)
+                        await ClientStorageWrapper.remove(key, 'indexed');
+                    await ClientStorageWrapper.remove('userSession', 'cookie');
+                    await ClientStorageWrapper.remove('currentUser', 'cookie');
 
-                const users = [
-                    { name: "Gabriel Esposito", email: "gabe@example.com", password: "gabriel", role: 3, points: 12000, profile_pic: "https://images.squarespace-cdn.com/content/v1/62da63f9ec4d5d07d12a1056/bb963dc5-8e82-41a6-af98-ab4b26c5c289/20220518154718_IMG_5042.jpg", pinned_pages: [] },
-                    { name: "Haydar Al Khafaji", email: "haydar@example.com", password: "haydar", role: 0, points: 14250, profile_pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6T0nHdNyz6H-OsNg1f5A9DEXXVdOM3UVjZg&s", pinned_pages: [] },
-                    { name: "Dion Taghvaei", email: "dion@example.com", password: "dion", role: 1, points: 15600, profile_pic: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Donkey_in_Clovelly%2C_North_Devon%2C_England.jpg/640px-Donkey_in_Clovelly%2C_North_Devon%2C_England.jpg", pinned_pages: [] },
-                    { name: "Muhammad Omar Faruk", email: "omar@example.com", password: "omar", role: 2, points: 29650, profile_pic: "https://digital-classroom.nma.gov.au/sites/default/files/2020-07/1900s_BI_1954_FlagsAct.jpg?v=1", pinned_pages: [] },
-                    { name: "Andre Shenouda", email: "andre@example.com", password: "andre", role: 0, points: 10300, profile_pic: "https://images2.minutemediacdn.com/image/upload/c_crop,w_2195,h_1234,x_904,y_171/c_fill,w_1200,ar_1:1,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/si/01jab1dnay1j8zhecp44.jpg", pinned_pages: [] }
-                ];
+                    const users = [
+                        { name: "Gabriel Esposito", email: "gabe@example.com", password: "gabriel", role: 3, points: 12000, profile_pic: "https://images.squarespace-cdn.com/content/v1/62da63f9ec4d5d07d12a1056/bb963dc5-8e82-41a6-af98-ab4b26c5c289/20220518154718_IMG_5042.jpg", pinned_pages: [] },
+                        { name: "Haydar Al Khafaji", email: "haydar@example.com", password: "haydar", role: 0, points: 14250, profile_pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6T0nHdNyz6H-OsNg1f5A9DEXXVdOM3UVjZg&s", pinned_pages: [] },
+                        { name: "Dion Taghvaei", email: "dion@example.com", password: "dion", role: 1, points: 15600, profile_pic: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Donkey_in_Clovelly%2C_North_Devon%2C_England.jpg/640px-Donkey_in_Clovelly%2C_North_Devon%2C_England.jpg", pinned_pages: [] },
+                        { name: "Muhammad Omar Faruk", email: "omar@example.com", password: "omar", role: 2, points: 29650, profile_pic: "https://digital-classroom.nma.gov.au/sites/default/files/2020-07/1900s_BI_1954_FlagsAct.jpg?v=1", pinned_pages: [] },
+                        { name: "Andre Shenouda", email: "andre@example.com", password: "andre", role: 0, points: 10300, profile_pic: "https://images2.minutemediacdn.com/image/upload/c_crop,w_2195,h_1234,x_904,y_171/c_fill,w_1200,ar_1:1,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/si/01jab1dnay1j8zhecp44.jpg", pinned_pages: [] }
+                    ];
 
-                for (let i = 0; i < users.length; i++) {
-                    await ClientStorageSolutions.createUser({ ...users[i] });
-                }
+                    for (let i = 0; i < users.length; i++) {
+                        await ClientStorageSolutions.createUser({ ...users[i] });
+                    }
 
-                const flights = [
-                    { origin: "Sydney", destination: "Melbourne", departureTime: "2026-06-01T08:30", arrivalTime: "2026-06-01T10:00", status: "Scheduled", distance: 878 },
-                    { origin: "Melbourne", destination: "Brisbane", departureTime: "2025-06-03T09:00", arrivalTime: "2025-06-03T11:15", status: "On Time", distance: 1374 },
-                    { origin: "Perth", destination: "Adelaide", departureTime: "2025-06-05T14:20", arrivalTime: "2025-06-05T16:50", status: "Delayed", distance: 2130 },
-                    { origin: "Brisbane", destination: "Sydney", departureTime: "2025-06-07T06:45", arrivalTime: "2025-06-07T08:30", status: "Scheduled", distance: 910 },
-                    { origin: "Darwin", destination: "Canberra", departureTime: "2025-06-10T11:00", arrivalTime: "2025-06-10T14:20", status: "Scheduled", distance: 3140 },
-                    { origin: "Hobart", destination: "Sydney", departureTime: "2025-06-12T10:00", arrivalTime: "2025-06-12T11:30", status: "On Time", distance: 1045 },
-                    { origin: "Adelaide", destination: "Brisbane", departureTime: "2025-06-14T13:00", arrivalTime: "2025-06-14T15:30", status: "Scheduled", distance: 1600 },
-                    { origin: "Canberra", destination: "Perth", departureTime: "2025-06-16T07:00", arrivalTime: "2025-06-16T10:40", status: "Scheduled", distance: 3100 }
-                ];
+                    const flights = [
+                        { origin: "Sydney", destination: "Melbourne", departureTime: "2026-06-01T08:30", arrivalTime: "2026-06-01T10:00", status: "Scheduled", distance: 878 },
+                        { origin: "Melbourne", destination: "Brisbane", departureTime: "2025-06-03T09:00", arrivalTime: "2025-06-03T11:15", status: "On Time", distance: 1374 },
+                        { origin: "Perth", destination: "Adelaide", departureTime: "2025-06-05T14:20", arrivalTime: "2025-06-05T16:50", status: "Delayed", distance: 2130 },
+                        { origin: "Brisbane", destination: "Sydney", departureTime: "2025-06-07T06:45", arrivalTime: "2025-06-07T08:30", status: "Scheduled", distance: 910 },
+                        { origin: "Darwin", destination: "Canberra", departureTime: "2025-06-10T11:00", arrivalTime: "2025-06-10T14:20", status: "Scheduled", distance: 3140 },
+                        { origin: "Hobart", destination: "Sydney", departureTime: "2025-06-12T10:00", arrivalTime: "2025-06-12T11:30", status: "On Time", distance: 1045 },
+                        { origin: "Adelaide", destination: "Brisbane", departureTime: "2025-06-14T13:00", arrivalTime: "2025-06-14T15:30", status: "Scheduled", distance: 1600 },
+                        { origin: "Canberra", destination: "Perth", departureTime: "2025-06-16T07:00", arrivalTime: "2025-06-16T10:40", status: "Scheduled", distance: 3100 }
+                    ];
 
-                for (let f of flights) {
-                    await ClientStorageSolutions.createFlight(f);
-                }
+                    for (let f of flights) {
+                        await ClientStorageSolutions.createFlight(f);
+                    }
 
-                const bookings = [
-                    { userID: 1, flightID: "FL001" },
-                    { userID: 1, flightID: "FL002" },
-                    { userID: 2, flightID: "FL003" },
-                    { userID: 2, flightID: "FL004" },
-                    { userID: 3, flightID: "FL005" },
-                    { userID: 3, flightID: "FL006" },
-                    { userID: 4, flightID: "FL007" },
-                    { userID: 4, flightID: "FL008" },
-                    { userID: 5, flightID: "FL001" },
-                    { userID: 5, flightID: "FL005" }
-                ];
+                    const bookings = [
+                        { userID: 1, flightID: "FL001" },
+                        { userID: 1, flightID: "FL002" },
+                        { userID: 2, flightID: "FL003" },
+                        { userID: 2, flightID: "FL004" },
+                        { userID: 3, flightID: "FL005" },
+                        { userID: 3, flightID: "FL006" },
+                        { userID: 4, flightID: "FL007" },
+                        { userID: 4, flightID: "FL008" },
+                        { userID: 5, flightID: "FL001" },
+                        { userID: 5, flightID: "FL005" }
+                    ];
 
-                for (let b of bookings) {
-                    await ClientStorageSolutions.createBooking(b);
-                }
+                    for (let b of bookings) {
+                        await ClientStorageSolutions.createBooking(b);
+                    }
 
-                const rewards = [
-                    { name: "Lounge Access", description: "Access to our premium lounge.", type: "Lounge Access", image: "https://www.qantas.com/content/travelinsider/en/lifestyle/business/qantas-business-lounge-access-domestic-international-review/jcr:content/parsysTop/hero.img.full.medium.jpg/1571291628293.jpg", tier: "Gold", purchasable: true, price: 2000 },
-                    { name: "Seat Upgrade", description: "Upgrade your seat to business class.", type: "Upgrade", image: "https://cms.finnair.com/resource/blob/2316836/db817fa9e76a89892a6b2066a1698cb4/business-class-hero-image-data.jpg", tier: "Silver", purchasable: true, price: 1500 },
-                    { name: "Free Checked Bag", description: "One free checked luggage.", type: "Free Item", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_B0DZzZL1K86884ewk_EmXLyB8i5U5CrxKw&s", tier: "Silver", purchasable: false, price: null },
-                    { name: "Airport Transfer", description: "Free ride to/from airport.", type: "Bonus Miles", image: "https://www.theleader.com.au/images/transform/v1/crop/frm/Vb9PmYeLMjRC7MBvZsS7YL/fd7714b3-8031-43a4-aef2-76af9b4e5595.JPG/r188_125_2261_1507_w2448_h1632_fmax.jpg", tier: "Gold", purchasable: true, price: 2500 },
-                    { name: "Meal Voucher", description: "Enjoy a meal at our partner restaurants.", type: "Free Item", image: "https://www.orchardhotel.com.au/wp-content/uploads/2024/10/The-Orchard-Hotel-Chatswood-Restaurant-Bar-48.jpg", tier: "Silver", purchasable: true, price: 800 },
-                    { name: "Extra Legroom", description: "More comfort in economy.", type: "Upgrade", image: "https://www.lot.com/content/dam/lot/lot-com/other-images/flota/wn%C4%99trza-samolot%C3%B3w/image00002.jpg", tier: "Silver", purchasable: false, price: null },
-                    { name: "Priority Boarding", description: "Board early and skip the line.", type: "Priority Boarding", image: "https://i.pointhacks.com/2019/12/03011654/QF-Priority-Boarding-16x9jpg.jpg", tier: "Gold", purchasable: true, price: 1800 },
-                    { name: "Companion Voucher", description: "Fly with a companion for free.", type: "Discount", image: "https://media.istockphoto.com/id/1334670157/photo/young-couple-flying.jpg?s=612x612&w=0&k=20&c=G0omFDoqRuDH42m7V_98P7OCiWB07qMQzdYbOL3OsSQ=", tier: "Platinum", purchasable: true, price: 4000 },
-                    { name: "VIP Lounge Pass", description: "One-time pass to VIP Lounge.", type: "Lounge Access", image: "https://media.cntraveler.com/photos/5981e08806b6137567354468/16:9/w_6655,h_3743,c_limit/Residence_Room_b.jpg", tier: "Gold", purchasable: true, price: 2200 },
-                    { name: "Gift Shop Voucher", description: "Spend on FlyDreamAir merchandise.", type: "Free Item", image: "https://images.ctfassets.net/v228i5y5k0x4/1C6T1mvc04WO8AgsumwcG0/04e883a2a9cb3d4d8532796dd23b4ac0/AustralianWay_T3_MH.jpg?h=375", tier: "Silver", purchasable: true, price: 1000 },
-                    { name: "Flexible Ticket", description: "Free flight change once.", type: "Upgrade", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQauP2xYIMATPZYIj2WDEQ7V6jAjwd1oRQ5zQ&s", tier: "Gold", purchasable: true, price: 2700 },
-                    { name: "Fast Track Security", description: "Skip long queues.", type: "Priority Boarding", image: "https://media.gq.com/photos/6579e034130b44e7ef37c8d4/16:9/w_2000,h_1125,c_limit/running-fast.jpg", tier: "Gold", purchasable: true, price: 1600 },
-                    { name: "Hotel Voucher", description: "Stay at partner hotels.", type: "Free Item", image: "https://www.storybridgehotel.com.au/wp-content/uploads/2022/08/Gif-voucher.jpg", tier: "Platinum", purchasable: true, price: 3500 },
-                    { name: "Welcome Drink", description: "Start your journey refreshed.", type: "Free Item", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0_QNNo21k2TZ-0xHNXUcA5ROWUzyCjyr7zw&s", tier: "Silver", purchasable: false, price: null },
-                ];
+                    const rewards = [
+                        { name: "Lounge Access", description: "Access to our premium lounge.", type: "Lounge Access", image: "https://www.qantas.com/content/travelinsider/en/lifestyle/business/qantas-business-lounge-access-domestic-international-review/jcr:content/parsysTop/hero.img.full.medium.jpg/1571291628293.jpg", tier: "Gold", purchasable: true, price: 2000 },
+                        { name: "Seat Upgrade", description: "Upgrade your seat to business class.", type: "Upgrade", image: "https://cms.finnair.com/resource/blob/2316836/db817fa9e76a89892a6b2066a1698cb4/business-class-hero-image-data.jpg", tier: "Silver", purchasable: true, price: 1500 },
+                        { name: "Free Checked Bag", description: "One free checked luggage.", type: "Free Item", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_B0DZzZL1K86884ewk_EmXLyB8i5U5CrxKw&s", tier: "Silver", purchasable: false, price: null },
+                        { name: "Airport Transfer", description: "Free ride to/from airport.", type: "Bonus Miles", image: "https://www.theleader.com.au/images/transform/v1/crop/frm/Vb9PmYeLMjRC7MBvZsS7YL/fd7714b3-8031-43a4-aef2-76af9b4e5595.JPG/r188_125_2261_1507_w2448_h1632_fmax.jpg", tier: "Gold", purchasable: true, price: 2500 },
+                        { name: "Meal Voucher", description: "Enjoy a meal at our partner restaurants.", type: "Free Item", image: "https://www.orchardhotel.com.au/wp-content/uploads/2024/10/The-Orchard-Hotel-Chatswood-Restaurant-Bar-48.jpg", tier: "Silver", purchasable: true, price: 800 },
+                        { name: "Extra Legroom", description: "More comfort in economy.", type: "Upgrade", image: "https://www.lot.com/content/dam/lot/lot-com/other-images/flota/wn%C4%99trza-samolot%C3%B3w/image00002.jpg", tier: "Silver", purchasable: false, price: null },
+                        { name: "Priority Boarding", description: "Board early and skip the line.", type: "Priority Boarding", image: "https://i.pointhacks.com/2019/12/03011654/QF-Priority-Boarding-16x9jpg.jpg", tier: "Gold", purchasable: true, price: 1800 },
+                        { name: "Companion Voucher", description: "Fly with a companion for free.", type: "Discount", image: "https://media.istockphoto.com/id/1334670157/photo/young-couple-flying.jpg?s=612x612&w=0&k=20&c=G0omFDoqRuDH42m7V_98P7OCiWB07qMQzdYbOL3OsSQ=", tier: "Platinum", purchasable: true, price: 4000 },
+                        { name: "VIP Lounge Pass", description: "One-time pass to VIP Lounge.", type: "Lounge Access", image: "https://media.cntraveler.com/photos/5981e08806b6137567354468/16:9/w_6655,h_3743,c_limit/Residence_Room_b.jpg", tier: "Gold", purchasable: true, price: 2200 },
+                        { name: "Gift Shop Voucher", description: "Spend on FlyDreamAir merchandise.", type: "Free Item", image: "https://images.ctfassets.net/v228i5y5k0x4/1C6T1mvc04WO8AgsumwcG0/04e883a2a9cb3d4d8532796dd23b4ac0/AustralianWay_T3_MH.jpg?h=375", tier: "Silver", purchasable: true, price: 1000 },
+                        { name: "Flexible Ticket", description: "Free flight change once.", type: "Upgrade", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQauP2xYIMATPZYIj2WDEQ7V6jAjwd1oRQ5zQ&s", tier: "Gold", purchasable: true, price: 2700 },
+                        { name: "Fast Track Security", description: "Skip long queues.", type: "Priority Boarding", image: "https://media.gq.com/photos/6579e034130b44e7ef37c8d4/16:9/w_2000,h_1125,c_limit/running-fast.jpg", tier: "Gold", purchasable: true, price: 1600 },
+                        { name: "Hotel Voucher", description: "Stay at partner hotels.", type: "Free Item", image: "https://www.storybridgehotel.com.au/wp-content/uploads/2022/08/Gif-voucher.jpg", tier: "Platinum", purchasable: true, price: 3500 },
+                        { name: "Welcome Drink", description: "Start your journey refreshed.", type: "Free Item", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0_QNNo21k2TZ-0xHNXUcA5ROWUzyCjyr7zw&s", tier: "Silver", purchasable: false, price: null },
+                    ];
 
-                for (let r of rewards) {
-                    await ClientStorageSolutions.createReward(r);
-                }
+                    for (let r of rewards) {
+                        await ClientStorageSolutions.createReward(r);
+                    }
 
-                location.replace('/');
+                    location.replace('/');
+                })();
             });
         </script>
     </body>

@@ -49,12 +49,11 @@ async function discoverRoutes(): Promise<void> {
 
                 if (fs.existsSync(fullViewPath)) {
                     return res.render(viewPath, {
-                        ...res.locals.context,
-                        title: filename
+                        ...res.locals.context
                     });
                 }
 
-                return res.status(404).redirect('/');
+                return res.status(404).redirect('/index');
             });
         }
     };
