@@ -1,3 +1,4 @@
+'use strict';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { Router, Request, Response, NextFunction } from 'express';
@@ -53,10 +54,7 @@ async function discoverRoutes(): Promise<void> {
                     });
                 }
 
-                return res.status(404).render('pages/error', {
-                    ...res.locals.context,
-                    title: '404 Not Found'
-                });
+                return res.status(404).redirect('/');
             });
         }
     };

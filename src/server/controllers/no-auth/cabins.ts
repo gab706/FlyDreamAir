@@ -1,3 +1,4 @@
+'use strict';
 import { Request, Response } from 'express';
 import fleet from '../../data/fleet.json' with { type: "json" };
 

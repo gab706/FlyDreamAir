@@ -85,9 +85,13 @@
         }
 
         pageRewards.forEach(r => {
-            const eligible = (r.tier === 'Silver') ||
+            const tierEligible = (r.tier === 'Silver') ||
                 (r.tier === 'Gold' && points >= 15000) ||
                 (r.tier === 'Platinum' && points >= 30000);
+
+            const purchaseEligible = r.purchasable && r.price && points >= r.price;
+
+            const eligible = tierEligible || purchaseEligible;
 
             const card = `
             <div class="dashboard-reward-card ${eligible ? '' : 'disabled'}">

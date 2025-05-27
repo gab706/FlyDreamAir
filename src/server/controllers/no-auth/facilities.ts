@@ -1,3 +1,4 @@
+'use strict';
 import { Request, Response } from 'express';
 import facilities from '../../data/facilities.json' with { type: "json" };
 

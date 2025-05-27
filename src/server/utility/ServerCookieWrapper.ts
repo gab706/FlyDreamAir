@@ -1,3 +1,4 @@
+'use strict';
 import { Request } from 'express';
 
 class ServerCookieWrapper {

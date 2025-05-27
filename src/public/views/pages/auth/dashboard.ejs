@@ -74,7 +74,11 @@
                                 <div class="progress-bar">
                                     <div class="progress-fill <%= tier.toLowerCase() %>" style="width: <%= progressPercent %>%"></div>
                                 </div>
-                                <small><%= pointsToNextTier %> points to next tier</small>
+                                <% if (tier === 'platinum') { %>
+                                    <small>You are at the highest tier</small>
+                                <% } else { %>
+                                    <small><%= pointsToNextTier %> points to next tier</small>
+                                <% } %>
                             </div>
                         </div>
 

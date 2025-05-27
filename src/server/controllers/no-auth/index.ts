@@ -1,3 +1,4 @@
+'use strict';
 import { Request, Response } from 'express';
 import services from '../../data/services.json' with { type: "json" };
 import testimonials from '../../data/testimonials.json' with { type: "json" };

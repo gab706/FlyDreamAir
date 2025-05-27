@@ -1,3 +1,4 @@
+'use strict';
 import { Request, Response } from 'express';
 import tiers from '../../data/tiers.json' with { type: "json" };
 import partners from '../../data/partners.json' with { type: "json" };

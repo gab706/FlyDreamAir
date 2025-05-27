@@ -1,3 +1,4 @@
+'use strict';
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
@@ -33,10 +34,6 @@ app.use('/partials', (req: Request, res: Response, next: NextFunction): void => 
         return next();
 
     express.static(path.join(__dirname, '../../src/public/views/partials'))(req, res, next);
-});
-
-app.use((req: Request, res: Response) => {
-    res.redirect('/index');
 });
 
 export default app;

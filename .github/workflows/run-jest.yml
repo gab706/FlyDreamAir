@@ -3,7 +3,7 @@ name: Run Jest
 on:
   push:
     branches:
-      - '**'
+      - 'production'
 
 jobs:
   test:
@@ -33,7 +33,11 @@ jobs:
         run: |
           curl -X POST \
             -H "Content-Type: multipart/form-data" \
-            -F "payload_json={\"content\": \"📄 Test Reports: Server and Client\"}" \
-            -F "file1=@reports/jest-report-frontend.pdf;type=application/pdf;filename=server-report.pdf" \
-            -F "file2=@reports/jest-report-backend.pdf;type=application/pdf;filename=client-report.pdf" \
-            "$DISCORD_WEBHOOK_URL"
+              -F 'payload_json={
+            "content": "📄 Test Reports: Server and Client",
+            "username": "QA Assistant",
+            "avatar_url": "https://www.wsaz.com/resizer/TtxT5eHIfsdlCYPQRJG_wdDg9yQ=/arc-photo-gray/arc3-prod/public/FLBGRRRDQNHYBNTNHU4WOWRIFY.png"
+            }' \
+              -F "file1=@reports/jest-report-frontend.pdf;type=application/pdf;filename=server-report.pdf" \
+              -F "file2=@reports/jest-report-backend.pdf;type=application/pdf;filename=client-report.pdf" \
+              "$DISCORD_WEBHOOK_URL"

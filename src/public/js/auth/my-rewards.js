@@ -11,14 +11,29 @@ $(async () => {
     const $form = $('#apply-reward-form');
     const $select = $form.find('select[name="bookingID"]');
 
+    const userBookings = await ClientStorageSolutions.fetchBookings({ userID: currentUser.userID }) || [];
     const allRewards = await ClientStorageSolutions.fetchRewards();
     const rewardRecords = await ClientStorageSolutions.fetchRewardRecords({ userID: currentUser.userID }) || [];
-    const userBookings = await ClientStorageSolutions.fetchBookings({ userID: currentUser.userID }) || [];
 
     const claimedIDs = rewardRecords.map(r => r.rewardID);
     const claimedMap = new Map(rewardRecords.map(r => [r.rewardID, r]));
 
-    const availableRewards = allRewards.filter(r => !claimedIDs.includes(r.id));
+    function getTier(points) {
+        if (points >= 30000) return 'platinum';
+        if (points >= 15000) return 'gold';
+        return 'silver';
+    }
+    const tierPriority = { silver: 1, gold: 2, platinum: 3 };
+    const userTier = getTier(currentUser.points);
+
+    const availableRewards = allRewards.filter(r => {
+        const rewardTier = r.tier.toLowerCase();
+        const tierEligible = tierPriority[userTier] >= tierPriority[rewardTier];
+        const purchasableEligible = r.purchasable && r.price && currentUser.points >= r.price;
+        const notClaimed = !claimedIDs.includes(r.id);
+        return notClaimed && (tierEligible || purchasableEligible);
+    });
+
     const claimedRewards = allRewards.filter(r => claimedIDs.includes(r.id));
 
     function paginate(items, page) {
@@ -133,7 +148,27 @@ $(async () => {
 
         const bookingID = $select.val();
         const booking = userBookings.find(b => b.bookingID === bookingID);
-        if (!booking || !selectedRewardID) return;
+        if (!booking || !selectedRewardID)
+            return;
+
+        const reward = availableRewards.find(r => r.id === selectedRewardID);
+        if (!reward)
+            return;
+
+        const userTier = (function getTier(points) {
+            if (points >= 30000) return 'platinum';
+            if (points >= 15000) return 'gold';
+            return 'silver';
+        })(currentUser.points);
+
+        const tierPriority = { silver: 1, gold: 2, platinum: 3 };
+        const rewardTierPriority = tierPriority[reward.tier.toLowerCase()] || 0;
+        const userTierPriority = tierPriority[userTier] || 0;
+
+        if (reward.purchasable && reward.price && userTierPriority < rewardTierPriority) {
+            currentUser.points = Math.max(0, currentUser.points - reward.price);
+            await ClientStorageSolutions.editUser(currentUser.userID, { points: currentUser.points });
+        }
 
         await ClientStorageSolutions.createRewardRecord({
             rewardID: selectedRewardID,
@@ -142,7 +177,10 @@ $(async () => {
             userID: currentUser.userID
         });
 
-        $.notify("Reward applied successfully!", { className: 'success', position: 'top right' });
+        await ClientStorageSolutions.setNotifyOnReset({
+            type: 'success',
+            message: 'Successfully applied reward!'
+        });
         $modal.addClass('hidden');
         selectedRewardID = null;
         location.reload();

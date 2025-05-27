@@ -1,3 +1,4 @@
+'use strict';
 import { Request, Response, NextFunction } from 'express';
 import ServerCookieWrapper from '../utility/ServerCookieWrapper.js';
 import dashboard_navbar from '../data/dashboard_navbar.json' with { type: "json" };
