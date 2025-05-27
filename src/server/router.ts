@@ -8,7 +8,7 @@ const router: Router = Router();
 const __filename: string = fileURLToPath(import.meta.url);
 const __dirname: string = path.dirname(__filename);
 
-const viewsDir: string = path.join(__dirname, '../src/public/views/pages');
+const viewsDir: string = path.join(__dirname, '../../src/public/views/pages');
 const controllersDir: string = path.join(__dirname, './controllers');
 
 router.get('/', (req: Request, res: Response) => {

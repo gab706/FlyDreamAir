@@ -4,8 +4,9 @@
     "target": "ES2020",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2020"],
-    "rootDir": "src/server",
+    "lib": ["ES2020", "DOM"],
+    "types": ["jest"],
+    "rootDir": ".",
     "outDir": "build",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -19,6 +20,6 @@
     "declarationMap": true,
     "preserveWatchOutput": true
   },
-  "include": ["src/server/**/*.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }

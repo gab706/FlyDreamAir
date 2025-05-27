@@ -1,0 +1,64 @@
+name: Run Jest
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Run Jest Tests
+        run: |
+          mkdir -p logs
+          npm run test:all | tee logs/jest-output.log
+
+      - name: Send test results to Discord
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          status="✅ Tests Passed"
+          color=3066993
+
+          if [ $? -ne 0 ] || grep -q 'FAIL' logs/jest-output.log; then
+            status="❌ Tests Failed"
+            color=15158332
+          fi
+
+          json=$(jq -n \
+            --arg title "$status for $GITHUB_REPOSITORY" \
+            --arg url "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            --arg desc "Branch: \`$GITHUB_REF_NAME\`\nCommit: \`$GITHUB_SHA\`\nAuthor: ${{ github.actor }}" \
+            --arg color "$color" \
+            '{
+              "embeds": [{
+                "title": $title,
+                "url": $url,
+                "description": $desc,
+                "color": ($color | tonumber),
+                "timestamp": (now | todate)
+              }]
+            }')
+
+          curl -X POST \
+            -H "Content-Type: multipart/form-data" \
+            -F "payload_json=$json" \
+            -F "file=@logs/jest-output.log;type=text/plain" \
+            "$DISCORD_WEBHOOK_URL"

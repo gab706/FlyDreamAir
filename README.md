@@ -14,7 +14,12 @@ This project focuses on implementing the **Loyalty Program IT System**, ensuring
 - 🏆 **Status Tiers** – Upgrade levels (Silver, Gold, Platinum) based on points.
 - 🛍️ **Rewards System** – Use points for flights, in-flight services, or partner offers.
 - 📊 **User Dashboard** – A web-based interface for customers to track points and rewards.
-- 🔐 **Secure Authentication** – Ensuring data privacy and protection.
+- 🧑‍💼 **Admin Dashboard** – Administrative users have access to advanced management tools including:
+  - 🔍 Searching and filtering user profiles 
+  - 👥 Creating, editing, and deleting user accounts 
+  - ✈️ Managing flight data and schedules 
+  - 🎁 Managing available rewards and their configurations 
+  - 📂 Overseeing system data through direct IndexedDB and cookie manipulation interfaces
 
 ---
 
@@ -22,8 +27,11 @@ This project focuses on implementing the **Loyalty Program IT System**, ensuring
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Design:** Figma for UI/UX Prototyping
+- **Backend**: TypeScript with Express.js and EJS
+- **Data Management**: Custom-built TypeScript and JavaScript storage wrappers (IndexedDB & Cookies)
 - **Version Control:** GitHub (GitHub Issues & Projects for tracking)
 - **Project Management:** Agile methodology with weekly sprints
+- **QA & Testing**: Jest for automated testing and quality assurance
 
 ---
 
@@ -49,6 +57,29 @@ This project focuses on implementing the **Loyalty Program IT System**, ensuring
    ```sh
    code .
    ```
+
+---
+
+### 🔧 **Running the Project**
+
+After cloning the repository and navigating into the project directory, follow these steps to install dependencies and start the application:
+
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+
+2. **Build the project (TypeScript compilation):**
+   ```sh
+   npm run build
+   ```
+
+3. **Start the application:**
+   ```sh
+   npm start
+   ```
+
+> The project will launch the Express server and serve the application locally.
 
 ---
 

@@ -10,7 +10,7 @@ const __dirname: string = path.dirname(__filename);
 const app: Application = express();
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../src/public/views'));
+app.set('views', path.join(__dirname, '../../src/public/views'));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -20,7 +20,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-app.use(express.static(path.join(__dirname, '../src/public')));
+app.use(express.static(path.join(__dirname, '../../src/public')));
 app.use(cookieParser());
 app.use(router);
 
@@ -32,7 +32,11 @@ app.use('/partials', (req: Request, res: Response, next: NextFunction): void => 
     if (!isAllowed)
         return next();
 
-    express.static(path.join(__dirname, '../src/public/views/partials'))(req, res, next);
+    express.static(path.join(__dirname, '../../src/public/views/partials'))(req, res, next);
+});
+
+app.use((req: Request, res: Response) => {
+    res.redirect('/index');
 });
 
 export default app;

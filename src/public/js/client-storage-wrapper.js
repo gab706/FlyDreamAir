@@ -15,9 +15,9 @@ class ClientStorageWrapper {
 
     static _cookiesOn() {
         try {
-            document.cookie = 'test=1; path=/';
-            const ok = document.cookie.includes('test=');
-            document.cookie = 'test=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+            document.cookie = 'tests=1; path=/';
+            const ok = document.cookie.includes('tests=');
+            document.cookie = 'tests=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
             return ok;
         } catch {
             return false;
