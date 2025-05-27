@@ -24,25 +24,65 @@ jobs:
       - name: Build TypeScript
         run: npm run build
 
-      - name: Run Server and Client Tests
+      - name: Run and Capture Jest Tests
         run: |
           mkdir -p logs
-          
-          touch logs/test-summary.txt
+          > logs/test-summary.txt
 
           node --experimental-vm-modules node_modules/jest/bin/jest.js \
             --silent=false \
-            --config jest/jest.config.cjs > logs/tmp.log
+            --verbose \
+            --config jest/jest.config.cjs > logs/tmp.log 2>&1
 
           node --experimental-vm-modules node_modules/jest/bin/jest.js \
             --silent=false \
-            --config jest/jest.frontend.config.cjs >> logs/tmp.log
+            --verbose \
+            --config jest/jest.frontend.config.cjs >> logs/tmp.log 2>&1
 
-          grep -E '^(PASS|FAIL)' logs/tmp.log \
-            | sed 's|^PASS |✔ |' \
-            | sed 's|^FAIL |✘ |' \
-            | sed 's|build/tests/||' \
-            > logs/test-summary.txt
+          awk '
+            /^PASS |^FAIL / {
+              if (file != "") {
+                countLine = "(" passed " passed"
+                if (failed > 0) {
+                  countLine = countLine ", " failed " failed"
+                }
+                countLine = countLine ")"
+                print header " " countLine
+                for (i = 0; i < numTests; i++) print "  " testLines[i]
+                print ""
+              }
+
+              result = $1 == "PASS" ? "✔" : "✘"
+              sub(/^PASS /, "", $0)
+              sub(/^FAIL /, "", $0)
+              gsub(/^build\/tests\//, "", $0)
+              file = $0
+              header = result " " file
+              passed = 0
+              failed = 0
+              numTests = 0
+              next
+            }
+
+            /^[[:space:]]+[✓✘]/ {
+              sub(/\s*\([0-9]+ ms\)/, "", $0)
+              if ($0 ~ /^[[:space:]]+✓/) passed++
+              if ($0 ~ /^[[:space:]]+✘/) failed++
+              testLines[numTests++] = $0
+            }
+
+            END {
+              if (file != "") {
+                countLine = "(" passed " passed"
+                if (failed > 0) {
+                  countLine = countLine ", " failed " failed"
+                }
+                countLine = countLine ")"
+                print header " " countLine
+                for (i = 0; i < numTests; i++) print "  " testLines[i]
+              }
+            }
+          ' logs/tmp.log > logs/test-summary.txt
 
       - name: Send test summary to Discord
         if: always()
@@ -52,14 +92,15 @@ jobs:
           summary_file="logs/test-summary.txt"
 
           if [ ! -s "$summary_file" ]; then
-            echo ".ᐣ Error Loading Data" > "$summary_file"
+            echo ".ᐣ No test summary available." > "$summary_file"
           fi
 
-          summary="❓ No Summary Cases were Passed to Discord"
           if grep -q '✘' "$summary_file"; then
-            summary="❌ Some Test Cases Failed"
+            summary="❌ Some Tests Failed"
           elif grep -q '✔' "$summary_file"; then
-            summary="✅ All Test Cases Passed"
+            summary="✅ All Tests Passed"
+          else
+            summary="❓ Test Summary not Passed"
           fi
 
           curl -X POST \
