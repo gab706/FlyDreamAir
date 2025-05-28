@@ -38,6 +38,6 @@ jobs:
             "username": "QA Assistant",
             "avatar_url": "https://www.wsaz.com/resizer/TtxT5eHIfsdlCYPQRJG_wdDg9yQ=/arc-photo-gray/arc3-prod/public/FLBGRRRDQNHYBNTNHU4WOWRIFY.png"
             }' \
-              -F "file1=@reports/jest-report-frontend.pdf;type=application/pdf;filename=server-report.pdf" \
-              -F "file2=@reports/jest-report-backend.pdf;type=application/pdf;filename=client-report.pdf" \
+              -F "file1=@reports/jest-report-frontend.pdf;type=application/pdf;filename=client-report.pdf" \
+              -F "file2=@reports/jest-report-backend.pdf;type=application/pdf;filename=server-report.pdf" \
               "$DISCORD_WEBHOOK_URL"
