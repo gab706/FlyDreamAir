@@ -1,4 +1,9 @@
 (async () => {
+    /**
+     * Console Safety Warning
+     * - Deters users from pasting code that could compromise their security.
+     * - Useful for preventing self-inflicted XSS attacks.
+     */
     console.log(
         "%c✈️ Welcome to FlyDreamAir!",
         "color: #8E1616; font-size: 20px; font-weight: bold; padding: 6px 0;"
@@ -19,7 +24,15 @@
         "color: #00bfff; font-size: 12px;"
     );
 
+    /**
+     * Notification System
+     * - Pulls any queued notification from client storage (set before redirect)
+     * - Displays it using jQuery Notify
+     */
     const notice = await ClientStorageSolutions.consumeNotifyOnReset();
     if (notice)
-        $.notify(notice.message, { className: notice.type, position: 'top right' });
+        $.notify(notice.message, {
+            className: notice.type,
+            position: 'top right'
+        });
 })();

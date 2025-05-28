@@ -1,7 +1,23 @@
+/**
+ * @license
+ * FlyDreamAir License Version 1.0 – May 2025
+ * This source code is licensed under a custom license.
+ * See the LICENSE.md file in the root directory of this source tree for full details.
+ */
+
+/**
+ * ClientStorageWrapper
+ *
+ * A universal wrapper to abstract usage of client-side storage:
+ * - IndexedDB (for structured, async storage)
+ * - localStorage / sessionStorage (for synchronous simple key-value pairs)
+ * - Cookies (for cross-tab persistence or server-readability)
+ */
 class ClientStorageWrapper {
     static _dbName = 'FlyDreamAirStorage';
     static _storeName = 'store';
 
+    /** Check if localStorage or sessionStorage is usable */
     static _canUse(type) {
         try {
             const s = window[`${type}Storage`];
@@ -13,6 +29,7 @@ class ClientStorageWrapper {
         }
     }
 
+    /** Check if cookies are enabled */
     static _cookiesOn() {
         try {
             document.cookie = 'tests=1; path=/';
@@ -24,6 +41,7 @@ class ClientStorageWrapper {
         }
     }
 
+    /** Open IndexedDB and create object store if needed */
     static async _getDB() {
         return new Promise((resolve, reject) => {
             const req = indexedDB.open(this._dbName, 1);
@@ -35,6 +53,7 @@ class ClientStorageWrapper {
         });
     }
 
+    /** IndexedDB: Set key-value pair */
     static async _idbSet(key, value) {
         const db = await this._getDB();
         const tx = db.transaction(this._storeName, 'readwrite');
@@ -42,17 +61,18 @@ class ClientStorageWrapper {
         return tx.complete;
     }
 
+    /** IndexedDB: Get value by key */
     static async _idbGet(key) {
         const db = await this._getDB();
         const tx = db.transaction(this._storeName, 'readonly');
-        const store = tx.objectStore(this._storeName);
         return new Promise((resolve, reject) => {
-            const request = store.get(key);
+            const request = tx.objectStore(this._storeName).get(key);
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
         });
     }
 
+    /** IndexedDB: Remove key */
     static async _idbRemove(key) {
         const db = await this._getDB();
         const tx = db.transaction(this._storeName, 'readwrite');
@@ -60,6 +80,7 @@ class ClientStorageWrapper {
         return tx.complete;
     }
 
+    /** IndexedDB: Clear all keys */
     static async _idbClear() {
         const db = await this._getDB();
         const tx = db.transaction(this._storeName, 'readwrite');
@@ -67,6 +88,7 @@ class ClientStorageWrapper {
         return tx.complete;
     }
 
+    /** Set cookie with optional expiry and secure flags */
     static _setCookie(k, v, d, secure = false) {
         const exp = new Date(Date.now() + d * 864e5).toUTCString();
         const secureFlag = secure || location.protocol === 'https:';
@@ -74,6 +96,7 @@ class ClientStorageWrapper {
         document.cookie = `${encodeURIComponent(k)}=${encodeURIComponent(v)}; expires=${exp}; path=/${secureAttr}`;
     }
 
+    /** Get cookie value by key */
     static _getCookie(k) {
         const name = encodeURIComponent(k) + "=";
         const cookies = decodeURIComponent(document.cookie).split('; ');
@@ -83,10 +106,12 @@ class ClientStorageWrapper {
         return null;
     }
 
+    /** Remove specific cookie */
     static _removeCookie(k) {
         document.cookie = `${encodeURIComponent(k)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
     }
 
+    /** Clear all cookies */
     static _clearCookies() {
         document.cookie.split('; ').forEach(c => {
             const key = c.split('=')[0];
@@ -94,6 +119,13 @@ class ClientStorageWrapper {
         });
     }
 
+    /**
+     * Set a value across multiple storage types
+     * @param {string} key
+     * @param {*} val
+     * @param {'indexed'|'local'|'session'|'cookie'} type
+     * @param {object} opts - e.g. { days, secure } for cookie
+     */
     static async set(key, val, type = 'local', opts = {}) {
         const str = JSON.stringify(val);
         if (type === 'indexed') {
@@ -107,6 +139,9 @@ class ClientStorageWrapper {
         }
     }
 
+    /**
+     * Retrieve a value from a specific storage type
+     */
     static async get(key, type = 'local') {
         let val = null;
         if (type === 'indexed') {
@@ -127,6 +162,7 @@ class ClientStorageWrapper {
         }
     }
 
+    /** Remove value by key from a storage type */
     static async remove(key, type = 'local') {
         if (type === 'indexed') {
             await this._idbRemove(key);
@@ -139,6 +175,7 @@ class ClientStorageWrapper {
         }
     }
 
+    /** Clears all data across all storage types */
     static async clearAll() {
         if (this._canUse('local')) localStorage.clear();
         if (this._canUse('session')) sessionStorage.clear();
@@ -146,6 +183,7 @@ class ClientStorageWrapper {
         await this._idbClear();
     }
 
+    /** Retrieve all key-value pairs from IndexedDB */
     static async getAllIndexedDBItems() {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(this._dbName, 1);
@@ -173,6 +211,7 @@ class ClientStorageWrapper {
     }
 }
 
+// Expose to global scope in browser
 if (typeof window !== 'undefined') {
     window.ClientStorageWrapper = ClientStorageWrapper;
 }

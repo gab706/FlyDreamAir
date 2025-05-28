@@ -1,5 +1,8 @@
 window.ClientStorageSolutions = window.ClientStorageSolutions || {};
 
+/**
+ * Create a booking for a user on a specific flight.
+ */
 ClientStorageSolutions.createBooking = async function (bookingData) {
     const bookings = await ClientStorageWrapper.get('bookings', 'indexed') || [];
     const nextID = `BO${String(bookings.length + 1).padStart(3, '0')}`;
@@ -14,6 +17,9 @@ ClientStorageSolutions.createBooking = async function (bookingData) {
     await ClientStorageWrapper.set('bookings', bookings, 'indexed');
 };
 
+/**
+ * Fetch bookings with optional filters.
+ */
 ClientStorageSolutions.fetchBookings = async function ({ bookingID = null, userID = null, flightID = null } = {}) {
     if (!bookingID && !userID && !flightID)
         return null;
@@ -34,6 +40,9 @@ ClientStorageSolutions.fetchBookings = async function ({ bookingID = null, userI
     );
 };
 
+/**
+ * Delete bookings matching provided criteria.
+ */
 ClientStorageSolutions.deleteBookings = async function ({ bookingID = null, userID = null, flightID = null } = {}) {
     if (!bookingID && !userID && !flightID)
         return;
@@ -54,6 +63,9 @@ ClientStorageSolutions.deleteBookings = async function ({ bookingID = null, user
     await this.deleteRewardRecords({ bookingID });
 };
 
+/**
+ * Create a reward record for a user tied to a booking and flight.
+ */
 ClientStorageSolutions.createRewardRecord = async function ({ flightID, userID, rewardID, bookingID }) {
     if (!flightID || !userID || !rewardID || !bookingID)
         return;
@@ -66,6 +78,9 @@ ClientStorageSolutions.createRewardRecord = async function ({ flightID, userID, 
     await ClientStorageWrapper.set('rewardRecords', rewardRecords, 'indexed');
 };
 
+/**
+ * Fetch reward records by various filters.
+ */
 ClientStorageSolutions.fetchRewardRecords = async function ({ flightID = null, userID = null, rewardID = null, bookingID = null } = {}) {
     if (!flightID && !userID && !rewardID && !bookingID)
         return;
@@ -80,6 +95,9 @@ ClientStorageSolutions.fetchRewardRecords = async function ({ flightID = null, u
     );
 };
 
+/**
+ * Delete reward records matching criteria.
+ */
 ClientStorageSolutions.deleteRewardRecords = async function ({ flightID = null, userID = null, rewardID = null, bookingID = null } = {}) {
     if (!flightID && !userID && !rewardID && !bookingID)
         return false;
@@ -101,6 +119,9 @@ ClientStorageSolutions.deleteRewardRecords = async function ({ flightID = null, 
     await ClientStorageWrapper.set('rewardRecords', filtered, 'indexed');
 };
 
+/**
+ * Create a new reward.
+ */
 ClientStorageSolutions.createReward = async function (data) {
     const rewards = await ClientStorageWrapper.get('rewards', 'indexed') || [];
     const nextID = `RW${String(rewards.length + 1).padStart(3, '0')}`;
@@ -120,6 +141,9 @@ ClientStorageSolutions.createReward = async function (data) {
     await ClientStorageWrapper.set('rewards', rewards, 'indexed');
 };
 
+/**
+ * Update a reward with new data.
+ */
 ClientStorageSolutions.updateReward = async function (rewardID, updates) {
     const rewards = await ClientStorageWrapper.get('rewards', 'indexed') || [];
     const index = rewards.findIndex(r => r.id === rewardID);
@@ -135,6 +159,9 @@ ClientStorageSolutions.updateReward = async function (rewardID, updates) {
     await ClientStorageWrapper.set('rewards', rewards, 'indexed');
 };
 
+/**
+ * Fetch all rewards or a specific one by ID.
+ */
 ClientStorageSolutions.fetchRewards = async function (rewardID = null) {
     const rewards = await ClientStorageWrapper.get('rewards', 'indexed') || [];
 
@@ -144,6 +171,9 @@ ClientStorageSolutions.fetchRewards = async function (rewardID = null) {
     return rewards.find(r => r.id === rewardID) || null;
 };
 
+/**
+ * Delete a reward by ID and its associated reward records.
+ */
 ClientStorageSolutions.deleteReward = async function (rewardID) {
     if (!rewardID)
         return;
@@ -155,9 +185,12 @@ ClientStorageSolutions.deleteReward = async function (rewardID) {
         return;
 
     await ClientStorageWrapper.set('rewards', filtered, 'indexed');
-    await this.deleteReward({ rewardID });
+    await this.deleteRewardRecords({ rewardID });
 };
 
+/**
+ * Create a new flight with given flight data.
+ */
 ClientStorageSolutions.createFlight = async function (data) {
     const flights = await ClientStorageWrapper.get('flights', 'indexed') || [];
     const nextID = `FL${String(flights.length + 1).padStart(3, '0')}`;
@@ -176,6 +209,9 @@ ClientStorageSolutions.createFlight = async function (data) {
     await ClientStorageWrapper.set('flights', flights, 'indexed');
 };
 
+/**
+ * Edit an existing flight's information.
+ */
 ClientStorageSolutions.editFlight = async function (flightID, updatedData) {
     const flights = await ClientStorageWrapper.get('flights', 'indexed') || [];
 
@@ -192,6 +228,9 @@ ClientStorageSolutions.editFlight = async function (flightID, updatedData) {
     await ClientStorageWrapper.set('flights', flights, 'indexed');
 };
 
+/**
+ * Fetch all flights or one by ID.
+ */
 ClientStorageSolutions.fetchFlights = async function (flightID) {
     const flights = await ClientStorageWrapper.get('flights', 'indexed') || [];
 
@@ -201,6 +240,9 @@ ClientStorageSolutions.fetchFlights = async function (flightID) {
     return flights.find(f => f.flightID === flightID) || null;
 };
 
+/**
+ * Delete a flight and related bookings/reward records.
+ */
 ClientStorageSolutions.deleteFlight = async function (flightID) {
     if (!flightID)
         return false;
@@ -217,6 +259,9 @@ ClientStorageSolutions.deleteFlight = async function (flightID) {
     await this.deleteRewardRecords({ flightID });
 };
 
+/**
+ * Fetch notifications for a specific user.
+ */
 ClientStorageSolutions.fetchNotifications = async function (userID) {
     if (!userID)
         return [];
@@ -224,8 +269,11 @@ ClientStorageSolutions.fetchNotifications = async function (userID) {
     const notifications = await ClientStorageWrapper.get('notifications', 'indexed') || [];
 
     return notifications.filter(n => n.userID === userID);
-}
+};
 
+/**
+ * Delete notifications for a user or specific notification ID.
+ */
 ClientStorageSolutions.deleteNotifications = async function ({ userID = null, notificationID = null } = {}) {
     if (!userID && !notificationID)
         return;
@@ -244,6 +292,9 @@ ClientStorageSolutions.deleteNotifications = async function ({ userID = null, no
     await ClientStorageWrapper.set('notifications', filtered, 'indexed');
 };
 
+/**
+ * Mark notifications as read for a user or specific notification ID.
+ */
 ClientStorageSolutions.markNotificationsRead = async function ({ userID = null, notificationID = null } = {}) {
     if (!userID && !notificationID)
         return;
@@ -263,7 +314,9 @@ ClientStorageSolutions.markNotificationsRead = async function ({ userID = null, 
     await ClientStorageWrapper.set('notifications', updated, 'indexed');
 };
 
-
+/**
+ * Send a notification to one or more users.
+ */
 ClientStorageSolutions.sendNotification = async function (userIDs, message, sentFrom = {}) {
     if (!userIDs || !message)
         return;
@@ -294,6 +347,9 @@ ClientStorageSolutions.sendNotification = async function (userIDs, message, sent
     await ClientStorageWrapper.set('notifications', notifications, 'indexed');
 };
 
+/**
+ * Set and persist the current user session.
+ */
 ClientStorageSolutions.setUserSession = async function (userID, adminImpersonating = null) {
     if (!userID)
         return;
@@ -307,16 +363,21 @@ ClientStorageSolutions.setUserSession = async function (userID, adminImpersonati
     await ClientStorageWrapper.set('userSession', session, 'cookie', { days: 7 });
 
     const currentUser = (await this.fetchUsers('userID', userID))[0] || null;
-    console.log(currentUser)
     if (currentUser)
         await ClientStorageWrapper.set('currentUser', currentUser, 'cookie', { days: 7 });
 };
 
+/**
+ * Clear the current user session.
+ */
 ClientStorageSolutions.clearUserSession = async function () {
     await ClientStorageWrapper.remove('userSession', 'cookie');
     await ClientStorageWrapper.remove('currentUser', 'cookie');
 };
 
+/**
+ * Retrieve the current user object (merged session + user data).
+ */
 ClientStorageSolutions.getCurrentUser = async function () {
     const session = await ClientStorageWrapper.get('userSession', 'cookie');
     const user = await ClientStorageWrapper.get('currentUser', 'cookie');
@@ -343,6 +404,9 @@ ClientStorageSolutions.getCurrentUser = async function () {
     return null;
 };
 
+/**
+ * Create a new user and return it.
+ */
 ClientStorageSolutions.createUser = async function (userData) {
     if (
         !userData ||
@@ -353,7 +417,6 @@ ClientStorageSolutions.createUser = async function (userData) {
         return null;
 
     let users = await ClientStorageWrapper.get('users', 'indexed') || [];
-
     const newID = users.length ? users[users.length - 1].userID + 1 : 1;
 
     const newUser = {
@@ -372,12 +435,14 @@ ClientStorageSolutions.createUser = async function (userData) {
     return newUser;
 };
 
+/**
+ * Edit a user and persist changes.
+ */
 ClientStorageSolutions.editUser = async function (userID, updates = {}) {
     if (!userID || typeof updates !== 'object' || Array.isArray(updates))
         return;
 
     let users = await ClientStorageWrapper.get('users', 'indexed') || [];
-
     const index = users.findIndex(u => u.userID === userID);
     if (index === -1)
         return;
@@ -391,11 +456,13 @@ ClientStorageSolutions.editUser = async function (userID, updates = {}) {
     await ClientStorageWrapper.set('users', users, 'indexed');
 
     const currentUser = await this.getCurrentUser();
-    console.log(currentUser && currentUser.userID === userID);
     if (currentUser && currentUser.userID === userID)
         await ClientStorageWrapper.set('currentUser', users[index], 'cookie', { days: 7 });
 };
 
+/**
+ * Fetch users by field match.
+ */
 ClientStorageSolutions.fetchUsers = async function (field, match) {
     if (!field || typeof match === 'undefined')
         return [];
@@ -409,8 +476,11 @@ ClientStorageSolutions.fetchUsers = async function (field, match) {
             return userVal.toLowerCase().includes(match.toLowerCase());
         return userVal === match;
     });
-}
+};
 
+/**
+ * Delete a user and related reward records.
+ */
 ClientStorageSolutions.deleteUser = async function (userID) {
     if (!userID)
         return;
@@ -426,6 +496,9 @@ ClientStorageSolutions.deleteUser = async function (userID) {
     await this.deleteUser({ userID });
 };
 
+/**
+ * Set a notification to show after reload.
+ */
 ClientStorageSolutions.setNotifyOnReset = async function ({ type, message }) {
     if (!type || !message)
         return;
@@ -433,6 +506,9 @@ ClientStorageSolutions.setNotifyOnReset = async function ({ type, message }) {
     await ClientStorageWrapper.set('notifyOnReset', { type, message }, 'cookie', { days: 1 });
 };
 
+/**
+ * Get and clear the post-reload notification.
+ */
 ClientStorageSolutions.consumeNotifyOnReset = async function () {
     const data = await ClientStorageWrapper.get('notifyOnReset', 'cookie');
 
@@ -444,16 +520,17 @@ ClientStorageSolutions.consumeNotifyOnReset = async function () {
     return null;
 };
 
+/**
+ * Toggle the user's dark mode preference.
+ */
 ClientStorageSolutions.toggleDarkMode = async function () {
-    const current = await ClientStorageWrapper.get('darkTheme', 'cookie')
-
-    if (!current)
-        await ClientStorageWrapper.set('darkTheme', true, 'cookie', { days: 365 });
+    const current = await ClientStorageWrapper.get('darkTheme', 'cookie');
 
     const newValue = !current;
     await ClientStorageWrapper.set('darkTheme', newValue, 'cookie', { days: 365 });
 };
 
+// Expose to global scope in browser
 if (typeof window !== 'undefined') {
     window.ClientStorageSolutions = ClientStorageSolutions;
 }

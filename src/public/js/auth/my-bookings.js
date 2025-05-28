@@ -1,22 +1,26 @@
 (async () => {
     const $container = $('#booking-card-container');
-    $container.empty();
+    $container.empty(); // Clear existing content
 
+    // Get the current logged-in user
     const currentUser = await ClientStorageSolutions.getCurrentUser();
     if (!currentUser)
         return $.notify("No Active Session Found", { className: 'error', position: 'top right' });
 
+    // Fetch all bookings for the user
     const bookings = await ClientStorageSolutions.fetchBookings({ userID: currentUser.userID }) || [];
     if (bookings.length === 0)
         return $container.append(`<p class="text-center">No Bookings Yet</p>`);
 
+    // Loop through each booking
     for (const booking of bookings) {
         const flight = booking.flight;
-        if (!flight) continue;
+        if (!flight) continue; // Skip if flight data is missing
 
-        const departed = new Date(flight.departureTime) <= new Date();
-        const cancelled = flight.status === 'Cancelled';
+        const departed = new Date(flight.departureTime) <= new Date(); // Check if flight has departed
+        const cancelled = flight.status === 'Cancelled'; // Check if flight is cancelled
 
+        // Construct booking card HTML
         const card = `
             <div class="booking-card-large">
                 <div class="booking-card-header">
@@ -43,9 +47,11 @@
             </div>
         `;
 
+        // Append booking card to the container
         $container.append(card);
     }
 
+    // Handle cancellation click
     $(document).on('click', '.cancel-flight', async function (e) {
         e.preventDefault();
 
@@ -53,16 +59,20 @@
         const flightID = $btn.data('flight-id');
         const bookingID = $btn.data('booking-id');
 
+        // Re-check session and data validity
         const currentUser = await ClientStorageSolutions.getCurrentUser();
         if (!currentUser || !bookingID || !flightID)
             return $.notify("Cancellation failed", { className: 'error', position: 'top right' });
 
+        // Refetch flight info to get distance
         const flight = await ClientStorageSolutions.fetchFlights(flightID);
         if (!flight || isNaN(flight.distance))
             return $.notify("Flight info invalid", { className: 'error', position: 'top right' });
 
+        // Delete booking
         await ClientStorageSolutions.deleteBookings({ bookingID });
 
+        // Calculate points to deduct based on user tier
         let multiplier = 1;
         if (currentUser.points >= 30000) multiplier = 1.5;
         else if (currentUser.points >= 15000) multiplier = 1.25;
@@ -70,6 +80,7 @@
         const pointCost = Math.floor(flight.distance * multiplier);
         await ClientStorageSolutions.editUser(currentUser.userID, { points: Math.max(0, currentUser.points - pointCost) });
 
+        // Set notification and reload page
         await ClientStorageSolutions.setNotifyOnReset({
             type: 'success',
             message: `Booking cancelled. ${pointCost} points deducted.`

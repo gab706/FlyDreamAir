@@ -1,4 +1,5 @@
 (async () => {
+    // DOM references
     const $tbody = $('#client-storage-table-body');
     const $pagination = $('#client-storage-pagination');
     const itemsPerPage = 7;
@@ -11,22 +12,26 @@
     const $editTextarea = $('#edit-storage-textarea');
     let editContext = { key: null, source: null };
 
+    // Normalize storage source string for consistent handling
     function normalizeSource(source) {
         source = source.toLowerCase();
         return source === 'indexeddb' ? 'indexed' : source;
     }
 
+    // Close view-only modal
     $('#close-cookie-view-modal').on('click', () => {
         $modal.addClass('hidden');
         $textarea.val('');
     });
 
+    // Close edit modal and reset state
     $('#close-edit-storage-modal').on('click', () => {
         $editModal.addClass('hidden');
         $editTextarea.val('');
         editContext = { key: null, source: null };
     });
 
+    // Populate modal textarea with formatted value
     function showModalWithValue(value) {
         try {
             $textarea.val(JSON.stringify(value, null, 2));
@@ -36,6 +41,7 @@
         $modal.removeClass('hidden');
     }
 
+    // Parse document.cookie into structured objects
     function parseAllCookies() {
         return document.cookie
             .split(';')
@@ -54,6 +60,7 @@
             });
     }
 
+    // Get all stored client data
     const cookieData = parseAllCookies();
     const indexedDataObj = await ClientStorageWrapper.getAllIndexedDBItems();
     const idbData = Object.entries(indexedDataObj).map(([key, value]) => ({
@@ -64,6 +71,7 @@
 
     const allEntries = [...cookieData, ...idbData];
 
+    // Render a paginated page of entries
     function renderPage(page = 1) {
         $tbody.empty();
         $pagination.empty();
@@ -77,6 +85,7 @@
         const start = (page - 1) * itemsPerPage;
         const pageItems = allEntries.slice(start, start + itemsPerPage);
 
+        // Render each entry row with preview and action buttons
         pageItems.forEach(({ source, key, value }) => {
             let preview;
             try {
@@ -102,6 +111,7 @@
             `);
         });
 
+        // Render pagination links if necessary
         if (totalPages > 1) {
             for (let i = 1; i <= totalPages; i++) {
                 const active = i === page ? 'active' : '';
@@ -110,6 +120,7 @@
         }
     }
 
+    // Handle pagination button clicks
     $pagination.on('click', '.client-page-btn', function (e) {
         e.preventDefault();
         const page = parseInt($(this).data('page'));
@@ -119,6 +130,7 @@
         }
     });
 
+    // View full entry content
     $(document).on('click', '.view-entry-btn', async function () {
         const key = $(this).data('key');
         const source = normalizeSource($(this).data('source'));
@@ -126,6 +138,7 @@
         showModalWithValue(value);
     });
 
+    // Open editor with current value
     $(document).on('click', '.edit-entry-btn', async function () {
         const key = $(this).data('key');
         const source = normalizeSource($(this).data('source'));
@@ -144,6 +157,7 @@
         $editModal.removeClass('hidden');
     });
 
+    // Save edited value back to storage
     $('#save-storage-edit').on('click', async () => {
         const raw = $editTextarea.val().trim();
         if (!raw)
@@ -168,6 +182,7 @@
         location.reload();
     });
 
+    // Delete entry from storage
     $(document).on('click', '.delete-entry-btn', async function () {
         const key = $(this).data('key');
         const source = normalizeSource($(this).data('source'));
@@ -183,5 +198,6 @@
         location.reload();
     });
 
+    // Initial render
     renderPage(currentPage);
 })();

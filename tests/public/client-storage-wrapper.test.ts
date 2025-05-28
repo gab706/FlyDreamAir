@@ -1,3 +1,10 @@
+/**
+ * @license
+ * FlyDreamAir License Version 1.0 – May 2025
+ * This source code is licensed under a custom license.
+ * See the LICENSE.md file in the root directory of this source tree for full details.
+ */
+
 if (typeof global.structuredClone !== 'function') {
     global.structuredClone = (obj) => JSON.parse(JSON.stringify(obj));
 }
@@ -19,11 +26,16 @@ describe('ClientStorageWrapper (script global)', () => {
     let window: DOMWindow;
     let document: Document;
 
+    /**
+     * Setup a virtual DOM, mock window environment, IndexedDB,
+     * local/sessionStorage, and cookie emulation
+     */
     beforeAll(() => {
         const dom = new JSDOM('<!DOCTYPE html><body></body>', { runScripts: 'dangerously' });
         window = dom.window;
         document = window.document;
 
+        // Attach fake IndexedDB to simulate browser environment
         Object.defineProperty(window, 'indexedDB', {
             configurable: true,
             enumerable: true,
@@ -31,11 +43,14 @@ describe('ClientStorageWrapper (script global)', () => {
             value: fakeIndexedDB,
         });
 
+        // Inject ClientStorageWrapper script
         const script = fs.readFileSync(
             path.resolve(__dirname, '../../src/public/js/client-storage-wrapper.js'),
             'utf-8'
         );
+        window.eval(script);
 
+        // Mock localStorage and sessionStorage
         const storageMock = (() => {
             let store: Record<string, string> = {};
             return {
@@ -49,6 +64,7 @@ describe('ClientStorageWrapper (script global)', () => {
         Object.defineProperty(window, 'localStorage', { value: storageMock });
         Object.defineProperty(window, 'sessionStorage', { value: storageMock });
 
+        // Emulate document.cookie getter/setter
         let cookieStore = '';
         Object.defineProperty(document, 'cookie', {
             get() { return cookieStore; },
@@ -59,14 +75,14 @@ describe('ClientStorageWrapper (script global)', () => {
                 cookieStore = cookieStore ? cookieStore + '; ' + cookie : cookie;
             },
         });
-
-        window.eval(script);
     });
 
+    // Ensure clean state between tests
     afterEach(async () => {
         await window.ClientStorageWrapper.clearAll();
     });
 
+    // Test for storage capability checks
     describe('_canUse()', () => {
         it('returns true when storage works', () => {
             expect(window.ClientStorageWrapper._canUse('local')).toBe(true);
@@ -81,6 +97,7 @@ describe('ClientStorageWrapper (script global)', () => {
         });
     });
 
+    // Cookie availability check
     describe('_cookiesOn()', () => {
         it('returns true when cookies can be set and read', () => {
             expect(window.ClientStorageWrapper._cookiesOn()).toBe(true);
@@ -91,6 +108,7 @@ describe('ClientStorageWrapper (script global)', () => {
         });
     });
 
+    // General set/get/remove/clear operations across all supported storages
     describe('set/get/remove', () => {
         it('set/get with localStorage', async () => {
             await window.ClientStorageWrapper.set('myKey', { foo: 'bar' }, 'local');
@@ -145,15 +163,17 @@ describe('ClientStorageWrapper (script global)', () => {
         });
     });
 
+    // Invalid JSON fallback behavior (e.g. malformed cookie)
     describe('get with invalid JSON', () => {
         it('returns raw string if JSON parse fails', async () => {
-            const badJson = '%7Bfoo%3Abar%7D';
+            const badJson = '%7Bfoo%3Abar%7D'; // Encoded malformed JSON
             document.cookie = `badKey=${badJson}; path=/`;
             const val = await window.ClientStorageWrapper.get('badKey', 'cookie');
             expect(val).toBe(decodeURIComponent(badJson));
         });
     });
 
+    // IndexedDB: fetch all keys and values
     describe('getAllIndexedDBItems', () => {
         it('gets all items in IndexedDB', async () => {
             await window.ClientStorageWrapper.set('key1', 'value1', 'indexed');

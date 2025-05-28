@@ -1,10 +1,30 @@
 'use strict';
+
+/**
+ * @license
+ * FlyDreamAir License Version 1.0 – May 2025
+ * This source code is licensed under a custom license.
+ * See the LICENSE.md file in the root directory of this source tree for full details.
+ */
+
 import { Request, Response } from 'express';
 
+/**
+ * Controller: New Booking (Auth Only)
+ *
+ * Purpose:
+ * - Ensures the user is authenticated
+ * - Renders the new flight booking form
+ * - Redirects to /login if the user is not logged in
+ */
 export default function (req: Request, res: Response): void {
-    if (!res.locals.context.userSession?.loggedIn)
+    const session = res.locals.context.userSession;
+
+    // Block access if not logged in
+    if (!session?.loggedIn)
         return res.redirect('/login');
 
+    // Render the new booking page with shared context
     res.render('pages/auth/new-booking', {
         ...res.locals.context
     });

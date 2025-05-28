@@ -1,20 +1,18 @@
 (() => {
-    function notify(message, type) {
-        $.notify(message, {
-            className: type,
-            position: "top right",
-            autoHideDelay: 3000
-        });
-    }
+    // DOM references for newsletter form and input field
     const $form = $('#newsletter-form');
     const $emailInput = $('#newsletter-email');
 
+    /**
+     * Newsletter Form Submission Handler
+     * - Prevents default form action
+     * - Displays a success message
+     * - Clears the email input field
+     */
     $form.on('submit', function (e) {
         e.preventDefault();
 
-        const email = $emailInput.val().trim();
-
-        notify("Thank you for subscribing to our Newsletter!", "success");
+        $.notify("Thank you for subscribing to our Newsletter!", { className: "success", position: "top right" });
         $emailInput.val('');
     });
 })();

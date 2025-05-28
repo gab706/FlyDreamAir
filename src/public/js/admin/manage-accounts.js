@@ -1,4 +1,5 @@
 (async () => {
+    // DOM element references
     const $userTable = $('#user-table-body');
     const $pagination = $('#user-pagination');
     const $createUserModal = $('#create-user-modal');
@@ -6,13 +7,15 @@
     const $createUserForm = $('#create-user-form');
     const $editUserForm = $('#edit-user-form');
 
-    const users = await ClientStorageSolutions.fetchUsers('userID', () => true); // fetch all
+    // Fetch all users and current session user
+    const users = await ClientStorageSolutions.fetchUsers('userID', () => true); // fetch all users
     const session = await ClientStorageSolutions.getCurrentUser();
 
     const usersPerPage = 10;
     let currentPage = 1;
     const totalPages = Math.ceil(users.length / usersPerPage);
 
+    // Renders the current user table page
     function renderPage(page = 1) {
         $userTable.empty();
         $pagination.empty();
@@ -25,6 +28,7 @@
         const start = (page - 1) * usersPerPage;
         const pageUsers = users.slice(start, start + usersPerPage);
 
+        // Add rows for each user on current page
         pageUsers.forEach(user => {
             const rankMap = {
                 3: { class: 'admin', label: 'Admin' },
@@ -52,6 +56,7 @@
             `);
         });
 
+        // Render pagination links if multiple pages exist
         if (totalPages > 1) {
             for (let i = 1; i <= totalPages; i++) {
                 const active = i === page ? 'active' : '';
@@ -60,6 +65,7 @@
         }
     }
 
+    // Handle pagination clicks
     $pagination.on('click', '.user-page-btn', function (e) {
         e.preventDefault();
         const page = parseInt($(this).data('page'));
@@ -69,10 +75,12 @@
         }
     });
 
+    // Modal open/close handlers
     $('#open-create-user-modal').on('click', () => $createUserModal.removeClass('hidden'));
     $('#close-create-user-modal').on('click', () => $createUserModal.addClass('hidden'));
     $('#close-edit-user-modal').on('click', () => $editUserModal.addClass('hidden'));
 
+    // Create user form submit
     $createUserForm.on('submit', async function (e) {
         e.preventDefault();
         const form = $(this);
@@ -89,6 +97,7 @@
         location.reload();
     });
 
+    // Handle impersonation action
     $(document).on('click', '.action-impersonate', async function () {
         const targetUserID = +$(this).data('user-id');
         await ClientStorageSolutions.setUserSession(targetUserID, session?.userID);
@@ -96,6 +105,7 @@
         location.replace('/dashboard');
     });
 
+    // Handle delete user action
     $(document).on('click', '.action-delete', async function () {
         const userID = +$(this).data('user-id');
         if (!confirm("Are you sure you want to delete this user?")) return;
@@ -103,6 +113,7 @@
         location.reload();
     });
 
+    // Handle edit user action (populate and open modal)
     $(document).on('click', '.action-edit', async function () {
         const userID = +$(this).data('user-id');
         const user = (await ClientStorageSolutions.fetchUsers('userID', userID))[0];
@@ -117,6 +128,7 @@
         $editUserModal.removeClass('hidden');
     });
 
+    // Submit updated user data
     $editUserForm.on('submit', async function (e) {
         e.preventDefault();
         const form = $(this);
@@ -131,10 +143,12 @@
             points: parseInt(form.find('input[name="points"]').val(), 10) || 0
         };
 
+        // Track which fields changed
         const changedFields = Object.entries(updates)
             .filter(([key, val]) => originalUser[key] !== val)
             .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1));
 
+        // Notify user if fields were modified
         if (changedFields.length)
             await ClientStorageSolutions.sendNotification(userID, `Your account has been updated. Fields changed: ${changedFields.join(', ')}.`);
 
@@ -143,5 +157,6 @@
         location.reload();
     });
 
+    // Initial render
     renderPage(currentPage);
 })();

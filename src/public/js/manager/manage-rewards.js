@@ -1,4 +1,5 @@
 (async () => {
+    // Cache DOM elements for better performance
     const $tbody = $('#reward-table-body');
     const $pagination = $('#reward-pagination');
     const $createModal = $('#create-reward-modal');
@@ -10,8 +11,10 @@
     let currentPage = 1;
     const perPage = 7;
 
+    // Fetch all rewards from storage
     const rewards = await ClientStorageSolutions.fetchRewards() || [];
 
+    // Renders the reward table and pagination
     function renderPage(page = 1) {
         $tbody.empty();
         $pagination.empty();
@@ -53,6 +56,7 @@
             `);
         });
 
+        // Pagination buttons
         if (totalPages > 1) {
             for (let i = 1; i <= totalPages; i++) {
                 $pagination.append(`<a href="#" class="reward-page-btn ${i === page ? 'active' : ''}" data-page="${i}">${i}</a>`);
@@ -60,6 +64,7 @@
         }
     }
 
+    // Pagination click handler
     $pagination.on('click', '.reward-page-btn', function (e) {
         e.preventDefault();
         const page = +$(this).data('page');
@@ -69,6 +74,7 @@
         }
     });
 
+    // Modal open/close logic
     $('#open-create-reward-modal').on('click', () => $createModal.removeClass('hidden'));
     $('#close-create-reward-modal').on('click', () => $createModal.addClass('hidden'));
     $createModal.on('click', e => { if (e.target === e.currentTarget) $createModal.addClass('hidden'); });
@@ -76,6 +82,7 @@
     $('#close-edit-reward-modal').on('click', () => $editModal.addClass('hidden'));
     $editModal.on('click', e => { if (e.target === e.currentTarget) $editModal.addClass('hidden'); });
 
+    // Show/hide price field based on purchasable toggle
     const togglePriceInput = (toggleSelector, wrapperSelector) => {
         $(toggleSelector).on('change', function () {
             if (this.checked) $(wrapperSelector).removeClass('hidden');
@@ -87,6 +94,7 @@
     togglePriceInput('#create-reward-form input[name="purchasable"]', '#create-price-wrapper');
     togglePriceInput('#edit-reward-form input[name="purchasable"]', '#edit-price-wrapper');
 
+    // Create reward
     $createForm.on('submit', async function (e) {
         e.preventDefault();
 
@@ -110,6 +118,7 @@
         location.reload();
     });
 
+    // Edit reward button
     $(document).on('click', '.action-edit-reward', async function () {
         const id = $(this).data('reward-id');
         const reward = await ClientStorageSolutions.fetchRewards(id);
@@ -130,6 +139,7 @@
         $editModal.removeClass('hidden');
     });
 
+    // Submit edit
     $editForm.on('submit', async function (e) {
         e.preventDefault();
         const updates = {
@@ -153,6 +163,7 @@
         location.reload();
     });
 
+    // Delete reward
     $(document).on('click', '.action-delete-reward', async function () {
         const id = $(this).data('reward-id');
         if (!confirm(`Delete reward ID "${id}"?`)) return;
@@ -164,6 +175,7 @@
         location.reload();
     });
 
+    // Hover image preview
     $(document).on('mouseenter', '.reward-thumb', function (e) {
         const src = $(this).attr('src');
         $('#reward-preview').html(`<img src="${src}" style="max-width:320px;max-height:320px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.2);border:1px solid #ccc;" />`);
@@ -178,5 +190,6 @@
         $('#reward-preview').hide();
     });
 
+    // Initial render
     renderPage(currentPage);
 })();

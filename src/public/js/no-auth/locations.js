@@ -1,4 +1,5 @@
 (async () => {
+    // Country categories and their corresponding service type (direct, partner, etc.)
     const countryCategories = {"Australia":"direct","Japan":"direct","France":"partner","United States":"direct",
         "Brazil":"codeshare","Singapore":"partner","New Zealand":"direct","Canada":"direct","Thailand":"seasonal",
         "United Kingdom":"direct","Germany":"partner","Spain":"partner","Italy":"direct","India":"partner","Mexico":"seasonal",
@@ -19,13 +20,15 @@
         "Ethiopia":"partner","Rwanda":"partner","Uganda":"partner","Zambia":"partner","Zimbabwe":"partner","Namibia":"seasonal","Botswana":"seasonal",
         "Madagascar":"partner","Mauritius":"seasonal","Seychelles":"seasonal","Malawi":"partner","Mozambique":"partner", "United States of America": "direct"};
 
+    // Get user's dark mode preference
     const isDark = await ClientStorageWrapper.get('darkTheme', 'cookie');
 
+    // Define color schemes for each category based on theme
     const categoryColors = isDark ? {
-        direct: "#8E1616",
-        partner: "#FFD700",
-        seasonal: "#0077B5",
-        codeshare: "#f17431"
+        direct: "#8E1616",      // Red
+        partner: "#FFD700",     // Gold
+        seasonal: "#0077B5",    // Blue
+        codeshare: "#f17431"    // Orange
     } : {
         direct: "#d63a3a",
         partner: "#f8d563",
@@ -33,21 +36,25 @@
         codeshare: "#fa6106"
     };
 
+    // Initialize the Leaflet map
     const map = L.map('map', {
-        scrollWheelZoom: false,
+        scrollWheelZoom: false,        // Disable scroll zoom
         zoomControl: true,
-        attributionControl: false
-    }).setView([20, 0], 2);
+        attributionControl: false      // Hide Leaflet attribution
+    }).setView([20, 0], 2);            // Default world view
 
+    // Choose tile layer depending on theme
     const tileLayerURL = isDark
         ? 'https://stamen-tiles.a.ssl.fastly.net/toner-background/{z}/{x}/{y}.png'
         : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
+    // Add tile layer to the map
     L.tileLayer(tileLayerURL, {
         subdomains: 'abcd',
         maxZoom: 20
     }).addTo(map);
 
+    // Fetch and render world GeoJSON data
     $.getJSON('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
         .done(geojson => {
             L.geoJSON(geojson, {
@@ -55,9 +62,9 @@
                     const name = feature.properties.name;
                     const category = countryCategories[name];
                     return {
-                        fillColor: categoryColors[category] || "#000",
+                        fillColor: categoryColors[category] || "#000", // Default fallback color
                         weight: 1,
-                        color: "#fff",
+                        color: "#fff",                 // Border color
                         fillOpacity: category ? 0.85 : 0
                     };
                 },

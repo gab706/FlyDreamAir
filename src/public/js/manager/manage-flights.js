@@ -1,15 +1,19 @@
 (async () => {
+    // Cache selectors for performance
     const $tableBody = $('#flight-table-body');
     const $pagination = $('#flight-pagination');
 
+    // Fetch all flights and determine current pagination state
     const flights = await ClientStorageSolutions.fetchFlights() || [];
     const page = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
     const flightsPerPage = 10;
     const totalPages = Math.ceil(flights.length / flightsPerPage);
     const paginatedFlights = flights.slice((page - 1) * flightsPerPage, page * flightsPerPage);
 
+    // Clear table before rendering
     $tableBody.empty();
 
+    // Render table or show empty message
     if (paginatedFlights.length === 0) {
         $tableBody.append(`
             <tr>
@@ -40,6 +44,7 @@
         });
     }
 
+    // Generate pagination controls
     $pagination.empty();
     if (totalPages > 1) {
         if (page > 1)
@@ -54,14 +59,17 @@
             $pagination.append(`<a href="?page=${page + 1}">Next &raquo;</a>`);
     }
 
+    // Show flight creation modal
     $('#open-create-flight-modal').on('click', () => {
         $('#create-flight-modal').removeClass('hidden');
     });
 
+    // Hide creation modal
     $('#close-create-flight-modal').on('click', () => {
         $('#create-flight-modal').addClass('hidden');
     });
 
+    // Show edit modal with populated fields
     $(document).on('click', '.action-edit-flight', async function () {
         const flightID = $(this).data('flight-id');
         const flight = await ClientStorageSolutions.fetchFlights(flightID);
@@ -79,13 +87,14 @@
         $('#edit-flight-modal').removeClass('hidden');
     });
 
+    // Hide edit modal
     $('#close-edit-flight-modal').on('click', () => {
         $('#edit-flight-modal').addClass('hidden');
     });
 
+    // Handle flight creation
     $('#create-flight-form').on('submit', async function (e) {
         e.preventDefault();
-        const form = $(this);
         const data = Object.fromEntries(new FormData(this).entries());
         data.distance = parseInt(data.distance);
 
@@ -94,6 +103,7 @@
         location.reload();
     });
 
+    // Handle flight update
     $('#edit-flight-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -103,12 +113,11 @@
         delete updates.flightID;
         updates.distance = parseInt(updates.distance);
 
-        // Fetch old flight data
+        // Retrieve original data
         const oldFlight = await ClientStorageSolutions.fetchFlights(flightID);
-
-        // Apply update
         await ClientStorageSolutions.editFlight(flightID, updates);
 
+        // Detect changed fields
         const fieldLabels = {
             origin: 'Origin',
             destination: 'Destination',
@@ -127,6 +136,7 @@
             }
         }
 
+        // Notify affected users and adjust points if needed
         const affectedBookings = await ClientStorageSolutions.fetchBookings({ flightID });
         const affectedUserIDs = [...new Set((affectedBookings || []).map(b => b.userID))];
 
@@ -134,13 +144,13 @@
             const user = (await ClientStorageSolutions.fetchUsers('userID', userID))[0];
             if (!user) continue;
 
+            // Calculate point difference if distance changed
             let multiplier = 1;
             if (user.points >= 30000) multiplier = 1.5;
             else if (user.points >= 15000) multiplier = 1.25;
 
             const oldPoints = Math.round(oldFlight.distance * multiplier);
             const newPoints = Math.round(updates.distance * multiplier);
-
             const pointDifference = newPoints - oldPoints;
 
             if (pointDifference !== 0) {
@@ -158,6 +168,7 @@
                 });
             }
 
+            // Notify about flight updates if relevant
             if (changedFields.length > 1 || (changedFields.length === 1 && changedFields[0] !== 'Distance')) {
                 const updateMsg = `Your flight to ${updates.destination} has been updated: ${changedFields.filter(f => f !== 'Distance').join(', ')}.`;
                 await ClientStorageSolutions.sendNotification(userID, updateMsg, {
@@ -175,6 +186,7 @@
         location.reload();
     });
 
+    // Handle flight deletion
     $(document).on('click', '.action-delete-flight', async function () {
         const flightID = $(this).data('flight-id');
         if (!confirm(`Are you sure you want to delete flight ${flightID}?`)) return;
