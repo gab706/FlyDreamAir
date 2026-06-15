@@ -35,7 +35,6 @@ The platform supports public airline information pages, customer registration an
 - Font Awesome
 - Leaflet
 - Swiper
-- Jest
 
 ## Getting Started
 
@@ -59,24 +58,6 @@ Start the application:
 
 ```sh
 npm start
-```
-
-Run backend tests:
-
-```sh
-npm run test
-```
-
-Run frontend tests:
-
-```sh
-npm run test:client
-```
-
-Run all tests and generate test reports:
-
-```sh
-npm run test:all
 ```
 
 When running locally, the application is typically available at:

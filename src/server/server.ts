@@ -4,6 +4,7 @@
  * This source code is licensed under a custom license.
  * See the LICENSE.md file in the root directory of this source tree for full details.
  */
+import 'dotenv/config';
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
