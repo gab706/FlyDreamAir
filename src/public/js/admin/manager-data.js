@@ -1,5 +1,5 @@
 (async () => {
-    // DOM references
+
     const $tbody = $('#client-storage-table-body');
     const $pagination = $('#client-storage-pagination');
     const itemsPerPage = 7;
@@ -10,28 +10,25 @@
 
     const $editModal = $('#edit-storage-modal');
     const $editTextarea = $('#edit-storage-textarea');
+    const { escapeHTML } = window.FlyDreamAir;
     let editContext = { key: null, source: null };
 
-    // Normalize storage source string for consistent handling
     function normalizeSource(source) {
         source = source.toLowerCase();
         return source === 'indexeddb' ? 'indexed' : source;
     }
 
-    // Close view-only modal
     $('#close-cookie-view-modal').on('click', () => {
         $modal.addClass('hidden');
         $textarea.val('');
     });
 
-    // Close edit modal and reset state
     $('#close-edit-storage-modal').on('click', () => {
         $editModal.addClass('hidden');
         $editTextarea.val('');
         editContext = { key: null, source: null };
     });
 
-    // Populate modal textarea with formatted value
     function showModalWithValue(value) {
         try {
             $textarea.val(JSON.stringify(value, null, 2));
@@ -41,7 +38,6 @@
         $modal.removeClass('hidden');
     }
 
-    // Parse document.cookie into structured objects
     function parseAllCookies() {
         return document.cookie
             .split(';')
@@ -60,7 +56,6 @@
             });
     }
 
-    // Get all stored client data
     const cookieData = parseAllCookies();
     const indexedDataObj = await ClientStorageWrapper.getAllIndexedDBItems();
     const idbData = Object.entries(indexedDataObj).map(([key, value]) => ({
@@ -71,7 +66,6 @@
 
     const allEntries = [...cookieData, ...idbData];
 
-    // Render a paginated page of entries
     function renderPage(page = 1) {
         $tbody.empty();
         $pagination.empty();
@@ -85,7 +79,6 @@
         const start = (page - 1) * itemsPerPage;
         const pageItems = allEntries.slice(start, start + itemsPerPage);
 
-        // Render each entry row with preview and action buttons
         pageItems.forEach(({ source, key, value }) => {
             let preview;
             try {
@@ -97,21 +90,20 @@
 
             $tbody.append(`
                 <tr>
-                    <td>${source}</td>
-                    <td>${key}</td>
-                    <td class="preview-cell" style="font-family: monospace; font-size: 0.9em;">${preview}</td>
+                    <td>${escapeHTML(source)}</td>
+                    <td>${escapeHTML(key)}</td>
+                    <td class="preview-cell">${escapeHTML(preview)}</td>
                     <td>
                         <div class="table-actions">
-                            <i class="fas fa-eye view-entry-btn" data-key="${key}" data-source="${source}" title="View Full"></i>
-                            <i class="fas fa-edit edit-entry-btn" data-key="${key}" data-source="${source}" title="Edit"></i>
-                            <i class="fas fa-trash delete-entry-btn" data-key="${key}" data-source="${source}" title="Delete"></i>
+                            <i class="fas fa-eye view-entry-btn" data-key="${escapeHTML(key)}" data-source="${escapeHTML(source)}" title="View Full"></i>
+                            <i class="fas fa-edit edit-entry-btn" data-key="${escapeHTML(key)}" data-source="${escapeHTML(source)}" title="Edit"></i>
+                            <i class="fas fa-trash delete-entry-btn" data-key="${escapeHTML(key)}" data-source="${escapeHTML(source)}" title="Delete"></i>
                         </div>
                     </td>
                 </tr>
             `);
         });
 
-        // Render pagination links if necessary
         if (totalPages > 1) {
             for (let i = 1; i <= totalPages; i++) {
                 const active = i === page ? 'active' : '';
@@ -120,7 +112,6 @@
         }
     }
 
-    // Handle pagination button clicks
     $pagination.on('click', '.client-page-btn', function (e) {
         e.preventDefault();
         const page = parseInt($(this).data('page'));
@@ -130,7 +121,6 @@
         }
     });
 
-    // View full entry content
     $(document).on('click', '.view-entry-btn', async function () {
         const key = $(this).data('key');
         const source = normalizeSource($(this).data('source'));
@@ -138,7 +128,6 @@
         showModalWithValue(value);
     });
 
-    // Open editor with current value
     $(document).on('click', '.edit-entry-btn', async function () {
         const key = $(this).data('key');
         const source = normalizeSource($(this).data('source'));
@@ -157,7 +146,6 @@
         $editModal.removeClass('hidden');
     });
 
-    // Save edited value back to storage
     $('#save-storage-edit').on('click', async () => {
         const raw = $editTextarea.val().trim();
         if (!raw)
@@ -182,7 +170,6 @@
         location.reload();
     });
 
-    // Delete entry from storage
     $(document).on('click', '.delete-entry-btn', async function () {
         const key = $(this).data('key');
         const source = normalizeSource($(this).data('source'));
@@ -198,6 +185,5 @@
         location.reload();
     });
 
-    // Initial render
     renderPage(currentPage);
 })();

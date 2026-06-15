@@ -33,7 +33,7 @@
         <div class="notification-wrapper">
             <button id="notification-btn">
                 <i class="fas fa-bell"></i>
-                <span class="notification-badge" style="display: none;"></span>
+                <span class="notification-badge" hidden></span>
             </button>
 
             <div id="notification-dropdown" class="notification-dropdown">
@@ -73,7 +73,12 @@
 
             <div class="user-dropdown hidden" id="user-dropdown">
                 <ul>
-                    <li onclick="location.href = '/profile'"><i class="fas fa-user-circle"></i> <span>View Profile</span></li>
+                    <li>
+                        <a href="/profile">
+                            <i class="fas fa-user-circle"></i>
+                            <span>View Profile</span>
+                        </a>
+                    </li>
                     <li id="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         <span><%= userSession?.adminImpersonating ? 'Leave User' : 'Logout' %></span>

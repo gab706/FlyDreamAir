@@ -5,7 +5,6 @@
     const $togglePassword = $('#toggle-password');
     let visible = false;
 
-    // Function to update displayed password (masked or plain)
     const updatePasswordDisplay = () => {
         $passwordField.text(visible ? actualPassword : '•'.repeat(actualPassword.length));
         $togglePassword
@@ -13,7 +12,6 @@
             .toggleClass('fa-eye-slash', visible);
     };
 
-    // Modal utility functions
     const openModal = id => $(`#${id}`).removeClass('hidden');
     const closeModal = id => $(`#${id}`).addClass('hidden');
 

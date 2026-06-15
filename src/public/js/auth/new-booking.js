@@ -2,8 +2,8 @@
     const $form = $('#search-flight-form');
     const $results = $('#flight-search-results');
     const currentUser = await ClientStorageSolutions.getCurrentUser();
+    const { escapeHTML } = window.FlyDreamAir;
 
-    // Handle flight search form submission
     $form.on('submit', async function (e) {
         e.preventDefault();
         $results.empty();
@@ -12,7 +12,6 @@
         const to = this.to.value.trim().toLowerCase();
         const when = new Date(this.when.value);
 
-        // Basic form validation
         const isWhenValid = !isNaN(when);
         if (!from && !to && !isWhenValid) {
             return $.notify("Please enter at least one search criteria (From, To, or When).", {
@@ -26,7 +25,6 @@
         const bookedFlightIDs = bookings.map(b => b.flightID);
         const now = new Date();
 
-        // Filter matching flights
         const matches = flights.filter(flight => {
             const dep = new Date(flight.departureTime);
             const originMatch = from ? flight.origin.toLowerCase().includes(from) : true;
@@ -45,20 +43,18 @@
             );
         });
 
-        // Notify if no matches
         if (!matches.length) {
             return $.notify("No matching flights found.", { className: 'info', position: 'top right' });
         }
 
-        // Render results
         matches.forEach(flight => {
             const PRICE_PER_MILE = 0.75;
             const price = (flight.distance * PRICE_PER_MILE).toFixed(2);
             $results.append(`
                 <div class="booking-card-large">
                     <div class="booking-card-header">
-                        <h3><i class="fas fa-plane"></i> ${flight.origin} → ${flight.destination}</h3>
-                        <span class="booking-status ${flight.status.toLowerCase().replace(/\s+/g, '-')}">
+                        <h3><i class="fas fa-plane"></i> ${escapeHTML(flight.origin)} → ${escapeHTML(flight.destination)}</h3>
+                        <span class="booking-status ${escapeHTML(flight.status.toLowerCase().replace(/\s+/g, '-'))}">
                             <i class="fas fa-dollar-sign"></i>${price}
                         </span>
                     </div>
@@ -66,7 +62,7 @@
                         <p><strong>Departure:</strong> ${new Date(flight.departureTime).toLocaleString()}</p>
                         <p><strong>Arrival:</strong> ${new Date(flight.arrivalTime).toLocaleString()}</p>
                     </div>
-                    <button class="cancel-btn book-now-btn" data-flight-id="${flight.flightID}">
+                    <button class="cancel-btn book-now-btn" data-flight-id="${escapeHTML(flight.flightID)}">
                         <i class="fas fa-check-circle"></i> Book Now
                     </button>
                 </div>
@@ -74,11 +70,9 @@
         });
     });
 
-    // Handle booking confirmation
     $(document).on('click', '.book-now-btn', async function () {
         const flightID = $(this).data('flight-id');
 
-        // Basic validation
         if (!currentUser || !flightID) {
             return $.notify("Unable to book flight. Please try again.", { className: 'error', position: 'top right' });
         }
@@ -88,7 +82,6 @@
             return $.notify("Flight data is missing or invalid.", { className: 'error', position: 'top right' });
         }
 
-        // Calculate points earned based on user's tier
         let multiplier = 1;
         if (currentUser.points >= 30000) multiplier = 1.5;
         else if (currentUser.points >= 15000) multiplier = 1.25;
@@ -96,7 +89,6 @@
         const earnedPoints = Math.floor(flight.distance * multiplier);
         const newPoints = currentUser.points + earnedPoints;
 
-        // Save booking and update user points
         await ClientStorageSolutions.createBooking({
             userID: currentUser.userID,
             flightID
@@ -111,7 +103,6 @@
             message: `Flight booked successfully! You've earned ${earnedPoints} points.`
         });
 
-        // Redirect to bookings page
         location.replace('/my-bookings');
     });
 })();

@@ -1,8 +1,5 @@
 window.ClientStorageSolutions = window.ClientStorageSolutions || {};
 
-/**
- * Create a booking for a user on a specific flight.
- */
 ClientStorageSolutions.createBooking = async function (bookingData) {
     const bookings = await ClientStorageWrapper.get('bookings', 'indexed') || [];
     const nextID = `BO${String(bookings.length + 1).padStart(3, '0')}`;

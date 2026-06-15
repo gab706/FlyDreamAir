@@ -5,19 +5,10 @@
  * See the LICENSE.md file in the root directory of this source tree for full details.
  */
 
-/**
- * ClientStorageWrapper
- *
- * A universal wrapper to abstract usage of client-side storage:
- * - IndexedDB (for structured, async storage)
- * - localStorage / sessionStorage (for synchronous simple key-value pairs)
- * - Cookies (for cross-tab persistence or server-readability)
- */
 class ClientStorageWrapper {
     static _dbName = 'FlyDreamAirStorage';
     static _storeName = 'store';
 
-    /** Check if localStorage or sessionStorage is usable */
     static _canUse(type) {
         try {
             const s = window[`${type}Storage`];

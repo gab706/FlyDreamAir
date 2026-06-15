@@ -153,12 +153,12 @@ body.dark-theme {
 }
 
 .rank-pill.admin {
-    color: var(--color-secondary);;
+    color: var(--color-secondary);
     background-color: var(--admin-rank);
 }
 
 .rank-pill.manager {
-    color: var(--color-secondary);;
+    color: var(--color-secondary);
     background-color: var(--manager-rank);
 }
 
@@ -298,11 +298,6 @@ body.dark-theme {
     font-weight: bold;
     padding: 2px 6px;
     border-radius: 999px;
-}
-
-.notification-item.unread {
-    font-weight: bold;
-    color: var(--color-primary);;
 }
 
 .notification-dropdown {
@@ -478,17 +473,21 @@ body.dark-theme {
     padding: 0;
 }
 
-.user-dropdown li {
+.user-dropdown li,
+.user-dropdown a {
     padding: 0.75em 1em;
     display: flex;
     align-items: center;
     gap: 0.5em;
     font-size: 0.95rem;
+    color: var(--color-secondary);
+    text-decoration: none;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-.user-dropdown li:hover {
+.user-dropdown li:hover,
+.user-dropdown a:hover {
     background-color: var(--section-divider);
 }
 

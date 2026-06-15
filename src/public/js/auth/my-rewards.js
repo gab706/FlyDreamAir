@@ -1,5 +1,5 @@
 $(async () => {
-    // Ensure there's a logged-in user
+
     const currentUser = await ClientStorageSolutions.getCurrentUser();
     if (!currentUser) {
         return $.notify("No Active Session Found", { className: 'error', position: 'top right' });
@@ -11,17 +11,15 @@ $(async () => {
     const $modal = $('#apply-reward-modal');
     const $form = $('#apply-reward-form');
     const $select = $form.find('select[name="bookingID"]');
+    const { escapeHTML } = window.FlyDreamAir;
 
-    // Fetch all user-related data
     const userBookings = await ClientStorageSolutions.fetchBookings({ userID: currentUser.userID }) || [];
     const allRewards = await ClientStorageSolutions.fetchRewards();
     const rewardRecords = await ClientStorageSolutions.fetchRewardRecords({ userID: currentUser.userID }) || [];
 
-    // Track claimed rewards
     const claimedIDs = rewardRecords.map(r => r.rewardID);
     const claimedMap = new Map(rewardRecords.map(r => [r.rewardID, r]));
 
-    // Helper: Determine user's tier
     function getTier(points) {
         if (points >= 30000) return 'platinum';
         if (points >= 15000) return 'gold';
@@ -31,7 +29,6 @@ $(async () => {
     const tierPriority = { silver: 1, gold: 2, platinum: 3 };
     const userTier = getTier(currentUser.points);
 
-    // Filter rewards eligible for claiming or purchase
     const availableRewards = allRewards.filter(r => {
         const rewardTier = r.tier.toLowerCase();
         const tierEligible = tierPriority[userTier] >= tierPriority[rewardTier];
@@ -42,13 +39,11 @@ $(async () => {
 
     const claimedRewards = allRewards.filter(r => claimedIDs.includes(r.id));
 
-    // Paginate helper
     function paginate(items, page) {
         const offset = (page - 1) * PAGE_LIMIT;
         return items.slice(offset, offset + PAGE_LIMIT);
     }
 
-    // Render pagination and hook events
     function renderPagination(containerID, items, currentPage, callback) {
         const totalPages = Math.ceil(items.length / PAGE_LIMIT);
         const $pagination = $(`#${containerID}`).empty();
@@ -64,24 +59,23 @@ $(async () => {
         });
     }
 
-    // Render available rewards
     function renderAvailable(page = 1) {
         const $container = $('#available-rewards').empty();
         const items = paginate(availableRewards, page);
 
         items.forEach(reward => {
             $container.append(`
-                <div class="dashboard-reward-card reward-click" data-reward-id="${reward.id}">
+                <div class="dashboard-reward-card reward-click" data-reward-id="${escapeHTML(reward.id)}">
                     <div class="dashboard-reward-image">
-                        <img src="${reward.image}" alt="${reward.name}">
+                        <img src="${escapeHTML(reward.image)}" alt="${escapeHTML(reward.name)}">
                     </div>
                     <div class="dashboard-reward-body">
-                        <h4>${reward.name}</h4>
-                        <p class="dashboard-reward-desc">${reward.description}</p>
-                        <p class="dashboard-reward-type">Type: ${reward.type}</p>
+                        <h4>${escapeHTML(reward.name)}</h4>
+                        <p class="dashboard-reward-desc">${escapeHTML(reward.description)}</p>
+                        <p class="dashboard-reward-type">Type: ${escapeHTML(reward.type)}</p>
                         <div class="dashboard-reward-meta">
-                            ${reward.price != null ? `<span class="dashboard-reward-price">${reward.price} pts</span>` : ''}
-                            <span class="tier-pill ${reward.tier.toLowerCase()}">${reward.tier}</span>
+                            ${reward.price != null ? `<span class="dashboard-reward-price">${escapeHTML(reward.price)} pts</span>` : ''}
+                            <span class="tier-pill ${escapeHTML(reward.tier.toLowerCase())}">${escapeHTML(reward.tier)}</span>
                         </div>
                     </div>
                 </div>
@@ -91,7 +85,6 @@ $(async () => {
         renderPagination('available-pagination', availableRewards, page, renderAvailable);
     }
 
-    // Render claimed rewards
     function renderClaimed(page = 1) {
         const $container = $('#claimed-rewards').empty();
         const items = paginate(claimedRewards, page);
@@ -102,19 +95,19 @@ $(async () => {
             $container.append(`
                 <div class="dashboard-reward-card disabled">
                     <div class="dashboard-reward-image">
-                        <img src="${reward.image}" alt="${reward.name}">
+                        <img src="${escapeHTML(reward.image)}" alt="${escapeHTML(reward.name)}">
                     </div>
                     <div class="dashboard-reward-body">
-                        <h4>${reward.name}</h4>
-                        <p class="dashboard-reward-desc">${reward.description}</p>
-                        <p class="dashboard-reward-type">Type: ${reward.type}</p>
+                        <h4>${escapeHTML(reward.name)}</h4>
+                        <p class="dashboard-reward-desc">${escapeHTML(reward.description)}</p>
+                        <p class="dashboard-reward-type">Type: ${escapeHTML(reward.type)}</p>
                         <div class="dashboard-reward-meta">
                             <span class="dashboard-reward-price">Claimed</span>
-                            <span class="tier-pill ${reward.tier.toLowerCase()}">${reward.tier}</span>
+                            <span class="tier-pill ${escapeHTML(reward.tier.toLowerCase())}">${escapeHTML(reward.tier)}</span>
                         </div>
                         <div class="dashboard-reward-locked">
                             <i class="fas fa-plane-departure"></i>
-                            Claimed on Flight: <strong>${record?.flightID || '—'}</strong>
+                            Claimed on Flight: <strong>${escapeHTML(record?.flightID || 'Unavailable')}</strong>
                         </div>
                     </div>
                 </div>
@@ -124,7 +117,6 @@ $(async () => {
         renderPagination('claimed-pagination', claimedRewards, page, renderClaimed);
     }
 
-    // Open reward modal and populate booking options
     function openRewardModal(rewardID) {
         const eligibleBookings = userBookings.filter(b => b?.flight);
 
@@ -141,21 +133,19 @@ $(async () => {
 
         eligibleBookings.forEach(b => {
             const flight = b.flight;
-            $select.append(`<option value="${b.bookingID}">
-                Flight ${flight.flightID}: ${flight.origin} → ${flight.destination} (${new Date(flight.departureTime).toLocaleDateString()})
+            $select.append(`<option value="${escapeHTML(b.bookingID)}">
+                Flight ${escapeHTML(flight.flightID)}: ${escapeHTML(flight.origin)} → ${escapeHTML(flight.destination)} (${new Date(flight.departureTime).toLocaleDateString()})
             </option>`);
         });
 
         $modal.removeClass('hidden');
     }
 
-    // Modal close button
     $('#close-reward-modal').on('click', () => {
         $modal.addClass('hidden');
         selectedRewardID = null;
     });
 
-    // Handle reward application
     $form.on('submit', async function (e) {
         e.preventDefault();
 
@@ -178,13 +168,11 @@ $(async () => {
         const rewardTierPriority = tierPriority[reward.tier.toLowerCase()] || 0;
         const userTierPriority = tierPriority[userTier] || 0;
 
-        // Deduct points if not eligible by tier
         if (reward.purchasable && reward.price && userTierPriority < rewardTierPriority) {
             currentUser.points = Math.max(0, currentUser.points - reward.price);
             await ClientStorageSolutions.editUser(currentUser.userID, { points: currentUser.points });
         }
 
-        // Create reward record
         await ClientStorageSolutions.createRewardRecord({
             rewardID: selectedRewardID,
             bookingID,
@@ -201,13 +189,11 @@ $(async () => {
         location.reload();
     });
 
-    // Hook reward card clicks
     $('#available-rewards').on('click', '.reward-click', function () {
         const rewardID = $(this).data('reward-id');
         openRewardModal(rewardID);
     });
 
-    // Initial render
     renderAvailable();
     renderClaimed();
 });

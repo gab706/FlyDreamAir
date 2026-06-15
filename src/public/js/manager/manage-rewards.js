@@ -1,20 +1,19 @@
 (async () => {
-    // Cache DOM elements for better performance
+
     const $tbody = $('#reward-table-body');
     const $pagination = $('#reward-pagination');
     const $createModal = $('#create-reward-modal');
     const $editModal = $('#edit-reward-modal');
     const $createForm = $('#create-reward-form');
     const $editForm = $('#edit-reward-form');
+    const { escapeHTML } = window.FlyDreamAir;
 
     let editingRewardId = null;
     let currentPage = 1;
     const perPage = 7;
 
-    // Fetch all rewards from storage
     const rewards = await ClientStorageSolutions.fetchRewards() || [];
 
-    // Renders the reward table and pagination
     function renderPage(page = 1) {
         $tbody.empty();
         $pagination.empty();
@@ -30,33 +29,32 @@
 
         pageRewards.forEach(r => {
             const purchHTML = r.purchasable
-                ? `<i class="fas fa-check-circle" style="color:#4caf50" title="Purchasable"></i><span style="margin-left:0.5em;">${r.price} pts</span>`
-                : `<i class="fas fa-times-circle" style="color:#f44336" title="Not Purchasable"></i>`;
+                ? `<i class="fas fa-check-circle reward-purchasable-icon" title="Purchasable"></i><span class="reward-price-label">${escapeHTML(r.price)} pts</span>`
+                : `<i class="fas fa-times-circle reward-not-purchasable-icon" title="Not Purchasable"></i>`;
 
             $tbody.append(`
                 <tr>
-                    <td>${r.name}</td>
-                    <td>${r.description}</td>
-                    <td>${r.type}</td>
+                    <td>${escapeHTML(r.name)}</td>
+                    <td>${escapeHTML(r.description)}</td>
+                    <td>${escapeHTML(r.type)}</td>
                     <td>
                         <div class="reward-image-wrapper">
-                            <img src="${r.image}" alt="Reward Image" class="reward-thumb" />
-                            <div class="reward-image-preview"><img src="${r.image}" alt="Preview" /></div>
+                            <img src="${escapeHTML(r.image)}" alt="Reward Image" class="reward-thumb" />
+                            <div class="reward-image-preview"><img src="${escapeHTML(r.image)}" alt="Preview" /></div>
                         </div>
                     </td>
-                    <td><span class="tier-pill ${r.tier.toLowerCase()}">${r.tier}</span></td>
+                    <td><span class="tier-pill ${escapeHTML(r.tier.toLowerCase())}">${escapeHTML(r.tier)}</span></td>
                     <td class="purchase-status">${purchHTML}</td>
                     <td>
                         <div class="table-actions">
-                            <i class="fas fa-edit action-edit-reward" data-reward-id="${r.id}" title="Edit"></i>
-                            <i class="fas fa-trash action-delete-reward" data-reward-id="${r.id}" title="Delete"></i>
+                            <i class="fas fa-edit action-edit-reward" data-reward-id="${escapeHTML(r.id)}" title="Edit"></i>
+                            <i class="fas fa-trash action-delete-reward" data-reward-id="${escapeHTML(r.id)}" title="Delete"></i>
                         </div>
                     </td>
                 </tr>
             `);
         });
 
-        // Pagination buttons
         if (totalPages > 1) {
             for (let i = 1; i <= totalPages; i++) {
                 $pagination.append(`<a href="#" class="reward-page-btn ${i === page ? 'active' : ''}" data-page="${i}">${i}</a>`);
@@ -64,7 +62,6 @@
         }
     }
 
-    // Pagination click handler
     $pagination.on('click', '.reward-page-btn', function (e) {
         e.preventDefault();
         const page = +$(this).data('page');
@@ -74,7 +71,6 @@
         }
     });
 
-    // Modal open/close logic
     $('#open-create-reward-modal').on('click', () => $createModal.removeClass('hidden'));
     $('#close-create-reward-modal').on('click', () => $createModal.addClass('hidden'));
     $createModal.on('click', e => { if (e.target === e.currentTarget) $createModal.addClass('hidden'); });
@@ -82,7 +78,6 @@
     $('#close-edit-reward-modal').on('click', () => $editModal.addClass('hidden'));
     $editModal.on('click', e => { if (e.target === e.currentTarget) $editModal.addClass('hidden'); });
 
-    // Show/hide price field based on purchasable toggle
     const togglePriceInput = (toggleSelector, wrapperSelector) => {
         $(toggleSelector).on('change', function () {
             if (this.checked) $(wrapperSelector).removeClass('hidden');
@@ -94,7 +89,6 @@
     togglePriceInput('#create-reward-form input[name="purchasable"]', '#create-price-wrapper');
     togglePriceInput('#edit-reward-form input[name="purchasable"]', '#edit-price-wrapper');
 
-    // Create reward
     $createForm.on('submit', async function (e) {
         e.preventDefault();
 
@@ -118,7 +112,6 @@
         location.reload();
     });
 
-    // Edit reward button
     $(document).on('click', '.action-edit-reward', async function () {
         const id = $(this).data('reward-id');
         const reward = await ClientStorageSolutions.fetchRewards(id);
@@ -139,7 +132,6 @@
         $editModal.removeClass('hidden');
     });
 
-    // Submit edit
     $editForm.on('submit', async function (e) {
         e.preventDefault();
         const updates = {
@@ -163,7 +155,6 @@
         location.reload();
     });
 
-    // Delete reward
     $(document).on('click', '.action-delete-reward', async function () {
         const id = $(this).data('reward-id');
         if (!confirm(`Delete reward ID "${id}"?`)) return;
@@ -175,11 +166,14 @@
         location.reload();
     });
 
-    // Hover image preview
     $(document).on('mouseenter', '.reward-thumb', function (e) {
         const src = $(this).attr('src');
-        $('#reward-preview').html(`<img src="${src}" style="max-width:320px;max-height:320px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.2);border:1px solid #ccc;" />`);
-        $('#reward-preview').css({ top: e.clientY + 15, left: e.clientX + 15, display: 'block' });
+        $('#reward-preview').empty().append($('<img>', {
+            src,
+            class: 'reward-preview-image',
+            alt: 'Reward preview'
+        }));
+        $('#reward-preview').removeAttr('hidden').css({ top: e.clientY + 15, left: e.clientX + 15 });
     });
 
     $(document).on('mousemove', '.reward-thumb', function (e) {
@@ -187,9 +181,8 @@
     });
 
     $(document).on('mouseleave', '.reward-thumb', function () {
-        $('#reward-preview').hide();
+        $('#reward-preview').attr('hidden', true);
     });
 
-    // Initial render
     renderPage(currentPage);
 })();

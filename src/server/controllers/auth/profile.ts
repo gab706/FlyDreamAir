@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @license
  * FlyDreamAir License Version 1.0 – May 2025
@@ -9,22 +7,12 @@
 
 import { Request, Response } from 'express';
 
-/**
- * Controller: Profile (Auth Only)
- *
- * Purpose:
- * - Ensures the user is authenticated
- * - Renders the user profile management page
- * - Redirects to /login if the user is not logged in
- */
 export default function (req: Request, res: Response): void {
     const session = res.locals.context.userSession;
 
-    // Block access if not logged in
     if (!session?.loggedIn)
         return res.redirect('/login');
 
-    // Render the profile page with shared context
     res.render('pages/auth/profile', {
         ...res.locals.context
     });

@@ -111,3 +111,36 @@ body.dark-theme {
 .pin-toggle.active i {
     transform: rotate(45deg);
 }
+
+.mobile-restriction-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+}
+
+.mobile-restriction-overlay__content {
+    max-width: 90vw;
+}
+
+.mobile-restriction-overlay__title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.mobile-restriction-overlay__message {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}

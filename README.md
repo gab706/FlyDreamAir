@@ -1,119 +1,122 @@
-# ✈️ FlyDreamAir Loyalty Program
+# FlyDreamAir Loyalty Program
 
-## 📌 Project Overview
+## Project Overview
 
-FlyDreamAir is a major airline covering international and domestic routes. As part of its digital transformation, the company is developing a **Loyalty Program System** to manage frequent flyer points, rewards, and customer status upgrades.
+FlyDreamAir Loyalty Program is a web application designed to support airline customers, staff, managers, and administrators through account management, booking workflows, loyalty rewards, flight management, and operational tools.
 
-This project focuses on implementing the **Loyalty Program IT System**, ensuring an efficient and user-friendly experience for customers.
+The platform supports public airline information pages, customer registration and login, customer dashboards, profile and booking management, rewards tracking, staff user search, manager workflows for flights and rewards, and administrator workflows for account and data management.
 
----
+## Project Features
 
-## 🚀 Project Features
+- Customer registration, login, profile management, and dashboard access.
+- Flight booking, booking history, and customer booking management.
+- Loyalty rewards, tier information, partners, facilities, cabin, menu, and location pages.
+- Staff user search and customer lookup tools.
+- Manager flight management and reward configuration tools.
+- Admin account management and system data management tools.
+- Client-side storage utilities using IndexedDB and cookies.
+- Server-side routing, controllers, EJS templates, and static asset handling.
+- Automated backend and frontend tests with Jest.
+- PDF report generation for test results.
 
-- 🎟️ **Earn and Redeem Points** – Customers can accumulate points based on flights and purchases.
-- 🏆 **Status Tiers** – Upgrade levels (Silver, Gold, Platinum) based on points.
-- 🛍️ **Rewards System** – Use points for flights, in-flight services, or partner offers.
-- 📊 **User Dashboard** – A web-based interface for customers to track points and rewards.
-- 🧑‍💼 **Admin Dashboard** – Administrative users have access to advanced management tools including:
-  - 🔍 Searching and filtering user profiles 
-  - 👥 Creating, editing, and deleting user accounts 
-  - ✈️ Managing flight data and schedules 
-  - 🎁 Managing available rewards and their configurations 
-  - 📂 Overseeing system data through direct IndexedDB and cookie manipulation interfaces
+## Technology Stack
 
----
+- Node.js
+- Express.js
+- TypeScript
+- EJS templates
+- HTML
+- CSS
+- JavaScript
+- IndexedDB
+- Cookies
+- jQuery
+- Bootstrap
+- Font Awesome
+- Leaflet
+- Swiper
+- Jest
 
-## 🏰 Technology Stack
+## Getting Started
 
-- **Frontend:** HTML, CSS, JavaScript
-- **Design:** Figma for UI/UX Prototyping
-- **Backend**: TypeScript with Express.js and EJS
-- **Data Management**: Custom-built TypeScript and JavaScript storage wrappers (IndexedDB & Cookies)
-- **Version Control:** GitHub (GitHub Issues & Projects for tracking)
-- **Project Management:** Agile methodology with weekly sprints
-- **QA & Testing**: Jest for automated testing and quality assurance
+Clone the repository and install dependencies:
 
----
+```sh
+npm install
+```
 
-## 🛠️ Getting Started
+Create a local `.env` file using the expected environment variables for the application. See `.env.example` if available in your local copy.
 
-### 🔹 **Prerequisites**
+## Running the Project
 
-- [Git](https://git-scm.com/) installed
-- A GitHub account with access to this repository
-- A local development environment (e.g., VS Code, WebStorm)
+Build the project:
 
-### 🔹 **Installation**
+```sh
+npm run build
+```
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/gab706/FlyDreamAir.git
-   ```
-2. **Navigate into the project directory:**
-   ```sh
-   cd FlyDreamAir
-   ```
-3. **Start development:**
-   ```sh
-   code .
-   ```
+Start the application:
 
----
+```sh
+npm start
+```
 
-### 🔧 **Running the Project**
+Run backend tests:
 
-After cloning the repository and navigating into the project directory, follow these steps to install dependencies and start the application:
+```sh
+npm run test
+```
 
-1. **Install dependencies:**
-   ```sh
-   npm install
-   ```
+Run frontend tests:
 
-2. **Build the project (TypeScript compilation):**
-   ```sh
-   npm run build
-   ```
+```sh
+npm run test:client
+```
 
-3. **Start the application:**
-   ```sh
-   npm start
-   ```
+Run all tests and generate test reports:
 
-> The project will launch the Express server and serve the application locally.
+```sh
+npm run test:all
+```
 
----
+When running locally, the application is typically available at:
 
-## 📝 Contributing
+```text
+http://localhost:3000
+```
 
-We welcome contributions! Please follow these steps:
+## Contributing
 
-1. **Fork the repository** 📌
-2. **Create a new branch** for your changes:
-   ```sh
-   git checkout -b feature/your-feature-name
-   ```
-3. **Commit your changes**:
-   ```sh
-   git commit -m "✨ Add new feature: Short description"
-   ```
-4. **Push your branch**:
-   ```sh
-   git push origin feature/your-feature-name
-   ```
+Contributions should follow the project license and must preserve attribution to the original authors.
 
----
+Before contributing:
 
-## 💃 Reporting Issues & Bugs
+- Review the project structure and existing coding patterns.
+- Keep changes focused and relevant to the issue or feature being worked on.
+- Test changes locally before submitting.
+- Avoid committing secrets, credentials, local environment files, generated build output, or unrelated editor files.
 
-If you find a bug, please **report it using GitHub Issues**:
+## Reporting Issues & Bugs
 
-🔗 [**Submit a New Issue**](/.github/ISSUE.md)
+Please report issues with clear reproduction steps and relevant context.
 
-Before submitting, please check if the issue already exists to avoid duplicates.
+Helpful bug reports include:
 
----
+- What happened.
+- What you expected to happen.
+- Steps to reproduce the issue.
+- Screenshots or console output, if relevant.
+- Browser, operating system, and environment details.
+- Any related logs or error messages.
 
-## 🎉 Acknowledgments
+## Acknowledgments
 
-- This project is part of the **CSIT214 IT Project Management** course.
-- Special thanks to our **team members and contributors**.
+This project is part of the CSIT214 IT Project Management course.
+
+Special thanks to our team members and contributors.
+
+## License
+
+This project is licensed under the FlyDreamAir License Version 1.0 - May 2025.
+
+See [LICENSE.md](https://github.com/gab706/FlyDreamAir/blob/main/LICENSE.md) for full details.

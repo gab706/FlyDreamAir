@@ -334,6 +334,24 @@ body {
     background-color: var(--color-accent-hover, #a8322a);
 }
 
+.submit-btn-compact {
+    margin-top: 1em;
+}
+
+.pagination-spaced {
+    margin-top: 1.5em;
+}
+
+.pagination-loose,
+.results-spaced {
+    margin-top: 2em;
+}
+
+.storage-textarea {
+    width: 100%;
+    font-family: monospace;
+}
+
 .reward-thumb {
     width: 40px;
     height: 40px;
@@ -362,6 +380,36 @@ body {
     max-height: 320px;
     border-radius: 6px;
     display: block;
+}
+
+.reward-preview {
+    position: fixed;
+    z-index: 9999;
+}
+
+.reward-preview-image {
+    max-width: 320px;
+    max-height: 320px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.reward-purchasable-icon {
+    color: #4caf50;
+}
+
+.reward-not-purchasable-icon {
+    color: #f44336;
+}
+
+.reward-price-label {
+    margin-left: 0.5em;
+}
+
+.preview-cell {
+    font-family: monospace;
+    font-size: 0.9em;
 }
 
 .tier-pill {

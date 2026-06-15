@@ -1,19 +1,17 @@
 (async () => {
-    // Cache selectors for performance
+
     const $tableBody = $('#flight-table-body');
     const $pagination = $('#flight-pagination');
+    const { escapeHTML } = window.FlyDreamAir;
 
-    // Fetch all flights and determine current pagination state
     const flights = await ClientStorageSolutions.fetchFlights() || [];
     const page = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
     const flightsPerPage = 10;
     const totalPages = Math.ceil(flights.length / flightsPerPage);
     const paginatedFlights = flights.slice((page - 1) * flightsPerPage, page * flightsPerPage);
 
-    // Clear table before rendering
     $tableBody.empty();
 
-    // Render table or show empty message
     if (paginatedFlights.length === 0) {
         $tableBody.append(`
             <tr>
@@ -26,17 +24,17 @@
         paginatedFlights.forEach(flight => {
             $tableBody.append(`
                 <tr>
-                    <td>${flight.flightID}</td>
-                    <td>${flight.origin}</td>
-                    <td>${flight.destination}</td>
+                    <td>${escapeHTML(flight.flightID)}</td>
+                    <td>${escapeHTML(flight.origin)}</td>
+                    <td>${escapeHTML(flight.destination)}</td>
                     <td>${new Date(flight.departureTime).toLocaleString()}</td>
                     <td>${new Date(flight.arrivalTime).toLocaleString()}</td>
-                    <td>${flight.distance}</td>
-                    <td>${flight.status}</td>
+                    <td>${escapeHTML(flight.distance)}</td>
+                    <td>${escapeHTML(flight.status)}</td>
                     <td>
                         <div class="table-actions">
-                            <i class="fas fa-edit action-edit-flight" data-flight-id="${flight.flightID}" title="Edit"></i>
-                            <i class="fas fa-trash action-delete-flight" data-flight-id="${flight.flightID}" title="Delete"></i>
+                            <i class="fas fa-edit action-edit-flight" data-flight-id="${escapeHTML(flight.flightID)}" title="Edit"></i>
+                            <i class="fas fa-trash action-delete-flight" data-flight-id="${escapeHTML(flight.flightID)}" title="Delete"></i>
                         </div>
                     </td>
                 </tr>
@@ -44,7 +42,6 @@
         });
     }
 
-    // Generate pagination controls
     $pagination.empty();
     if (totalPages > 1) {
         if (page > 1)
@@ -59,17 +56,14 @@
             $pagination.append(`<a href="?page=${page + 1}">Next &raquo;</a>`);
     }
 
-    // Show flight creation modal
     $('#open-create-flight-modal').on('click', () => {
         $('#create-flight-modal').removeClass('hidden');
     });
 
-    // Hide creation modal
     $('#close-create-flight-modal').on('click', () => {
         $('#create-flight-modal').addClass('hidden');
     });
 
-    // Show edit modal with populated fields
     $(document).on('click', '.action-edit-flight', async function () {
         const flightID = $(this).data('flight-id');
         const flight = await ClientStorageSolutions.fetchFlights(flightID);
@@ -87,12 +81,10 @@
         $('#edit-flight-modal').removeClass('hidden');
     });
 
-    // Hide edit modal
     $('#close-edit-flight-modal').on('click', () => {
         $('#edit-flight-modal').addClass('hidden');
     });
 
-    // Handle flight creation
     $('#create-flight-form').on('submit', async function (e) {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(this).entries());
@@ -103,7 +95,6 @@
         location.reload();
     });
 
-    // Handle flight update
     $('#edit-flight-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -113,11 +104,9 @@
         delete updates.flightID;
         updates.distance = parseInt(updates.distance);
 
-        // Retrieve original data
         const oldFlight = await ClientStorageSolutions.fetchFlights(flightID);
         await ClientStorageSolutions.editFlight(flightID, updates);
 
-        // Detect changed fields
         const fieldLabels = {
             origin: 'Origin',
             destination: 'Destination',
@@ -136,7 +125,6 @@
             }
         }
 
-        // Notify affected users and adjust points if needed
         const affectedBookings = await ClientStorageSolutions.fetchBookings({ flightID });
         const affectedUserIDs = [...new Set((affectedBookings || []).map(b => b.userID))];
 
@@ -144,7 +132,6 @@
             const user = (await ClientStorageSolutions.fetchUsers('userID', userID))[0];
             if (!user) continue;
 
-            // Calculate point difference if distance changed
             let multiplier = 1;
             if (user.points >= 30000) multiplier = 1.5;
             else if (user.points >= 15000) multiplier = 1.25;
@@ -168,7 +155,6 @@
                 });
             }
 
-            // Notify about flight updates if relevant
             if (changedFields.length > 1 || (changedFields.length === 1 && changedFields[0] !== 'Distance')) {
                 const updateMsg = `Your flight to ${updates.destination} has been updated: ${changedFields.filter(f => f !== 'Distance').join(', ')}.`;
                 await ClientStorageSolutions.sendNotification(userID, updateMsg, {
@@ -186,7 +172,6 @@
         location.reload();
     });
 
-    // Handle flight deletion
     $(document).on('click', '.action-delete-flight', async function () {
         const flightID = $(this).data('flight-id');
         if (!confirm(`Are you sure you want to delete flight ${flightID}?`)) return;
