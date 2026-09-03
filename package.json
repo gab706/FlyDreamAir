@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/gab706/FlyDreamAir#readme",
   "dependencies": {
-    "body-parser": "^1.20.2",
+    "body-parser": "^2.3.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^4.19.2"
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
